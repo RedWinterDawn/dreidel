@@ -80,7 +80,7 @@ public class Service
             ds.setDatabaseName("postgres");
             con = ds.getConnection();
             con.prepareStatement("drop database " + resultSet.getString(1)).execute();
-            System.out.println("Dropping database " + resultSet.getString(1));
+            log.info("Dropping database ", resultSet.getString(1));
           }
           finally
           {
@@ -94,7 +94,7 @@ public class Service
     }
     catch (Exception e)
     {
-      System.out.println("there was an error" + e.getMessage());
+      log.info("There was an error cleaning up databases ", e);
     }
     finally
     {
@@ -106,7 +106,7 @@ public class Service
         }
         catch (Exception e)
         {
-          System.out.println("There was a problem shutting down the connection " + e.getMessage());
+          log.error("There was a problem shutting down the connection ", e);
         }
       }
     }

@@ -152,8 +152,7 @@ public class PostgresView
       catch (Exception ex)
       {
         String entity = ERROR_RUNNING_SCRIPT + ex.getMessage();
-        System.out.println(entity);
-        System.out.println(ex.getMessage());
+        log.error("", ex);
         ex.printStackTrace();
         result = Response.status(Status.BAD_REQUEST).entity(entity).build();
         postgresModelView.remove(name);

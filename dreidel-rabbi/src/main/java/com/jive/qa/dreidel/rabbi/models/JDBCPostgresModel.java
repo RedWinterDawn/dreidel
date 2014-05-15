@@ -29,8 +29,9 @@ import com.jive.qa.dreidel.rabbi.SQLFileLoadException;
 @Setter
 public class JDBCPostgresModel extends BaseModel implements PostgresModel
 {
-  public String username;
-  public String password;
+  private final String username;
+  private final String password;
+  private final String logPrefix;
 
   /**
    * Constructor
@@ -51,8 +52,9 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
       @Named("postgresPassword") final String password)
   {
     super(host, port);
-    setUsername(username);
-    setPassword(password);
+    this.username = username;
+    this.password = password;
+    logPrefix = "[" + getName() + "]";
   }
 
   @Override
@@ -61,7 +63,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
     Connection con = null;
     try
     {
-      System.out.println("Creating Database " + getName());
+      log.info("{} Creating Database {}", logPrefix, getName());
       con = GetConnection("postgres");
       con.setCatalog("postgres");
       PreparedStatement preparedStatement =
@@ -82,7 +84,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
   public void dropDatabase() throws SQLException
   {
     Connection connection = null;
-    System.out.println("Dropping Database " + getName());
+    log.info("{} Dropping Database {}", logPrefix, getName());
     try
     {
       connection = GetConnection("postgres");
@@ -105,7 +107,8 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
   public void executeScript(final String script) throws SQLException
   {
     Connection connection = null;
-    System.out.println("Executing Script \n" + script);
+    log.info("{} Executing Script", logPrefix);
+    log.trace(script);
     try
     {
       connection = GetConnection(getName());
@@ -162,7 +165,10 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
 
     catch (IOException | InterruptedException e)
     {
-      throw new SQLFileLoadException("Problem uploading SQL file to server", e);
+      SQLFileLoadException ex = new SQLFileLoadException("Problem uploading SQL file to server", e);
+      log.error("There was an error ", ex);
+      throw ex;
+
     }
     finally
     {
