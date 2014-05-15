@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response.Status;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -36,6 +37,7 @@ import com.jive.qa.dreidel.rabbi.models.PostgresModel;
  *
  */
 @Path("/postgres")
+@Slf4j
 public class PostgresView
 {
   private final String ERROR_RUNNING_SCRIPT =
@@ -104,7 +106,10 @@ public class PostgresView
     PostgresModel model = postgresModelView.getPostgresDB(name);
     if (model == null)
     {
-      throw new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      DatabaseNotFoundException ex = new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      log.error("There was an error ", ex);
+      throw ex;
+
     }
     return new PostgresConnectionInformation(model.getName(), model.getPort(), model.getUsername(),
         model.getPassword());
@@ -133,7 +138,9 @@ public class PostgresView
     PostgresModel model = postgresModelView.getPostgresDB(name);
     if (model == null)
     {
-      throw new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      DatabaseNotFoundException ex = new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      log.error("There was an error ", ex);
+      throw ex;
     }
     else
     {
@@ -168,7 +175,9 @@ public class PostgresView
 
     if (model == null)
     {
-      throw new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      DatabaseNotFoundException ex = new DatabaseNotFoundException(DATABASE_NOT_FOUND);
+      log.error("There was an error ", ex);
+      throw ex;
     }
 
     File fileToRestore =
@@ -186,9 +195,11 @@ public class PostgresView
       bw.write(uploadedFile);
       bw.close();
     }
-    catch (Exception ex)
+    catch (Exception e)
     {
-      throw new SQLFileLoadException("Problem uploading SQL file", ex);
+      SQLFileLoadException ex = new SQLFileLoadException("Problem uploading SQL file", e);
+      log.error("There was an error ", ex);
+      throw ex;
     }
 
     try

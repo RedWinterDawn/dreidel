@@ -21,7 +21,7 @@ public class Main
     properties.setProperty("postgresPort", "5432");
     properties.setProperty("postgresUsername", "postgres");
     properties.setProperty("postgresPassword", "");
-    properties.setProperty("inetName", "v4compat");
+    // properties.setProperty("inetName", "v4compat");
     properties.setProperty("timeToExpire", "240");
 
     MappedPropertiesSourceResolver resolver = new MappedPropertiesSourceResolverBuilder().withPid(
