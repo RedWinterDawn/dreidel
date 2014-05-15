@@ -155,9 +155,9 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
       }
 
       pg_dumper.waitFor();
-      if (pg_dumper.exitValue() != 0 || errOutput != "")
+      if (pg_dumper.exitValue() != 0 || errOutput != "" && errOutput.contains("ERROR:"))
       {
-        PGDumpException ex = new PGDumpException(output + "\n" + errOutput);
+        PGDumpException ex = new PGDumpException(output + "\nError: \n" + errOutput);
         log.error("There was an error ", ex);
         throw ex;
       }
