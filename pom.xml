@@ -6,6 +6,12 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Dreidel</name>
+
+  <scm>
+    <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
+  </scm>
+
   <parent>
     <groupId>com.jive.myco</groupId>
     <artifactId>parent</artifactId>
