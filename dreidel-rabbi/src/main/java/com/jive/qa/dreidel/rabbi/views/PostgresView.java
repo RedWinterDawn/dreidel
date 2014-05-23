@@ -146,7 +146,7 @@ public class PostgresView
     {
       try
       {
-        model.executeScript(uploadedFile);
+        model.executeQuery(uploadedFile);
         result = Response.status(Status.ACCEPTED).entity("Success").build();
       }
       catch (Exception ex)
