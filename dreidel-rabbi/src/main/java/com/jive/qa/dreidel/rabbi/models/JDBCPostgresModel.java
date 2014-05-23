@@ -64,11 +64,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
     try
     {
       log.info("{} Creating Database {}", logPrefix, getName());
-      con = GetConnection("postgres");
-      con.setCatalog("postgres");
-      PreparedStatement preparedStatement =
-          con.prepareStatement("CREATE DATABASE " + getName() + ";");
-      preparedStatement.execute();
+      executeQuery("CREATE DATABASE " + getName() + ";");
     }
 
     finally
@@ -87,11 +83,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
     log.info("{} Dropping Database {}", logPrefix, getName());
     try
     {
-      connection = GetConnection("postgres");
-      connection.setCatalog("postgres");
-      PreparedStatement preparedStatement =
-          connection.prepareStatement("DROP DATABASE " + getName() + ";");
-      preparedStatement.execute();
+      executeQuery("DROP DATABASE " + getName() + ";");
     }
 
     finally
@@ -104,14 +96,14 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
   }
 
   @Override
-  public void executeScript(final String script) throws SQLException
+  public void executeQuery(final String script) throws SQLException
   {
     Connection connection = null;
     log.info("{} Executing Script", logPrefix);
     log.trace(script);
     try
     {
-      connection = GetConnection(getName());
+      connection = getConnection(getName());
       connection.setCatalog(getName());
       PreparedStatement preparedStatement = connection.prepareStatement(script);
       preparedStatement.execute();
@@ -131,11 +123,13 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
   {
     try
     {
+      // create a psql process and set file to the file passed in
       Process pg_dumper =
           new ProcessBuilder("/usr/local/bin/psql", "-U", getUsername(), "-h", getHost(),
               "-p", Long.toString(getPort()), "-d",
               getName(), "-f", dump.getPath()).start();
 
+      // read the stdout so that we will make sure it runs.
       BufferedReader input = new BufferedReader
           (new InputStreamReader(pg_dumper.getInputStream()));
       String line;
@@ -146,6 +140,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
         output += line + "\n";
       }
 
+      // read the stderr so that we will make sure it runs.
       BufferedReader err = new BufferedReader(new InputStreamReader(pg_dumper.getErrorStream()));
       String errOutput = "";
       while ((line = err.readLine()) != null)
@@ -154,21 +149,26 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
         errOutput += line + "\n";
       }
 
+      // wait for the process to end
       pg_dumper.waitFor();
+
+      // check the exit value make sure it is 0
+      // psql is a herp derp and it returns 0 when there is a schema error. It outputs schema errors
+      // with the prefix of ERROR: so thats what we check. :(
       if (pg_dumper.exitValue() != 0 || errOutput != "" && errOutput.contains("ERROR:"))
       {
         PGDumpException ex = new PGDumpException(output + "\nError: \n" + errOutput);
         log.error("There was an error ", ex);
         throw ex;
       }
-    }
 
+    }
     catch (IOException | InterruptedException e)
     {
+      // if there was a problem log it and throw it.
       SQLFileLoadException ex = new SQLFileLoadException("Problem uploading SQL file to server", e);
       log.error("There was an error ", ex);
       throw ex;
-
     }
     finally
     {
@@ -176,7 +176,7 @@ public class JDBCPostgresModel extends BaseModel implements PostgresModel
     }
   }
 
-  private Connection GetConnection(final String database) throws SQLException
+  private Connection getConnection(final String database) throws SQLException
   {
     return DriverManager.getConnection("jdbc:postgresql://" + getHost() + ":" + getPort() + "/"
         + database, getUsername(),

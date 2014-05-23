@@ -26,7 +26,7 @@ public interface PostgresModel extends BaseModelInterface
    * @param script
    *          The SQL script you wanted to execute.
    */
-  public void executeScript(final String script) throws SQLException;
+  public void executeQuery(final String script) throws SQLException;
 
   public String getUsername();
 
