@@ -21,7 +21,6 @@
   <modules>
     <module>dreidel-spinnit-postgres</module>
     <module>dreidel-rabbi</module>
-    <module>dreidel-goyim</module>
   </modules>
 
   <dependencyManagement>
