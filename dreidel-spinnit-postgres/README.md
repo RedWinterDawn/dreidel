@@ -12,7 +12,7 @@ Add this to your maven pom.xml
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-spinnit-postgres</artifactId>
   <version>0.0.1</version>
-  <type>jebp</type>
+  <scope>test</scope>
 </dependency>
 ```
 
