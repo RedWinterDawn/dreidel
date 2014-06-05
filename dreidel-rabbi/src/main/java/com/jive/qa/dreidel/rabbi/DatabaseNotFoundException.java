@@ -4,7 +4,7 @@ package com.jive.qa.dreidel.rabbi;
 public class DatabaseNotFoundException extends Exception
 {
 
-  public DatabaseNotFoundException(String msg)
+  public DatabaseNotFoundException(final String msg)
   {
     super(msg);
   }

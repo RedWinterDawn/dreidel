@@ -15,7 +15,7 @@ public class PostgresConfiguration
   private final String password;
 
   @Inject
-  PostgresConfiguration(@Named("postgresPort") final int port,
+  public PostgresConfiguration(@Named("postgresPort") final int port,
       @Named("postgresHost") final String host, @Named("postgresUsername") final String username,
       @Named("postgresPassword") final String password)
   {
