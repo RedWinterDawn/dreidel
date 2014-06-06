@@ -7,6 +7,12 @@ import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
 
+/**
+ * used to create a postgres database
+ * 
+ * @author jdavidson
+ *
+ */
 public class PostgresCreateMessage extends PostgresRequestMessage
 {
 

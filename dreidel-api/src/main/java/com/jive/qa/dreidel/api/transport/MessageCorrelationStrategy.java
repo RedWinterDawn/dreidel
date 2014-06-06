@@ -5,6 +5,12 @@ import com.jive.qa.dreidel.api.messages.ReplyMessage;
 import com.jive.qa.dreidel.api.messages.RequestMessage;
 import com.jive.qa.dreidel.api.messages.TwoWayMessage;
 
+/**
+ * correlates messages to request reply and event and pulls out the referenceId for jivewire
+ * 
+ * @author jdavidson
+ *
+ */
 public class MessageCorrelationStrategy implements HighLevelTransportCorrelationStrategy
 {
   @Override

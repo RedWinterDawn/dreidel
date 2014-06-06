@@ -30,8 +30,8 @@ import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactoryImpl;
 import com.jive.qa.dreidel.rabbi.views.DreidelTransportConnectionListener;
 import com.jive.qa.dreidel.rabbi.views.DreidelTransportListener;
-import com.jive.qa.dreidel.rabbi.views.PostgresVisitorImpl;
-import com.jive.qa.dreidel.rabbi.views.RoutingVisitor;
+import com.jive.qa.dreidel.rabbi.visitors.PostgresVisitorImpl;
+import com.jive.qa.dreidel.rabbi.visitors.RoutingVisitor;
 
 public class WebsocketServiceModule extends AbstractModule
 {

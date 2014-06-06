@@ -29,7 +29,13 @@ public interface PostgresResource extends BaseResource
    */
   void restoreDump(final File dump) throws PGDumpException, SQLFileLoadException;
 
+  /**
+   * @return the username of the postgres database
+   */
   public String getUsername();
 
+  /**
+   * @return the username of the postgres database
+   */
   public String getPassword();
 }

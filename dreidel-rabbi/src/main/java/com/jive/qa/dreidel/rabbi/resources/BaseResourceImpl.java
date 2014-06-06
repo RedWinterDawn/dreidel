@@ -5,6 +5,11 @@ import lombok.NonNull;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+/**
+ * 
+ * @author jdavidson
+ *
+ */
 @Getter
 public abstract class BaseResourceImpl implements BaseResource
 {
@@ -13,6 +18,12 @@ public abstract class BaseResourceImpl implements BaseResource
   private final String host;
   private final int port;
 
+  /**
+   * 
+   * @param host the host of the resource
+   * 
+   * @param port2 the port of the resource
+   */
   BaseResourceImpl(final @NonNull String host, final int port2)
   {
     id = RandomStringUtils.randomAlphabetic(idLength).toLowerCase();

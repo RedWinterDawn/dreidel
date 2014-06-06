@@ -14,6 +14,12 @@ import com.jive.myco.jivewire.api.highlevel.HighLevelTransport;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportListener;
 import com.jive.qa.dreidel.api.messages.Message;
 
+/**
+ * manages starting up the transport
+ * 
+ * @author jdavidson
+ *
+ */
 @AllArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
 public class WebsocketService

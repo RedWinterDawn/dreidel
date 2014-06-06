@@ -15,6 +15,12 @@ import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 
+/**
+ * TransportListener that wires up a connection listener onConnected
+ * 
+ * @author jdavidson
+ *
+ */
 @AllArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
 public class DreidelTransportListener implements HighLevelTransportListener<Message, Message>

@@ -3,6 +3,12 @@ package com.jive.qa.dreidel.api.replies;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * the connection information to show how to connect to any type of service
+ * 
+ * @author jdavidson
+ *
+ */
 @AllArgsConstructor
 @Getter
 public class ConnectionInformation

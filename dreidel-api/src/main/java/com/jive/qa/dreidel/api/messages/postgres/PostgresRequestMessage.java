@@ -9,6 +9,12 @@ import com.jive.qa.dreidel.api.messages.RequestMessage;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
 
+/**
+ * the abstract parent of all postgres messages
+ * 
+ * @author jdavidson
+ *
+ */
 public abstract class PostgresRequestMessage extends RequestMessage implements
     PostgresVisitable<Reply, VisitorContext>
 {

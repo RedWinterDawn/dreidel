@@ -4,6 +4,12 @@ import java.beans.ConstructorProperties;
 
 import lombok.Getter;
 
+/**
+ * The abstract parent for all two way messages
+ * 
+ * @author jdavidson
+ *
+ */
 @Getter
 public abstract class TwoWayMessage extends Message
 {

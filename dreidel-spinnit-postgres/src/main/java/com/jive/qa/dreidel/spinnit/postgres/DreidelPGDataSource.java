@@ -20,15 +20,30 @@ import com.google.common.collect.Sets;
 import com.google.common.io.CharSource;
 import com.google.common.net.HostAndPort;
 
+/**
+ * wraps a normal database to lazy load a dreidel postgres database
+ * 
+ * @author jdavidson
+ *
+ */
 @RequiredArgsConstructor
 public class DreidelPGDataSource implements DataSource
 {
-  
+
   private final String name;
   private final HostAndPort dreidelServer;
   private DataSource delegate;
   private Set<CharSource> sqlSources = Sets.newLinkedHashSet();
-  
+
+  /**
+   * add a sql script to be loaded when the connection is opened
+   * 
+   * @param sql
+   *          the sql to execute at load time
+   * @param additional
+   *          var args to add multiple in a single function call
+   * @return returns itself so this function can be chained
+   */
   public DreidelPGDataSource addSqlSource(CharSource sql, CharSource... additional)
   {
     this.sqlSources.add(sql);
@@ -38,7 +53,7 @@ public class DreidelPGDataSource implements DataSource
     }
     return this;
   }
-  
+
   @Override
   public PrintWriter getLogWriter() throws SQLException
   {
@@ -115,5 +130,5 @@ public class DreidelPGDataSource implements DataSource
     }
     return this.delegate;
   }
-  
+
 }

@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.rabbi.views;
+package com.jive.qa.dreidel.rabbi.visitors;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,6 +32,12 @@ import com.jive.qa.dreidel.rabbi.resources.PostgresResource;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.service.PostgresConfiguration;
 
+/**
+ * visitor to handle postgres messages
+ * 
+ * @author jdavidson
+ *
+ */
 @AllArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
 public class PostgresVisitorImpl implements
@@ -156,6 +162,14 @@ public class PostgresVisitorImpl implements
     return callback;
   }
 
+  /**
+   * 
+   * @param resourceId
+   *          the id of the resource that should be returned
+   * @param resources
+   *          the list of resources to search
+   * @return the resource from resources that matches the resourceId
+   */
   public PostgresResource getResourceOfId(final String resourceId,
       final List<BaseResource> resources)
   {

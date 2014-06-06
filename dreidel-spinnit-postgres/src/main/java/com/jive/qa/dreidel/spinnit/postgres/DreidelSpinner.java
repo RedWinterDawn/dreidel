@@ -16,6 +16,12 @@ import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
 import com.jive.qa.dreidel.spinnit.postgres.transport.PostgresTransportConnectionListener;
 import com.jive.qa.dreidel.spinnit.postgres.transport.PostgresTransportListener;
 
+/**
+ * used to gain a connection to the dreidel service
+ * 
+ * @author jdavidson
+ *
+ */
 public class DreidelSpinner
 {
 
@@ -26,9 +32,13 @@ public class DreidelSpinner
   {
     this.id = id;
     this.hap = hap;
-
   }
 
+  /**
+   * @return a DreidelConnection
+   * @throws DreidelConnectionException
+   *           if there is a problem connecting to the dreidel service
+   */
   public DreidelConnection connect() throws DreidelConnectionException
   {
     try
@@ -59,6 +69,12 @@ public class DreidelSpinner
     }
   }
 
+  /**
+   * a wrapper that uses jivewires connection to send messages to dreidel
+   * 
+   * @author jdavidson
+   *
+   */
   @AllArgsConstructor
   public static class TransportDreidelConnection implements DreidelConnection
   {

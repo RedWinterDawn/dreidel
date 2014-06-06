@@ -9,6 +9,12 @@ import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
 
+/**
+ * used to restore a pg_dump to postgres database
+ * 
+ * @author jdavidson
+ *
+ */
 @Getter
 public class PostgresRestoreMessage extends PostgresRequestMessage
 {

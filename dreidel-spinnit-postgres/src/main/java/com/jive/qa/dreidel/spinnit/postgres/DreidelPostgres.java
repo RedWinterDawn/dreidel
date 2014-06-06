@@ -23,6 +23,11 @@ import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
 import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 import com.jive.qa.dreidel.api.replies.UsernamePasswordCredential;
 
+/**
+ * 
+ * @author jdavidson
+ *
+ */
 @Getter
 @Slf4j
 public class DreidelPostgres
@@ -55,10 +60,11 @@ public class DreidelPostgres
 
   public void spin() throws DreidelConnectionException
   {
-    log.trace("Spinning up a postgres database");
+    log.debug("{} Spinning up a postgres database", logprefix);
     connection = spinner.connect();
     if (connection != null)
     {
+      log.trace("{} Sending PostgresCreateMessage", logprefix);
       CallbackFuture<Message> callback = new CallbackFuture<>();
       connection.writeRequest(new PostgresCreateMessage(id + "creationMessage"), 5,
           TimeUnit.SECONDS,
@@ -67,6 +73,7 @@ public class DreidelPostgres
       try
       {
         reply = (ReplyMessage) callback.get();
+        log.trace("{} Recieved reply to postrges create message {}", logprefix, reply);
       }
       catch (Exception e)
       {
@@ -79,6 +86,7 @@ public class DreidelPostgres
       }
       else
       {
+        log.trace("{} wiring up Connection Information", logprefix);
         ConnectionInformationMessage information = (ConnectionInformationMessage) reply;
         if (information.getConnections().size() > 0)
         {
@@ -104,7 +112,7 @@ public class DreidelPostgres
 
   public void executeSql(final CharSource source) throws SQLException, DreidelConnectionException
   {
-    log.trace("Executing sql against database {}", this.getDatabaseName());
+    log.debug("{} Executing sql against database {}", logprefix, this.getDatabaseName());
 
     if (connection != null)
     {

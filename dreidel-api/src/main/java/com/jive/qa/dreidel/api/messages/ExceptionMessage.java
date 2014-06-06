@@ -4,6 +4,12 @@ import java.beans.ConstructorProperties;
 
 import lombok.Getter;
 
+/**
+ * the message used to send an exception back to the user
+ * 
+ * @author jdavidson
+ *
+ */
 @Getter
 public class ExceptionMessage extends ReplyMessage
 {

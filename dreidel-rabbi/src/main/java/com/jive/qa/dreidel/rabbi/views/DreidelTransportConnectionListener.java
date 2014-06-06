@@ -17,6 +17,12 @@ import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.ConnectionInformationReply;
 import com.jive.qa.dreidel.api.replies.Reply;
 
+/**
+ * The connection listener that routes messages to the appropriate visitors
+ * 
+ * @author jdavidson
+ *
+ */
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Inject))
 public class DreidelTransportConnectionListener implements
@@ -75,6 +81,12 @@ public class DreidelTransportConnectionListener implements
     // TODO close connection and clean up resources.
   }
 
+  /**
+   * Callback that does nothing on success and logs the error on failure.
+   * 
+   * @author jdavidson
+   *
+   */
   @AllArgsConstructor
   private class LoggingReplyCallback implements Callback<Void>
   {
