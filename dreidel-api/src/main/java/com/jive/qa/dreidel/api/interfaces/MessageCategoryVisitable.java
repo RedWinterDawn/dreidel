@@ -1,9 +1,9 @@
 package com.jive.qa.dreidel.api.interfaces;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 
 /**
- * a Message that is visitable by a MessageCategoryVisitor
+ * MessageCategoryVisitable is an object that is visitable by a MessageCategoryVisitor.
  * 
  * @author jdavidson
  *
@@ -21,8 +21,8 @@ public interface MessageCategoryVisitable<Reply, Context>
    *          the visitor to visit the message
    * @param context
    *          the context to be passed to the visitor
-   * @return a chained future that will succeed with a reply or fail with a throwable
+   * @return a PnkyPromise that will succeed with a reply or fail with a throwable
    */
-  ChainedFuture<Reply> accept(final MessageCategoryVisitor<Reply, Context> visitor,
+  PnkyPromise<Reply> accept(final MessageCategoryVisitor<Reply, Context> visitor,
       final Context context);
 }

@@ -3,8 +3,9 @@ package com.jive.qa.dreidel.api.messages.postgres;
 import java.beans.ConstructorProperties;
 
 import lombok.Getter;
+import lombok.NonNull;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
@@ -16,21 +17,23 @@ import com.jive.qa.dreidel.api.replies.Reply;
  *
  */
 @Getter
-public class PostgresRestoreMessage extends PostgresRequestMessage
+public final class PostgresRestoreMessage extends PostgresRequestMessage
 {
-  private final String id;
+  private final String databaseId;
   private final String pgdump;
 
-  @ConstructorProperties({ "referenceId", "id", "pgDump" })
-  public PostgresRestoreMessage(final String referenceId, final String id, final String pgDump)
+  @ConstructorProperties({ "referenceId", "databaseId", "pgDump" })
+  public PostgresRestoreMessage(@NonNull final String referenceId,
+      @NonNull final String databaseId,
+      @NonNull final String pgDump)
   {
     super(referenceId);
-    this.id = id;
+    this.databaseId = databaseId;
     pgdump = pgDump;
   }
 
   @Override
-  public ChainedFuture<Reply> accept(final PostgresVisitor<Reply, VisitorContext> visitor,
+  public PnkyPromise<Reply> accept(final PostgresVisitor<Reply, VisitorContext> visitor,
       final VisitorContext context)
   {
     return visitor.visit(this, context);

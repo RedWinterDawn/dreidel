@@ -120,8 +120,8 @@ public class DreidelPostgres
       {
         CallbackFuture<Message> callback = new CallbackFuture<>();
         connection.writeRequest(
-            new PostgresExecSqlMessage(this.id + "Exec Sql message", source.read(), this
-                .getDatabaseName()), 30, TimeUnit.SECONDS, callback);
+            new PostgresExecSqlMessage(this.id + "Exec Sql message", this.getDatabaseName(), source
+                .read()), 30, TimeUnit.SECONDS, callback);
         ReplyMessage reply = (ReplyMessage) callback.get();
         if (reply instanceof ExceptionMessage)
         {

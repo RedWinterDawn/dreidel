@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import com.google.inject.Inject;
 import com.jive.myco.commons.callbacks.Callback;
+import com.jive.myco.commons.concurrent.Pnky;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportConnection;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportConnectionListener;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
@@ -43,35 +44,32 @@ public class DreidelTransportConnectionListener implements
     VisitorContext vContext = new VisitorContext(context.getConnection().getId());
     RequestMessage message = (RequestMessage) context.getMessage();
 
-    message.accept(routingVisitor, vContext)
-        .addCallback(new Callback<Reply>()
-        {
+    message
+        .accept(routingVisitor, vContext)
+        .thenCompose((result) -> {
+          // TODO change to use the visitor pattern to use a message writing visitor.
+            final Pnky<Void> future = Pnky.create();
 
-          @Override
-          public void onFailure(final Throwable cause)
-          {
-            context.writeReply(
-                new ExceptionMessage(cause, message.getReferenceId()),
-                new LoggingReplyCallback(message.getReferenceId()));
-          }
-
-          @Override
-          public void onSuccess(final Reply result)
-          {
-            // TOOD change to use the visitor pattern to use a message writing visitor.
             if (result instanceof ConnectionInformationReply)
             {
-              context.writeReply(
+              ConnectionInformationMessage msg =
                   new ConnectionInformationMessage(message.getReferenceId(),
-                      ((ConnectionInformationReply) result).getConnections()),
-                  new LoggingReplyCallback(message.getReferenceId()));
+                      ((ConnectionInformationReply) result).getConnections());
+              context.writeReply(msg, new LoggingReplyCallback(message.getReferenceId()));
             }
             else
             {
               context.writeReply(new SuccessMessage(message.getReferenceId()),
                   new LoggingReplyCallback(message.getReferenceId()));
             }
-          }
+            future.resolve(null);
+            return future;
+
+          }).onFailure((cause) -> {
+
+          context.writeReply(
+              new ExceptionMessage(cause, message.getReferenceId()),
+              new LoggingReplyCallback(message.getReferenceId()));
         });
   }
 

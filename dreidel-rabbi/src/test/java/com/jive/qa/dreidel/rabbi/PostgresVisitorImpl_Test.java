@@ -1,7 +1,8 @@
 package com.jive.qa.dreidel.rabbi;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +16,8 @@ import org.mockito.Mockito;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.net.HostAndPort;
-import com.jive.myco.commons.callbacks.Callback;
-import com.jive.myco.commons.callbacks.CallbackFuture;
+import com.jive.myco.commons.concurrent.Pnky;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
@@ -66,21 +67,14 @@ public class PostgresVisitorImpl_Test
     AtomicInteger badThings = new AtomicInteger();
     AtomicInteger goodThings = new AtomicInteger();
 
-    visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID)).addCallback(
-        new Callback<Reply>()
-        {
-
-          @Override
-          public void onSuccess(final Reply result)
-          {
-            goodThings.incrementAndGet();
-          }
-
-          @Override
-          public void onFailure(final Throwable cause)
-          {
-            badThings.incrementAndGet();
-          }
+    visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID))
+        .thenCompose((result) -> {
+          Pnky<Void> future = Pnky.create();
+          goodThings.incrementAndGet();
+          future.resolve(null);
+          return future;
+        }).onFailure((cause) -> {
+          badThings.incrementAndGet();
         });
 
     while (goodThings.get() != 1)
@@ -100,22 +94,14 @@ public class PostgresVisitorImpl_Test
     AtomicInteger goodThings = new AtomicInteger();
 
     visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext("asdfasdf"))
-        .addCallback(
-            new Callback<Reply>()
-            {
-
-              @Override
-              public void onSuccess(final Reply result)
-              {
-                badThings.incrementAndGet();
-              }
-
-              @Override
-              public void onFailure(final Throwable cause)
-              {
-                goodThings.incrementAndGet();
-              }
-            });
+        .thenCompose((result) -> {
+          Pnky<Void> future = Pnky.create();
+          badThings.incrementAndGet();
+          future.resolve(null);
+          return future;
+        }).onFailure((cause) -> {
+          goodThings.incrementAndGet();
+        });
 
     while (goodThings.get() != 1)
     {
@@ -137,29 +123,21 @@ public class PostgresVisitorImpl_Test
     Mockito.doThrow(new ResourceInitializationException()).when(resource).init();
 
     visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID))
-        .addCallback(
-            new Callback<Reply>()
+        .thenCompose((result) -> {
+          Pnky<Void> future = Pnky.create();
+          badThings.incrementAndGet();
+          future.resolve(null);
+          return future;
+        }).onFailure((cause) -> {
+          if (cause instanceof ResourceInitializationException)
+          {
+            goodThings.incrementAndGet();
+          }
+            else
             {
-
-              @Override
-              public void onSuccess(final Reply result)
-              {
-                badThings.incrementAndGet();
-              }
-
-              @Override
-              public void onFailure(final Throwable cause)
-              {
-                if (cause instanceof ResourceInitializationException)
-                {
-                  goodThings.incrementAndGet();
-                }
-                else
-                {
-                  badThings.incrementAndGet();
-                }
-              }
-            });
+              badThings.incrementAndGet();
+            }
+          });
 
     while (goodThings.get() != 1)
     {
@@ -170,35 +148,28 @@ public class PostgresVisitorImpl_Test
     assertEquals(badThings.get(), 0);
   }
 
-  @Test
+  @Test(timeout = 100)
   public void PostgresExecuteSql_NoDatabaseRegistered_Fails() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
     AtomicInteger goodThings = new AtomicInteger();
 
-    visitor.visit(new PostgresExecSqlMessage("asdf", "create table foo()", "asdfa"),
-        new VisitorContext(TEST_ID)).addCallback(new Callback<Reply>()
-    {
-
-      @Override
-      public void onSuccess(final Reply result)
+    visitor.visit(new PostgresExecSqlMessage("asdf", "asdfa", "create table foo()"),
+        new VisitorContext(TEST_ID)).thenCompose((result) -> {
+      Pnky<Void> future = Pnky.create();
+      badThings.incrementAndGet();
+      future.resolve(null);
+      return future;
+    }).onFailure((cause) -> {
+      if (cause instanceof NullPointerException)
       {
-        badThings.incrementAndGet();
+        goodThings.incrementAndGet();
       }
-
-      @Override
-      public void onFailure(final Throwable cause)
-      {
-        if (cause instanceof NullPointerException)
-        {
-          goodThings.incrementAndGet();
-        }
         else
         {
           badThings.incrementAndGet();
         }
-      }
-    });
+      });
 
     while (goodThings.get() != 1)
     {
@@ -209,40 +180,26 @@ public class PostgresVisitorImpl_Test
     assertEquals(badThings.get(), 0);
   }
 
-  @Test
-  public void PostgresExecuteSql_DatabaseRegistered_Fails() throws Exception
+  @Test(timeout = 100)
+  public void PostgresExecuteSql_DatabaseRegistered_works() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
     AtomicInteger goodThings = new AtomicInteger();
 
-    ConnectionInformationReply reply = createDatabase();
-
     when(resource.getId()).thenReturn("asdfas234234d");
 
+    ConnectionInformationReply reply = createDatabase();
+
     visitor.visit(
-        new PostgresExecSqlMessage("asdf", "create table foo()", reply.getConnections().get(0)
-            .getId()),
-        new VisitorContext(TEST_ID)).addCallback(new Callback<Reply>()
-    {
-
-      @Override
-      public void onSuccess(final Reply result)
-      {
-        badThings.incrementAndGet();
-      }
-
-      @Override
-      public void onFailure(final Throwable cause)
-      {
-        if (cause instanceof NullPointerException)
-        {
-          goodThings.incrementAndGet();
-        }
-        else
-        {
-          badThings.incrementAndGet();
-        }
-      }
+        new PostgresExecSqlMessage("asdf", reply.getConnections().get(0)
+            .getId(), "create table foo()"),
+        new VisitorContext(TEST_ID)).thenCompose((result) -> {
+      Pnky<Void> future = Pnky.create();
+      goodThings.incrementAndGet();
+      future.resolve(null);
+      return future;
+    }).onFailure((cause) -> {
+      badThings.incrementAndGet();
     });
 
     while (goodThings.get() != 1)
@@ -257,11 +214,9 @@ public class PostgresVisitorImpl_Test
   public ConnectionInformationReply createDatabase() throws InterruptedException,
       ExecutionException
   {
-    CallbackFuture<Reply> callback = new CallbackFuture<>();
-    visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID)).addCallback(
-        callback);
-    return (ConnectionInformationReply) callback.get();
+    PnkyPromise<Reply> promise =
+        visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID));
+    return (ConnectionInformationReply) promise.get();
 
   }
-
 }

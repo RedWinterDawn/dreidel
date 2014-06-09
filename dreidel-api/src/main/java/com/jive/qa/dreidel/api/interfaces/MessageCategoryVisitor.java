@@ -1,10 +1,10 @@
 package com.jive.qa.dreidel.api.interfaces;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresRequestMessage;
 
 /**
- * the visitor that visits MessageCategoryVisitables
+ * MessageCategoryVisitor is a visitor that visits MessageCategoryVisitables.
  * 
  * @author jdavidson
  *
@@ -16,13 +16,12 @@ import com.jive.qa.dreidel.api.messages.postgres.PostgresRequestMessage;
 public interface MessageCategoryVisitor<Reply, Context>
 {
   /**
-   * routes all PostgresMessages
    * 
    * @param message
    *          the postgres message that should be visited
    * @param context
    *          the context to be given to the visitor
-   * @return a chained future that accepts with reply and fails with a throwable
+   * @return a PnkyPromise that accepts with reply and fails with a throwable
    */
-  ChainedFuture<Reply> visit(final PostgresRequestMessage message, final Context context);
+  PnkyPromise<Reply> visit(final PostgresRequestMessage message, final Context context);
 }

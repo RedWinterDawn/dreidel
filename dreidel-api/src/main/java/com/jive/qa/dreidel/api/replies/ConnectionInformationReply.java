@@ -15,5 +15,5 @@ import lombok.Getter;
 @Getter
 public class ConnectionInformationReply extends Reply
 {
-  private final List<ConnectionInformation> connections;
+  private final List<? extends ConnectionInformation> connections;
 }

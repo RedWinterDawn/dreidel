@@ -17,11 +17,11 @@ import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 public class ConnectionInformationMessage extends ReplyMessage
 {
 
-  private final List<ConnectionInformation> connections;
+  private final List<? extends ConnectionInformation> connections;
 
   @ConstructorProperties({ "referenceId", "connections" })
   public ConnectionInformationMessage(final String referenceId,
-      final List<ConnectionInformation> connections)
+      final List<? extends ConnectionInformation> connections)
   {
     super(referenceId);
     this.connections = connections;

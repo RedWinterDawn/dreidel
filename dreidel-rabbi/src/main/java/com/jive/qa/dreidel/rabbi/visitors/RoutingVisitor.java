@@ -5,7 +5,7 @@ import javax.inject.Inject;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
@@ -27,7 +27,7 @@ public class RoutingVisitor implements
   private final PostgresVisitor<Reply, VisitorContext> postgresVisitor;
 
   @Override
-  public ChainedFuture<Reply> visit(final PostgresRequestMessage message,
+  public PnkyPromise<Reply> visit(final PostgresRequestMessage message,
       final VisitorContext context)
   {
     return message.accept(postgresVisitor, context);

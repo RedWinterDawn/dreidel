@@ -2,7 +2,9 @@ package com.jive.qa.dreidel.api.messages.postgres;
 
 import java.beans.ConstructorProperties;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import lombok.NonNull;
+
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitable;
 import com.jive.qa.dreidel.api.messages.RequestMessage;
@@ -20,13 +22,13 @@ public abstract class PostgresRequestMessage extends RequestMessage implements
 {
 
   @ConstructorProperties({ "referenceId" })
-  public PostgresRequestMessage(final String referenceId)
+  public PostgresRequestMessage(@NonNull final String referenceId)
   {
     super(referenceId);
   }
 
   @Override
-  public ChainedFuture<Reply> accept(
+  public PnkyPromise<Reply> accept(
       final MessageCategoryVisitor<Reply, VisitorContext> visitor,
       final VisitorContext context)
   {

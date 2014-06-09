@@ -1,14 +1,14 @@
 package com.jive.qa.dreidel.api.exceptions;
 
-@SuppressWarnings("serial")
 public class MessageDecodeException extends Exception
 {
-  
+  private static final long serialVersionUID = 1L;
 
   public MessageDecodeException()
   {
     super();
   }
+
   public MessageDecodeException(final String message)
   {
     super(message);

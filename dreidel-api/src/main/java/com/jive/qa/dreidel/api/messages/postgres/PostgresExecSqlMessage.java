@@ -2,9 +2,12 @@ package com.jive.qa.dreidel.api.messages.postgres;
 
 import java.beans.ConstructorProperties;
 
-import lombok.Getter;
+import javax.annotation.Nonnull;
 
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import lombok.Getter;
+import lombok.NonNull;
+
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
@@ -16,22 +19,24 @@ import com.jive.qa.dreidel.api.replies.Reply;
  *
  */
 @Getter
-public class PostgresExecSqlMessage extends PostgresRequestMessage
+public final class PostgresExecSqlMessage extends PostgresRequestMessage
 {
 
   private final String sql;
-  private final String id;
+  private final String databaseId;
 
-  @ConstructorProperties({ "referenceId", "sql", "id" })
-  public PostgresExecSqlMessage(final String referenceId, final String sql, final String id)
+  @ConstructorProperties({ "referenceId", "databaseId", "sql" })
+  public PostgresExecSqlMessage(@NonNull final String referenceId,
+      @NonNull final String databaseId,
+      @NonNull final String sql)
   {
     super(referenceId);
     this.sql = sql;
-    this.id = id;
+    this.databaseId = databaseId;
   }
 
   @Override
-  public ChainedFuture<Reply> accept(
+  public PnkyPromise<Reply> accept(
       final PostgresVisitor<Reply, VisitorContext> visitor,
       final VisitorContext context)
   {

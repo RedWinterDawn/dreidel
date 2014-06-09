@@ -14,8 +14,8 @@ import org.apache.commons.lang.RandomStringUtils;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.jive.myco.commons.callbacks.CallbackFuture;
-import com.jive.myco.commons.callbacks.ChainedFuture;
+import com.jive.myco.commons.concurrent.Pnky;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
@@ -49,13 +49,13 @@ public class PostgresVisitorImpl implements
   private final ResourceFactory resourceFactory;
 
   @Override
-  public ChainedFuture<Reply> visit(final PostgresCreateMessage message,
+  public PnkyPromise<Reply> visit(final PostgresCreateMessage message,
       final VisitorContext context)
   {
     log.debug("Creating Postgres Database");
     List<BaseResource> resources = resourceCorrelationMap.get(context.getId());
 
-    CallbackFuture<Reply> callback = new CallbackFuture<>();
+    Pnky<Reply> callback = Pnky.create();
     if (resources != null)
     {
 
@@ -68,7 +68,7 @@ public class PostgresVisitorImpl implements
       {
         postgresResource.init();
         log.debug("Created Postgres Database");
-        callback.onSuccess(new ConnectionInformationReply(Lists
+        callback.resolve(new ConnectionInformationReply(Lists
             .newArrayList(new ConnectionInformation(
                 "postgres", postgresResource.getId(), postgresResource.getHost(), postgresResource
                     .getPort(), new UsernamePasswordCredential(postgresResource.getUsername(),
@@ -76,12 +76,12 @@ public class PostgresVisitorImpl implements
       }
       catch (ResourceInitializationException e)
       {
-        callback.onFailure(e);
+        callback.reject(e);
       }
     }
     else
     {
-      callback.onFailure(new NullPointerException(
+      callback.reject(new NullPointerException(
           "The Test session has not been registered to the correlation map"));
     }
 
@@ -89,29 +89,29 @@ public class PostgresVisitorImpl implements
   }
 
   @Override
-  public ChainedFuture<Reply> visit(final PostgresExecSqlMessage message,
+  public PnkyPromise<Reply> visit(final PostgresExecSqlMessage message,
       final VisitorContext context)
   {
-    CallbackFuture<Reply> callback = new CallbackFuture<>();
+    Pnky<Reply> callback = Pnky.create();
     PostgresResource resource =
-        getResourceOfId(message.getId(), resourceCorrelationMap.get(context.getId()));
+        getResourceOfId(message.getDatabaseId(), resourceCorrelationMap.get(context.getId()));
 
     if (resource != null)
     {
       try
       {
         resource.executeQuery(message.getSql());
-        callback.onSuccess(new SuccessReply());
+        callback.resolve(new SuccessReply());
       }
       catch (SQLException e)
       {
-        callback.onFailure(e);
+        callback.reject(e);
       }
     }
     else
     {
-      callback.onFailure(new NullPointerException(
-          "The resource id " + message.getId() + " does not exist for the test id "
+      callback.reject(new NullPointerException(
+          "The resource id " + message.getDatabaseId() + " does not exist for the test id "
               + context.getId()));
     }
 
@@ -119,18 +119,19 @@ public class PostgresVisitorImpl implements
   }
 
   @Override
-  public ChainedFuture<Reply> visit(final PostgresRestoreMessage message,
+  public PnkyPromise<Reply> visit(final PostgresRestoreMessage message,
       final VisitorContext context)
   {
-    CallbackFuture<Reply> callback = new CallbackFuture<>();
+    Pnky<Reply> callback = Pnky.create();
 
     PostgresResource resource =
-        getResourceOfId(message.getId(), resourceCorrelationMap.get(context.getId()));
+        getResourceOfId(message.getDatabaseId(), resourceCorrelationMap.get(context.getId()));
 
     if (resource != null)
     {
       File fileToRestore =
-          new File(message.getId() + RandomStringUtils.randomAlphabetic(10).toLowerCase() + ".sql");
+          new File(message.getDatabaseId() + RandomStringUtils.randomAlphabetic(10).toLowerCase()
+              + ".sql");
 
       try
       {
@@ -145,17 +146,17 @@ public class PostgresVisitorImpl implements
         bw.close();
         resource.restoreDump(fileToRestore);
 
-        callback.onSuccess(new SuccessReply());
+        callback.resolve(new SuccessReply());
       }
       catch (Exception ex)
       {
-        callback.onFailure(ex);
+        callback.reject(ex);
       }
     }
     else
     {
-      callback.onFailure(new NullPointerException(
-          "The resource id " + message.getId() + " does not exist for the test id "
+      callback.reject(new NullPointerException(
+          "The resource id " + message.getDatabaseId() + " does not exist for the test id "
               + context.getId()));
     }
 
