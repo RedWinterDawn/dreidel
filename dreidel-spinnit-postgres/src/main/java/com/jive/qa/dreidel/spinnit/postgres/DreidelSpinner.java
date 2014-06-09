@@ -1,7 +1,8 @@
 package com.jive.qa.dreidel.spinnit.postgres;
 
+import java.util.concurrent.TimeUnit;
+
 import lombok.AllArgsConstructor;
-import lombok.Delegate;
 
 import com.google.common.net.HostAndPort;
 import com.jive.myco.commons.callbacks.CallbackFuture;
@@ -9,7 +10,10 @@ import com.jive.myco.jivewire.api.highlevel.HighLevelTransport;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportConnection;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportListener;
 import com.jive.myco.jivewire.transport.jetty.ws.JettyWebsocketHighLevelTransportFactory;
+import com.jive.qa.dreidel.api.messages.ExceptionMessage;
 import com.jive.qa.dreidel.api.messages.Message;
+import com.jive.qa.dreidel.api.messages.ReplyMessage;
+import com.jive.qa.dreidel.api.messages.RequestMessage;
 import com.jive.qa.dreidel.api.transport.DreidelObjectMapper;
 import com.jive.qa.dreidel.api.transport.DreidelTransportCodec;
 import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
@@ -78,9 +82,22 @@ public class DreidelSpinner
   @AllArgsConstructor
   public static class TransportDreidelConnection implements DreidelConnection
   {
-    @Delegate
     private final HighLevelTransportConnection<Message, Message> connection;
 
+    @Override
+    public ReplyMessage writeRequest(RequestMessage message, long timeout, TimeUnit timeUnit)
+    {
+      try
+      {
+        CallbackFuture<Message> callback = new CallbackFuture<>();
+        connection.writeRequest(message, timeout, timeUnit, callback);
+        return (ReplyMessage) callback.get();
+      }
+      catch (Exception ex)
+      {
+        return new ExceptionMessage(ex, message.getReferenceId());
+      }
+    }
   }
 
 }

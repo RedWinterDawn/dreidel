@@ -10,11 +10,7 @@
   <name>Dreidel :: Spinnit :: Postgres</name>
 
   <dependencies>
-    <dependency>
-      <groupId>com.jive.jackson-extensions</groupId>
-      <artifactId>jackson-extensions</artifactId>
-      <version>1.0.2</version>
-    </dependency>
+    
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
@@ -47,7 +43,6 @@
     <dependency>
       <groupId>com.jive.myco.jazz</groupId>
       <artifactId>jazz-test</artifactId>
-      <scope>test</scope>
     </dependency> 
     
     <dependency>

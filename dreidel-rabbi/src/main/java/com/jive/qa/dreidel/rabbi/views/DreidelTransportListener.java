@@ -23,7 +23,7 @@ import com.jive.qa.dreidel.rabbi.resources.BaseResource;
  */
 @AllArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
-public class DreidelTransportListener implements HighLevelTransportListener<Message, Message>
+public final class DreidelTransportListener implements HighLevelTransportListener<Message, Message>
 {
   HighLevelTransportConnectionListener<Message, Message> listener;
   Map<String, List<BaseResource>> resourceCorrelationMap;

@@ -7,11 +7,4 @@
   </parent>
   <artifactId>dreidel-api</artifactId>
   <name>Dreidel :: API</name>
-  <dependencies>
-  <dependency>
-      <groupId>com.jive.jackson-extensions</groupId>
-      <artifactId>jackson-extensions</artifactId>
-      <version>1.0.2</version>
-    </dependency>
-  </dependencies>
 </project>

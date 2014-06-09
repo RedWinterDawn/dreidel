@@ -14,6 +14,6 @@ public class ResourceFactoryImpl implements ResourceFactory
   public PostgresResource getPostgresResource(final HostAndPort hap, final String username,
       final String password)
   {
-    return new JDBCPostgresResource(hap.getHostText(), hap.getPort(), username, password);
+    return new JdbcPostgresResource(hap, username, password);
   }
 }

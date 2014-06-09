@@ -56,7 +56,6 @@ public class PostgresVisitorImpl implements
     log.debug("Creating Postgres Database");
     List<BaseResource> resources = resourceCorrelationMap.get(context.getId());
 
-    Pnky<Reply> callback = Pnky.create();
     if (resources != null)
     {
 
@@ -69,31 +68,28 @@ public class PostgresVisitorImpl implements
       {
         postgresResource.init();
         log.debug("Created Postgres Database");
-        callback.resolve(new ConnectionInformationReply(Lists
+        return Pnky.immediatelyComplete(new ConnectionInformationReply(Lists
             .newArrayList(new ConnectionInformation(
-                "postgres", postgresResource.getId(), postgresResource.getHost(), postgresResource
-                    .getPort(), new UsernamePasswordCredential(postgresResource.getUsername(),
-                    postgresResource.getPassword())))));
+                "postgres", postgresResource.getId(), postgresResource.getHap().getHostText(),
+                postgresResource.getHap().getPort(), new UsernamePasswordCredential(
+                    postgresResource.getUsername(), postgresResource.getPassword())))));
       }
       catch (ResourceInitializationException e)
       {
-        callback.reject(e);
+        return Pnky.immediatelyFailed(e);
       }
     }
     else
     {
-      callback.reject(new NullPointerException(
+      return Pnky.immediatelyFailed(new NullPointerException(
           "The Test session has not been registered to the correlation map"));
     }
-
-    return callback;
   }
 
   @Override
   public PnkyPromise<Reply> visit(final PostgresExecSqlMessage message,
       final VisitorContext context)
   {
-    Pnky<Reply> callback = Pnky.create();
     PostgresResource resource =
         getResourceOfId(message.getDatabaseId(), resourceCorrelationMap.get(context.getId()));
 
@@ -102,29 +98,26 @@ public class PostgresVisitorImpl implements
       try
       {
         resource.executeQuery(message.getSql());
-        callback.resolve(new SuccessReply());
+        return Pnky.immediatelyComplete(new SuccessReply());
       }
       catch (SQLException e)
       {
-        callback.reject(e);
+        return Pnky.immediatelyFailed(e);
       }
     }
     else
     {
-      callback.reject(new NullPointerException(
+      return Pnky.immediatelyFailed(new NullPointerException(
           "The resource id " + message.getDatabaseId() + " does not exist for the test id "
               + context.getId()));
     }
 
-    return callback;
   }
 
   @Override
   public PnkyPromise<Reply> visit(final PostgresRestoreMessage message,
       final VisitorContext context)
   {
-    Pnky<Reply> callback = Pnky.create();
-
     PostgresResource resource =
         getResourceOfId(message.getDatabaseId(), resourceCorrelationMap.get(context.getId()));
 
@@ -147,21 +140,23 @@ public class PostgresVisitorImpl implements
         bw.close();
         resource.restoreDump(fileToRestore);
 
-        callback.resolve(new SuccessReply());
+        return Pnky.immediatelyComplete(new SuccessReply());
       }
       catch (Exception ex)
       {
-        callback.reject(ex);
+        return Pnky.immediatelyFailed(ex);
+      }
+      finally
+      {
+        fileToRestore.delete();
       }
     }
     else
     {
-      callback.reject(new NullPointerException(
+      return Pnky.immediatelyFailed(new NullPointerException(
           "The resource id " + message.getDatabaseId() + " does not exist for the test id "
               + context.getId()));
     }
-
-    return callback;
   }
 
   /**

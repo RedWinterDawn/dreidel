@@ -9,7 +9,6 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
-import com.jive.jackson.ConstructorPropertiesAnnotationIntrospector;
 import com.jive.myco.jivewire.api.codec.TransportCodec;
 import com.jive.myco.jivewire.api.exceptions.TransportUriFormatException;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransport;
@@ -23,6 +22,7 @@ import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
+import com.jive.qa.dreidel.api.transport.DreidelObjectMapper;
 import com.jive.qa.dreidel.api.transport.DreidelTransportCodec;
 import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
 import com.jive.qa.dreidel.rabbi.resources.BaseResource;
@@ -66,13 +66,15 @@ public class WebsocketServiceModule extends AbstractModule
 
     bind(new TypeLiteral<Map<String, List<BaseResource>>>()
     {
-    }).toInstance(Maps.newHashMap());
+    }).toInstance(Maps.newConcurrentMap());
 
     bind(new TypeLiteral<TransportCodec<Message, Message>>()
     {
     }).to(DreidelTransportCodec.class);
 
     bind(ResourceFactory.class).to(ResourceFactoryImpl.class).asEagerSingleton();
+
+    bind(ObjectMapper.class).to(DreidelObjectMapper.class).asEagerSingleton();
 
   }
 
@@ -89,13 +91,5 @@ public class WebsocketServiceModule extends AbstractModule
       final HighLevelTransportCorrelationStrategy correlationStrategy)
   {
     return new JettyWebsocketHighLevelTransportFactory(correlationStrategy);
-  }
-
-  @Provides
-  public ObjectMapper getJson()
-  {
-    ObjectMapper json = new ObjectMapper();
-    ConstructorPropertiesAnnotationIntrospector.install(json);
-    return json;
   }
 }

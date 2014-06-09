@@ -10,7 +10,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.google.inject.Inject;
 import com.jive.myco.jivewire.api.codec.ByteArrayTransportCodec;
-import com.jive.qa.dreidel.api.exceptions.MessageDecodeException;
 import com.jive.qa.dreidel.api.messages.Message;
 
 /**
@@ -56,7 +55,7 @@ public class DreidelTransportCodec implements
       else
       {
         // something's not right
-        throw new MessageDecodeException("Invalid format.");
+        throw new RuntimeException("Invalid format.");
       }// ends if myJson.getNodeType
     }
     catch (Exception e)

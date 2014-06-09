@@ -13,8 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
 import com.jive.qa.dreidel.rabbi.PGDumpException;
@@ -29,7 +28,7 @@ import com.jive.qa.dreidel.rabbi.SQLFileLoadException;
 @Slf4j
 @Getter
 @Setter
-public class JDBCPostgresResource extends BaseResourceImpl implements PostgresResource
+public class JdbcPostgresResource extends BaseResourceImpl implements PostgresResource
 {
   private final String username;
   private final String password;
@@ -47,13 +46,10 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
    * @param password
    *          The password of the username given.
    */
-  @Inject
-  public JDBCPostgresResource(@Named("postgresHost") final String host,
-      @Named("postgresPort") final int port,
-      @Named("postgresUsername") final String username,
-      @Named("postgresPassword") final String password)
+  public JdbcPostgresResource(final HostAndPort hap, final String username,
+      final String password)
   {
-    super(host, port);
+    super(hap);
     this.username = username;
     this.password = password;
     logPrefix = "[" + getId() + "]";
@@ -69,7 +65,6 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
     }
     catch (SQLException e)
     {
-      log.error("There was a problem creating the postgres database", e);
       throw new ResourceInitializationException(
           "There was a problem creating the postgres database", e);
     }
@@ -123,8 +118,9 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
     {
       // create a psql process and set file to the file passed in
       Process pg_dumper =
-          new ProcessBuilder("/usr/local/bin/psql", "-U", getUsername(), "-h", getHost(),
-              "-p", Long.toString(getPort()), "-d",
+          new ProcessBuilder("/usr/local/bin/psql", "-U", getUsername(), "-h", getHap()
+              .getHostText(),
+              "-p", Long.toString(getHap().getPort()), "-d",
               getId().toString(), "-f", dump.getPath()).start();
 
       // read the stdout so that we will make sure it runs.
@@ -156,7 +152,6 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
       if (pg_dumper.exitValue() != 0 || errOutput != "" && errOutput.contains("ERROR:"))
       {
         PGDumpException ex = new PGDumpException(output + "\nError: \n" + errOutput);
-        log.error("There was an error ", ex);
         throw ex;
       }
 
@@ -165,20 +160,14 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
     {
       // if there was a problem log it and throw it.
       SQLFileLoadException ex = new SQLFileLoadException("Problem uploading SQL file to server", e);
-      log.error("There was an error ", ex);
       throw ex;
-    }
-    finally
-    {
-      dump.delete();
     }
   }
 
   private Connection getConnection(final String database) throws SQLException
   {
-    return DriverManager.getConnection("jdbc:postgresql://" + getHost() + ":" + getPort() + "/"
-        + database, getUsername(),
-        getPassword());
+    return DriverManager.getConnection("jdbc:postgresql://" + getHap().getHostText() + ":"
+        + getHap().getPort() + "/" + database, getUsername(), getPassword());
   }
 
 }

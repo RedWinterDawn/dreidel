@@ -26,7 +26,7 @@ import com.jive.qa.dreidel.api.replies.Reply;
  */
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Inject))
-public class DreidelTransportConnectionListener implements
+public final class DreidelTransportConnectionListener implements
     HighLevelTransportConnectionListener<Message, Message>
 {
 

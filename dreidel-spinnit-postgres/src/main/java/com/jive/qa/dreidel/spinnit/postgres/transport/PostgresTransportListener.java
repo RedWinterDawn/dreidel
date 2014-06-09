@@ -20,6 +20,11 @@ import com.jive.qa.dreidel.api.messages.Message;
 public class PostgresTransportListener implements HighLevelTransportListener<Message, Message>
 {
 
+  private final HighLevelTransportConnectionListener<Message, Message> listener;
+  private final Callback<HighLevelTransportConnection<Message, Message>> callback;
+
+  private boolean connected = false;
+
   /**
    * 
    * @param listener
@@ -35,11 +40,6 @@ public class PostgresTransportListener implements HighLevelTransportListener<Mes
     this.listener = listener;
     this.callback = callback;
   }
-
-  private final HighLevelTransportConnectionListener<Message, Message> listener;
-  private final Callback<HighLevelTransportConnection<Message, Message>> callback;
-
-  private boolean connected = false;
 
   @Override
   public void onConnected(HighLevelTransportConnection<Message, Message> connection)

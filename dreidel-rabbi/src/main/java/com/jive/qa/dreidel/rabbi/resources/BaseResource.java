@@ -1,5 +1,6 @@
 package com.jive.qa.dreidel.rabbi.resources;
 
+import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
 import com.jive.qa.dreidel.api.messages.ResourceId;
@@ -22,13 +23,7 @@ public interface BaseResource
    * 
    * @return gets the host of the resource
    */
-  public String getHost();
-
-  /**
-   * 
-   * @return gets the port of the resource
-   */
-  public int getPort();
+  public HostAndPort getHap();
 
   /**
    * spins up the resource and returns when the resource is finished spinning up

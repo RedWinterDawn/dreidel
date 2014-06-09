@@ -3,7 +3,6 @@ package com.jive.qa.dreidel.spinnit.postgres;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
@@ -13,10 +12,8 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharSource;
 import com.google.common.io.Files;
 import com.google.common.net.HostAndPort;
-import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.api.messages.ConnectionInformationMessage;
 import com.jive.qa.dreidel.api.messages.ExceptionMessage;
-import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.ReplyMessage;
 import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
@@ -66,14 +63,12 @@ public class DreidelPostgres
     if (connection != null)
     {
       log.trace("{} Sending PostgresCreateMessage", logprefix);
-      CallbackFuture<Message> callback = new CallbackFuture<>();
-      connection.writeRequest(new PostgresCreateMessage(id + "creationMessage"), 5,
-          TimeUnit.SECONDS,
-          callback);
       ReplyMessage reply;
       try
       {
-        reply = (ReplyMessage) callback.get();
+        reply = connection.writeRequest(new PostgresCreateMessage(id + "creationMessage"), 5,
+            TimeUnit.SECONDS);
+
         log.trace("{} Recieved reply to postrges create message {}", logprefix, reply);
       }
       catch (Exception e)
@@ -119,26 +114,18 @@ public class DreidelPostgres
     {
       try
       {
-        CallbackFuture<Message> callback = new CallbackFuture<>();
-        connection.writeRequest(
+        ReplyMessage reply = connection.writeRequest(
             new PostgresExecSqlMessage(this.id + "Exec Sql message", ResourceId.valueOf(this
                 .getDatabaseName()), source
-                .read()), 30, TimeUnit.SECONDS, callback);
-        ReplyMessage reply = (ReplyMessage) callback.get();
+                .read()), 30, TimeUnit.SECONDS);
         if (reply instanceof ExceptionMessage)
         {
           throw new SQLException(((ExceptionMessage) reply).getExceptionMessage());
         }
-
       }
       catch (IOException ex)
       {
         throw new RemoteSqlExecutionException(ex);
-      }
-      catch (InterruptedException | ExecutionException e)
-      {
-        throw new DreidelConnectionException(
-            "You must spin up the database in order to execute sql against it");
       }
     }
     else

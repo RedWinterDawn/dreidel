@@ -15,15 +15,10 @@
 	<name>Dreidel :: Rabbi</name>
 
 	<dependencies>
+	
 		<dependency>
 			<groupId>com.google.inject</groupId>
 			<artifactId>guice</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jive.jackson-extensions</groupId>
-			<artifactId>jackson-extensions</artifactId>
-			<version>1.0.2</version>
 		</dependency>
 
 		<dependency>
@@ -45,7 +40,6 @@
 		<dependency>
 			<groupId>commons-lang</groupId>
 			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
 		</dependency>
 
 		<dependency>
@@ -60,19 +54,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.jive.myco.commons</groupId>
-			<artifactId>myco-commons-callbacks</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>com.jive.myco.jazz</groupId>
 			<artifactId>jazz-test</artifactId>
 			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.jive.myco.commons</groupId>
-			<artifactId>myco-commons-concurrent</artifactId>
 		</dependency>
 
 
@@ -84,7 +68,7 @@
 			<dependency>
 				<groupId>com.jive.myco.jin</groupId>
 				<artifactId>jin</artifactId>
-				<version>0.1.1</version>
+				<version>0.1.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
