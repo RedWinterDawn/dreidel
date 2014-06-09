@@ -1,8 +1,9 @@
 package com.jive.qa.dreidel.spinnit.postgres;
 
-@SuppressWarnings("serial")
 public class RemoteSqlExecutionException extends RuntimeException
 {
+  private static final long serialVersionUID = 1L;
+
   public RemoteSqlExecutionException(String message)
   {
     super(message);
