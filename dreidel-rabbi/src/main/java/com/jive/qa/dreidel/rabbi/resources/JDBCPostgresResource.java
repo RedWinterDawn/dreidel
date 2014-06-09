@@ -92,7 +92,7 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
   @Override
   public void executeQuery(final String script) throws SQLException
   {
-    executeQuery(script, getId());
+    executeQuery(script, getId().toString());
   }
 
   private void executeQuery(final String script, final String database) throws SQLException
@@ -103,7 +103,6 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
     try
     {
       connection = getConnection(database);
-      // connection.setCatalog(database);
       PreparedStatement preparedStatement = connection.prepareStatement(script);
       preparedStatement.execute();
     }
@@ -126,7 +125,7 @@ public class JDBCPostgresResource extends BaseResourceImpl implements PostgresRe
       Process pg_dumper =
           new ProcessBuilder("/usr/local/bin/psql", "-U", getUsername(), "-h", getHost(),
               "-p", Long.toString(getPort()), "-d",
-              getId(), "-f", dump.getPath()).start();
+              getId().toString(), "-f", dump.getPath()).start();
 
       // read the stdout so that we will make sure it runs.
       BufferedReader input = new BufferedReader

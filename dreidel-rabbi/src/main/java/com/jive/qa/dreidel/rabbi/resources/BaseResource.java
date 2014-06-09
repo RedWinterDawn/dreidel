@@ -2,6 +2,7 @@ package com.jive.qa.dreidel.rabbi.resources;
 
 import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 
 /**
  * The base resource that all resources must implement.
@@ -15,7 +16,7 @@ public interface BaseResource
    * 
    * @return returns the id of the resource
    */
-  public String getId();
+  public ResourceId getId();
 
   /**
    * 

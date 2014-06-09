@@ -5,6 +5,8 @@ import lombok.NonNull;
 
 import org.apache.commons.lang.RandomStringUtils;
 
+import com.jive.qa.dreidel.api.messages.ResourceId;
+
 /**
  * 
  * @author jdavidson
@@ -13,7 +15,7 @@ import org.apache.commons.lang.RandomStringUtils;
 @Getter
 public abstract class BaseResourceImpl implements BaseResource
 {
-  private final String id;
+  private final ResourceId id;
   private final int idLength = 20;
   private final String host;
   private final int port;
@@ -26,7 +28,7 @@ public abstract class BaseResourceImpl implements BaseResource
    */
   BaseResourceImpl(final @NonNull String host, final int port2)
   {
-    id = RandomStringUtils.randomAlphabetic(idLength).toLowerCase();
+    id = ResourceId.valueOf(RandomStringUtils.randomAlphabetic(idLength).toLowerCase());
     port = port2;
     this.host = host;
   }

@@ -7,6 +7,7 @@ import lombok.NonNull;
 
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
 
@@ -19,12 +20,12 @@ import com.jive.qa.dreidel.api.replies.Reply;
 @Getter
 public final class PostgresRestoreMessage extends PostgresRequestMessage
 {
-  private final String databaseId;
+  private final ResourceId databaseId;
   private final String pgdump;
 
   @ConstructorProperties({ "referenceId", "databaseId", "pgDump" })
   public PostgresRestoreMessage(@NonNull final String referenceId,
-      @NonNull final String databaseId,
+      @NonNull final ResourceId databaseId,
       @NonNull final String pgDump)
   {
     super(referenceId);

@@ -9,6 +9,7 @@ import lombok.NonNull;
 
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.replies.Reply;
 
@@ -23,11 +24,11 @@ public final class PostgresExecSqlMessage extends PostgresRequestMessage
 {
 
   private final String sql;
-  private final String databaseId;
+  private final ResourceId databaseId;
 
   @ConstructorProperties({ "referenceId", "databaseId", "sql" })
   public PostgresExecSqlMessage(@NonNull final String referenceId,
-      @NonNull final String databaseId,
+      @NonNull final ResourceId databaseId,
       @NonNull final String sql)
   {
     super(referenceId);

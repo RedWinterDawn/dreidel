@@ -18,6 +18,7 @@ import com.jive.qa.dreidel.api.messages.ConnectionInformationMessage;
 import com.jive.qa.dreidel.api.messages.ExceptionMessage;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.ReplyMessage;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
 import com.jive.qa.dreidel.api.replies.ConnectionInformation;
@@ -91,7 +92,7 @@ public class DreidelPostgres
         if (information.getConnections().size() > 0)
         {
           ConnectionInformation postgresConnectionInfo = information.getConnections().get(0);
-          this.databaseName = postgresConnectionInfo.getId();
+          this.databaseName = postgresConnectionInfo.getId().toString();
           this.port = postgresConnectionInfo.getPort();
           this.password =
               ((UsernamePasswordCredential) postgresConnectionInfo.getCredential()).getPassword();
@@ -120,7 +121,8 @@ public class DreidelPostgres
       {
         CallbackFuture<Message> callback = new CallbackFuture<>();
         connection.writeRequest(
-            new PostgresExecSqlMessage(this.id + "Exec Sql message", this.getDatabaseName(), source
+            new PostgresExecSqlMessage(this.id + "Exec Sql message", ResourceId.valueOf(this
+                .getDatabaseName()), source
                 .read()), 30, TimeUnit.SECONDS, callback);
         ReplyMessage reply = (ReplyMessage) callback.get();
         if (reply instanceof ExceptionMessage)

@@ -19,6 +19,7 @@ import com.google.common.net.HostAndPort;
 import com.jive.myco.commons.concurrent.Pnky;
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
@@ -154,22 +155,24 @@ public class PostgresVisitorImpl_Test
     AtomicInteger badThings = new AtomicInteger();
     AtomicInteger goodThings = new AtomicInteger();
 
-    visitor.visit(new PostgresExecSqlMessage("asdf", "asdfa", "create table foo()"),
-        new VisitorContext(TEST_ID)).thenCompose((result) -> {
-      Pnky<Void> future = Pnky.create();
-      badThings.incrementAndGet();
-      future.resolve(null);
-      return future;
-    }).onFailure((cause) -> {
-      if (cause instanceof NullPointerException)
-      {
-        goodThings.incrementAndGet();
-      }
-        else
-        {
+    visitor
+        .visit(
+            new PostgresExecSqlMessage("asdf", ResourceId.valueOf("asdfa"), "create table foo()"),
+            new VisitorContext(TEST_ID)).thenCompose((result) -> {
+          Pnky<Void> future = Pnky.create();
           badThings.incrementAndGet();
-        }
-      });
+          future.resolve(null);
+          return future;
+        }).onFailure((cause) -> {
+          if (cause instanceof NullPointerException)
+          {
+            goodThings.incrementAndGet();
+          }
+            else
+            {
+              badThings.incrementAndGet();
+            }
+          });
 
     while (goodThings.get() != 1)
     {
@@ -186,7 +189,7 @@ public class PostgresVisitorImpl_Test
     AtomicInteger badThings = new AtomicInteger();
     AtomicInteger goodThings = new AtomicInteger();
 
-    when(resource.getId()).thenReturn("asdfas234234d");
+    when(resource.getId()).thenReturn(ResourceId.valueOf("asdfas234234d"));
 
     ConnectionInformationReply reply = createDatabase();
 

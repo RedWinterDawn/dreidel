@@ -18,6 +18,7 @@ import com.jive.myco.commons.concurrent.Pnky;
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
+import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
@@ -171,7 +172,7 @@ public class PostgresVisitorImpl implements
    *          the list of resources to search
    * @return the resource from resources that matches the resourceId
    */
-  public PostgresResource getResourceOfId(final String resourceId,
+  public PostgresResource getResourceOfId(final ResourceId resourceId,
       final List<BaseResource> resources)
   {
     for (BaseResource resource : resources)
