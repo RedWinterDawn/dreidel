@@ -88,8 +88,7 @@
 								<jazzService>
 									<serviceName>dreidel-rabbi</serviceName>
 									<modules>
-										<module>com.jive.qa.dreidel.rabbi.service.ServiceModule</module>
-										<module>com.jive.qa.dreidel.rabbi.service.ConfigModule</module>
+										<module>com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule</module>
 										<module>com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule</module>
 									</modules>
 								</jazzService>
