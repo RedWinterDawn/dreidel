@@ -23,6 +23,8 @@
 		<module>dreidel-spinnit-postgres</module>
 		<module>dreidel-rabbi</module>
 		<module>dreidel-api</module>
+		<module>dreidel-goyim</module>
+		<module>restinator</module>
 	</modules>
 
 	<dependencies>
