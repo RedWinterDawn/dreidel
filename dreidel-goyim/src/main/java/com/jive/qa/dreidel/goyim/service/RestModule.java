@@ -18,6 +18,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
+import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.messages.JimMessage;
 import com.jive.qa.dreidel.goyim.restinator.DreidelObjectMapper;
 import com.jive.qa.dreidel.goyim.restinator.JimCodec;
@@ -46,6 +47,7 @@ public class RestModule extends AbstractModule
     bind(InstanceManager.class).asEagerSingleton();
     bind(JimSettings.class).asEagerSingleton();
     bind(BmSettings.class).asEagerSingleton();
+    bind(JimController.class).asEagerSingleton();
   }
 
   @Provides

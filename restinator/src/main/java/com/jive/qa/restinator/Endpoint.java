@@ -12,10 +12,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import lombok.Cleanup;
+import lombok.extern.slf4j.Slf4j;
 
 import com.google.common.collect.Maps;
 import com.jive.qa.restinator.codecs.ByteArrayEndpointCodec;
 
+@Slf4j
 public class Endpoint<I, O>
 {
 
@@ -121,34 +123,51 @@ public class Endpoint<I, O>
       addHeadersToConnection(con, this.defaultHeaders);
       addHeadersToConnection(con, headers);
 
-      if (object != null)
+      try
       {
-        con.setDoOutput(true);
-
-        byte[] outBytes = codec.encode(object);
-        // TODO if outBytes == null throw some exception
-
-        @Cleanup("close")
-        DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        try
+        if (object != null)
         {
-          wr.write(outBytes);
+          con.setDoOutput(true);
+
+          con.connect();
+
+          byte[] outBytes = codec.encode(object);
+          // TODO if outBytes == null throw some exception
+
+          @Cleanup("close")
+          DataOutputStream wr = new DataOutputStream(con.getOutputStream());
+          try
+          {
+            wr.write(outBytes);
+          }
+          finally
+          {
+            wr.flush();
+          }
         }
-        finally
+        else
         {
-          wr.flush();
+          con.connect();
         }
       }
-      else
+      catch (Exception e)
       {
-        con.connect();
+        log.error("swallowing error", e);
       }
 
       int response = con.getResponseCode();
 
-      InputStream inputStream = con.getInputStream();
+      InputStream stream;
+      if (response < 400)
+      {
+        stream = con.getInputStream();
+      }
+      else
+      {
+        stream = con.getErrorStream();
+      }
 
-      return this.codec.decode(getStringFromInputStream(inputStream).getBytes(), response);
+      return this.codec.decode(getStringFromInputStream(stream).getBytes(), response);
     }
 
     private void addHeadersToConnection(HttpURLConnection con, Map<String, String> headers)

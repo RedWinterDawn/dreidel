@@ -1,9 +1,11 @@
-package com.jive.qa.dreidel.goyim.service;
+package com.jive.qa.dreidel.goyim.Integration;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule;
 import com.jive.myco.jazz.test.launcher.JazzServiceTestLauncher;
+import com.jive.qa.dreidel.goyim.service.ServiceModule;
 
 /**
  * Example of of a local integration test that uses the {@link JazzServiceTestLauncher test
@@ -11,9 +13,10 @@ import com.jive.myco.jazz.test.launcher.JazzServiceTestLauncher;
  * 
  * @author David Valeri
  */
-public class ExampleServiceIT
+public class Container_Int
 {
   @Test
+  @Ignore
   public void test() throws Exception
   {
     try (

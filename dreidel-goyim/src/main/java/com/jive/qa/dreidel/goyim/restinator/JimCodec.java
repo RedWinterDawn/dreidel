@@ -10,7 +10,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.google.inject.Inject;
+import com.jive.qa.dreidel.goyim.messages.InstanceMessage;
 import com.jive.qa.dreidel.goyim.messages.JimErrorMessage;
+import com.jive.qa.dreidel.goyim.messages.JimInstanceAlreadyExistsMessage;
 import com.jive.qa.dreidel.goyim.messages.JimMessage;
 import com.jive.qa.dreidel.goyim.messages.JimResponseCodeOnly;
 import com.jive.qa.dreidel.goyim.messages.ServiceDetailMessage;
@@ -43,16 +45,17 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
   @Override
   public JimMessage decode(byte[] bytes, int responseCode)
   {
-    if (bytes.length <= 1)
+    JimMessage rtn = null;
+    try
     {
-      return new JimResponseCodeOnly(responseCode);
-    }
-    else
-    {
-      try
+      if (bytes.length <= 1)
       {
+        return new JimResponseCodeOnly(responseCode);
+      }
+      else if (responseCode == 200)
+      {
+
         JsonNode tree = this.json.readTree(bytes);
-        JimMessage rtn;
 
         if (tree.getNodeType() == JsonNodeType.ARRAY && tree.get(0).has("classes"))
         {
@@ -68,18 +71,26 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
 
           rtn = new ServiceDetailMessage(detail);
         }
-        else
+        else if (tree.getNodeType() == JsonNodeType.OBJECT && tree.has("service"))
         {
-          rtn = null;
-        }
+          rtn = this.json.readValue(bytes, InstanceMessage.class);
 
-        return rtn;
+        }
       }
-      catch (Exception e)
+      else
       {
-        log.error("There was a codec error", e);
-        return new JimErrorMessage(responseCode, new String(bytes));
+        JsonNode tree = this.json.readTree(bytes);
+        if (tree.getNodeType() == JsonNodeType.ARRAY && tree.get(0).toString().contains("already"))
+        {
+          rtn = new JimInstanceAlreadyExistsMessage();
+        }
       }
     }
+    catch (Exception e)
+    {
+      log.error("There was a codec error", e);
+      return new JimErrorMessage(responseCode, new String(bytes));
+    }
+    return rtn;
   }
 }

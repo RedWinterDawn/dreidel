@@ -15,7 +15,7 @@ public class BmSettings
   public BmSettings(@Named("bm.cpu.start") int cpuStart,
       @Named("bm.cpu.stop") int cpuStop, @Named("bm.cpu.physical.last") int lastCpu,
       @Named("networksMap") Map<String, String> networksMap, @Named("bm.site") String site,
-      @Named("bm.blade") int blade)
+      @Named("bm.blade") int blade, @Named("bm.networks.preferred") String preferred)
   {
     this.cpuStart = cpuStart;
     this.cpuStop = cpuStop;
@@ -23,6 +23,7 @@ public class BmSettings
     this.networksMap = networksMap;
     this.site = site;
     this.blade = blade;
+    this.preferred = preferred;
   }
 
   private final int blade;
@@ -31,5 +32,6 @@ public class BmSettings
   private final int lastCpu;
   private final int cpuStart;
   private final int cpuStop;
+  private final String preferred;
 
 }

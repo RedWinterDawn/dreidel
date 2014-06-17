@@ -3,36 +3,24 @@ package com.jive.qa.dreidel.goyim.models;
 import static org.junit.Assert.assertEquals;
 
 import java.util.List;
-import java.util.Map;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
+import com.jive.qa.dreidel.goyim.mocks.MockSettings;
 import com.jive.qa.dreidel.goyim.service.BmSettings;
 import com.jive.qa.dreidel.goyim.service.JimSettings;
 
 public class InstanceManager_Test
 {
 
-  private static BmSettings bmSettings;
-  private static JimSettings jimSettings;
-
-  @BeforeClass
-  public static void setup()
-  {
-    Map<String, String> networks = Maps.newConcurrentMap();
-    networks.put("dev", "10.20.26.");
-    networks.put("vmcontrolorm", "10.31.29.");
-    bmSettings = new BmSettings(4, 8, 19, networks, "ops-1a", 14);
-    jimSettings = new JimSettings("asefdasd", "localhost", 3000, "api");
-  }
-
   @Test
   public void SuccessiveGetsReturns_SuccessiveResults()
   {
+    BmSettings bmSettings = MockSettings.getBm();
+    JimSettings jimSettings = MockSettings.getJim();
+
     InstanceManager instanceManager =
         new InstanceManager(bmSettings, jimSettings);
 
@@ -48,6 +36,9 @@ public class InstanceManager_Test
   @Test
   public void SuccessiveGetsWithRemoveInMiddle_GetsTheMiddleNumber()
   {
+    BmSettings bmSettings = MockSettings.getBm();
+    JimSettings jimSettings = MockSettings.getJim();
+
     InstanceManager instanceManager = new InstanceManager(bmSettings, jimSettings);
 
     Instance i1 = instanceManager.getNextAvailableInstance();
@@ -67,6 +58,9 @@ public class InstanceManager_Test
   @Test
   public void SuccesiveGetsGetCorrectCpus_GetsHyperThreadedCpus()
   {
+    BmSettings bmSettings = MockSettings.getBm();
+    JimSettings jimSettings = MockSettings.getJim();
+
     InstanceManager instanceManager = new InstanceManager(bmSettings, jimSettings);
 
     List<Instance> instances = Lists.newArrayList();
@@ -95,6 +89,8 @@ public class InstanceManager_Test
   @Test
   public void SuccessiveGets_GetsCorrectIps()
   {
+    BmSettings bmSettings = MockSettings.getBm();
+    JimSettings jimSettings = MockSettings.getJim();
 
     InstanceManager instanceManager = new InstanceManager(bmSettings, jimSettings);
 
@@ -111,11 +107,11 @@ public class InstanceManager_Test
       {
         if (instances.get(i).getNetworks().get(j).getName().equals("dev"))
         {
-          assertEquals("10.20.26." + i, instances.get(i).getNetworks().get(j).getAddress());
+          assertEquals("10.20.26." + (i + 2), instances.get(i).getNetworks().get(j).getAddress());
         }
         else
         {
-          assertEquals("10.31.29." + i, instances.get(i).getNetworks().get(j).getAddress());
+          assertEquals("10.31.29." + (i + 2), instances.get(i).getNetworks().get(j).getAddress());
         }
       }
     }

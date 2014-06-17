@@ -46,7 +46,9 @@ public class InstanceManager
     List<Network> networks = Lists.newArrayList();
     for (Entry<String, String> entry : bmSettings.getNetworksMap().entrySet())
     {
-      networks.add(new Network(entry.getKey(), entry.getValue() + i));
+      // Add 2 to prevent ip address ending in 0 or 1
+      // TODO change this to use the ip upper and lower bounds
+      networks.add(new Network(entry.getKey(), entry.getValue() + (i + 2)));
     }
 
     Instance rtn =
@@ -62,6 +64,7 @@ public class InstanceManager
     instances.remove(i);
   }
 
+  @Synchronized
   private int getCpuFromInstanceId(int id)
   {
     // get range of cpus
