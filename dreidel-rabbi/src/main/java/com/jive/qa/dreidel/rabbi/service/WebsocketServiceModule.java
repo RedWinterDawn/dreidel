@@ -21,17 +21,22 @@ import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
+import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.api.replies.Reply;
 import com.jive.qa.dreidel.api.transport.DreidelObjectMapper;
 import com.jive.qa.dreidel.api.transport.DreidelTransportCodec;
 import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
+import com.jive.qa.dreidel.goyim.GoyimCreationCodec;
 import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactoryImpl;
 import com.jive.qa.dreidel.rabbi.views.DreidelTransportConnectionListener;
 import com.jive.qa.dreidel.rabbi.views.DreidelTransportListener;
+import com.jive.qa.dreidel.rabbi.visitors.JinstVisitorImpl;
 import com.jive.qa.dreidel.rabbi.visitors.PostgresVisitorImpl;
 import com.jive.qa.dreidel.rabbi.visitors.RoutingVisitor;
+import com.jive.qa.restinator.Endpoint;
+import com.jive.qa.restinator.codecs.ByteArrayEndpointCodec;
 
 public class WebsocketServiceModule extends AbstractModule
 {
@@ -92,4 +97,27 @@ public class WebsocketServiceModule extends AbstractModule
   {
     return new JettyWebsocketHighLevelTransportFactory(correlationStrategy);
   }
+
+  @Provides
+  @Named("creationEndpoint")
+  public Endpoint<IdResponse, Void> getCreationEndpoint(
+      @Named("creationCodec") ByteArrayEndpointCodec<IdResponse, Void> codec)
+  {
+    return new Endpoint<IdResponse, Void>(codec);
+  }
+
+  @Provides
+  @Named("creationCodec")
+  ByteArrayEndpointCodec<IdResponse, Void> getCreationCodec(ObjectMapper json)
+  {
+    return new GoyimCreationCodec(json);
+  }
+
+  @Provides
+  JinstVisitorImpl getJistVisitorImpl(
+      @Named("creationEndpoint") Endpoint<IdResponse, Void> instanceCreator)
+  {
+    return new JinstVisitorImpl(instanceCreator);
+  }
+
 }

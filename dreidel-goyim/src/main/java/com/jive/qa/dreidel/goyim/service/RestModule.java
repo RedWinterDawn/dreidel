@@ -61,19 +61,19 @@ public class RestModule extends AbstractModule
   @Named("networksMap")
   public Map<String, String> getNetworkMap(@Named("bm.networks") String networks, ObjectMapper json)
       throws JsonParseException, JsonMappingException, IOException
-  {
+      {
     return json.readValue(networks, new TypeReference<HashMap<String, String>>()
-    {
-    });
-  }
+        {
+        });
+      }
 
   @Provides
   @Named("jimEndpoint")
   @Singleton
-  public Endpoint<JimMessage, JimMessage> getEndpoint(JimCodec codec)
+  public Endpoint<JimMessage, JimMessage> getEndpoint(JimCodec codec, @Named("jim.key") String key)
   {
     Map<String, String> headers = Maps.newHashMap();
-    headers.put("Authorization", "Token  token=27ad89ff37787846892251008b700fdb");
+    headers.put("Authorization", "Token  token=" + key);
     Endpoint<JimMessage, JimMessage> rtn =
         new Endpoint<JimMessage, JimMessage>(codec, headers);
     return rtn;

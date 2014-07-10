@@ -4,13 +4,15 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @AllArgsConstructor
 @Getter
+@Setter
 public class Service
 {
-  private final String name;
-  private final int memory;
-  private final int cpus;
+  private String name;
+  private int memory;
+  private int cpus;
   private final List<String> classes;
 }

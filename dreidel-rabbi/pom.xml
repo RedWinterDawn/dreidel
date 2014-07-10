@@ -1,102 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.jive.qa.dreidel</groupId>
-		<artifactId>dreidel-root</artifactId>
-		<version>0.1.1-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>com.jive.qa.dreidel</groupId>
+    <artifactId>dreidel-root</artifactId>
+    <version>0.1.1-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>dreidel-rabbi</artifactId>
+  <artifactId>dreidel-rabbi</artifactId>
 
-	<name>Dreidel :: Rabbi</name>
+  <name>Dreidel :: Rabbi</name>
 
-	<dependencies>
-	
-		<dependency>
-			<groupId>com.google.inject</groupId>
-			<artifactId>guice</artifactId>
-		</dependency>
+  <dependencies>
 
-		<dependency>
-			<groupId>joda-time</groupId>
-			<artifactId>joda-time</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>c3p0</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.0.4</version>
-		</dependency>
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.9.0.4</version>
+    </dependency>
 
-		<dependency>
-			<groupId>com.jive.myco.commons</groupId>
-			<artifactId>myco-commons-io</artifactId>
-		</dependency>
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>com.jive.qa.dreidel</groupId>
-			<artifactId>dreidel-api</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+    <dependency>
+      <groupId>com.jive.myco.commons</groupId>
+      <artifactId>myco-commons-io</artifactId>
+    </dependency>
 
-		<dependency>
-			<groupId>com.jive.myco.jazz</groupId>
-			<artifactId>jazz-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+    <dependency>
+      <groupId>com.jive.qa.dreidel</groupId>
+      <artifactId>dreidel-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
+    <dependency>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-test</artifactId>
+      <scope>test</scope>
+    </dependency>
 
-	</dependencies>
+    <dependency>
+      <groupId>com.jive.qa.dreidel</groupId>
+      <artifactId>restinator</artifactId>
+      <version>${project.version}</version>
+    </dependency>
 
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.jive.myco.jin</groupId>
-				<artifactId>jin</artifactId>
-				<version>0.1.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
+  </dependencies>
 
 
-	<build>
-		<plugins>
-			<!-- Creates and deploys a Debian package for the service. -->
-			<plugin>
-				<groupId>com.jive.myco.tools</groupId>
-				<artifactId>jazz-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>default-package</id>
-						<!-- Override the configuration to add a service. -->
-						<configuration>
-							<jazzServices>
-								<jazzService>
-									<serviceName>dreidel-rabbi</serviceName>
-									<modules>
-										<module>com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule</module>
-										<module>com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule</module>
-									</modules>
-								</jazzService>
-							</jazzServices>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.jive.myco.jin</groupId>
+        <artifactId>jin</artifactId>
+        <version>0.1.2</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+
+  <build>
+    <plugins>
+      <!-- Creates and deploys a Debian package for the service. -->
+      <plugin>
+        <groupId>com.jive.myco.tools</groupId>
+        <artifactId>jazz-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-package</id>
+            <!-- Override the configuration to add a service. -->
+            <configuration>
+              <jazzServices>
+                <jazzService>
+                  <serviceName>dreidel-rabbi</serviceName>
+                  <modules>
+                    <module>com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule</module>
+                    <module>com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule</module>
+                  </modules>
+                </jazzService>
+              </jazzServices>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

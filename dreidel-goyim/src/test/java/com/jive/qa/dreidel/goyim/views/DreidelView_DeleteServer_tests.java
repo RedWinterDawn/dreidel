@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
+import com.jive.qa.dreidel.goyim.jim.JimService;
 import com.jive.qa.dreidel.goyim.mocks.MockSettings;
 import com.jive.qa.dreidel.goyim.restinator.DreidelObjectMapper;
 
@@ -25,14 +26,15 @@ public class DreidelView_DeleteServer_tests
   public void successfulDeletion_UsesCorrectInstanceAndIp() throws IOException
   {
     JimController jimController = mock(JimController.class);
+    JimService jimService = mock(JimService.class);
 
-    when(jimController.serviceExists("bogus")).thenReturn(true);
+    when(jimService.serviceExists("bogus")).thenReturn(true);
 
-    when(jimController.instanceExists("bogus", 0, "ops-1a")).thenReturn(true);
+    when(jimService.instanceExists("bogus", 0, "ops-1a")).thenReturn(true);
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -45,12 +47,13 @@ public class DreidelView_DeleteServer_tests
   public void unknownInstance_Returns404() throws JsonProcessingException
   {
     JimController jimController = mock(JimController.class);
+    JimService jimService = mock(JimService.class);
 
-    when(jimController.serviceExists("bogus")).thenReturn(true);
+    when(jimService.serviceExists("bogus")).thenReturn(true);
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -62,10 +65,11 @@ public class DreidelView_DeleteServer_tests
   public void unknownService_Returns404() throws JsonProcessingException
   {
     JimController jimController = mock(JimController.class);
+    JimService jimService = mock(JimService.class);
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -78,17 +82,18 @@ public class DreidelView_DeleteServer_tests
       JimDestructionException
   {
     JimController jimController = mock(JimController.class);
+    JimService jimService = mock(JimService.class);
 
-    when(jimController.serviceExists("bogus")).thenReturn(true);
+    when(jimService.serviceExists("bogus")).thenReturn(true);
 
-    when(jimController.instanceExists("bogus", 0, "ops-1a")).thenReturn(true);
+    when(jimService.instanceExists("bogus", 0, "ops-1a")).thenReturn(true);
 
     doThrow(new JimDestructionException("message")).when(jimController).deleteInstance(
-        any(String.class), any(int.class), any(String.class));
+        any(String.class), any(int.class));
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);

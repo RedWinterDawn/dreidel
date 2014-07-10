@@ -19,7 +19,7 @@ public class DreidelView_FullIntegration_Int extends StartServer
   {
     Endpoint<String, String> ep =
         new Endpoint<String, String>(new ByteArrayEndpointCodec<String, String>()
-        {
+            {
 
           @Override
           public byte[] encode(String object)
@@ -32,7 +32,7 @@ public class DreidelView_FullIntegration_Int extends StartServer
           {
             return new String(bytes);
           }
-        });
+            });
 
     URL base = new URL("http://localhost:8019/");
 

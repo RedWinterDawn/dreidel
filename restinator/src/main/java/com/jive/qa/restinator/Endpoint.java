@@ -56,12 +56,18 @@ public class Endpoint<I, O>
     private final URL url;
     private final ByteArrayEndpointCodec<I, O> codec;
     private final Map<String, String> defaultHeaders;
+    private Class<? extends I> expectedType = null;
 
     public EP(ByteArrayEndpointCodec<I, O> codec, URL url, Map<String, String> defaultHeaders)
     {
       this.url = url;
       this.codec = codec;
       this.defaultHeaders = defaultHeaders;
+    }
+
+    public void expect(Class<? extends I> type)
+    {
+      expectedType = type;
     }
 
     public I get() throws IOException
@@ -92,6 +98,11 @@ public class Endpoint<I, O>
       return post(null, headers);
     }
 
+    public I post(O object) throws IOException
+    {
+      return post(object, null);
+    }
+
     public I post() throws IOException
     {
       return post(null, null);
@@ -108,6 +119,21 @@ public class Endpoint<I, O>
     }
 
     public I delete() throws IOException
+    {
+      return delete(null, null);
+    }
+
+    public I put(O object, Map<String, String> headers) throws IOException
+    {
+      return connectWithContent(object, headers, "PUT");
+    }
+
+    public I put(Map<String, String> headers) throws IOException
+    {
+      return delete(null, headers);
+    }
+
+    public I put() throws IOException
     {
       return delete(null, null);
     }
@@ -167,7 +193,15 @@ public class Endpoint<I, O>
         stream = con.getErrorStream();
       }
 
-      return this.codec.decode(getStringFromInputStream(stream).getBytes(), response);
+      I result = this.codec.decode(getStringFromInputStream(stream).getBytes(), response);
+
+      if (expectedType != null && !expectedType.equals(result.getClass()))
+      {
+        throw new IOException("Expected " + expectedType + " recieved "
+            + result.getClass());
+      }
+
+      return result;
     }
 
     private void addHeadersToConnection(HttpURLConnection con, Map<String, String> headers)
@@ -220,6 +254,7 @@ public class Endpoint<I, O>
       return sb.toString();
 
     }
+
   }
 
 }

@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.goyim.messages;
+package com.jive.qa.dreidel.api.messages.goyim;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

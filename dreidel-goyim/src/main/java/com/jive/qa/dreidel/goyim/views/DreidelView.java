@@ -10,14 +10,15 @@ import javax.ws.rs.core.Response.Status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
+import com.jive.qa.dreidel.goyim.exceptions.ServiceNotFoundException;
+import com.jive.qa.dreidel.goyim.jim.JimService;
 import com.jive.qa.dreidel.goyim.messages.ErrorMessage;
-import com.jive.qa.dreidel.goyim.messages.IdResponse;
 import com.jive.qa.dreidel.goyim.models.Instance;
-import com.jive.qa.dreidel.goyim.models.Network;
 import com.jive.qa.dreidel.goyim.service.BmSettings;
 
 @Path("/")
@@ -28,22 +29,25 @@ public class DreidelView
   private final ObjectMapper json;
   private final InstanceManager instanceManager;
   private final JimController jimController;
+  private final JimService jimService;
 
   @Inject
   public DreidelView(ObjectMapper json, InstanceManager instanceManager, BmSettings settings,
-      JimController jimController)
+      JimController jimController, JimService jimService)
   {
     this.json = json;
     this.instanceManager = instanceManager;
     this.settings = settings;
     this.jimController = jimController;
+    this.jimService = jimService;
   }
 
   @POST
   @Path("/{service}")
-  public Response createServer(@PathParam("service") String service) throws JsonProcessingException
+  public Response createServer(@PathParam("service") String service)
+      throws JsonProcessingException, ServiceNotFoundException
   {
-    if (!jimController.serviceExists(service))
+    if (!jimService.serviceExists(service))
     {
       return Response.status(Status.NOT_FOUND).entity(
           json.writeValueAsString(new ErrorMessage("NonExistantService", "The service "
@@ -56,11 +60,11 @@ public class DreidelView
     {
       jimController.createInstance(service, instance);
 
-      String address =
-          ((Network) instance.getNetworks().stream()
-              .filter(x -> x.getName().equals(settings.getPreferred()))
-              .toArray()[0]).getAddress();
+      // grab the network that dev can reach
+      String address = instance.getNetworks().stream()
+          .filter(x -> x.getName().equals(settings.getPreferred())).findFirst().get().getAddress();
 
+      // send them the information they need to connect to the server
       return Response
           .status(Status.OK)
           .entity(
@@ -98,13 +102,13 @@ public class DreidelView
   public Response deleteServer(@PathParam("service") String service,
       @PathParam("id") int id) throws JsonProcessingException
   {
-    if (!jimController.serviceExists(service))
+    if (!jimService.serviceExists(service))
     {
       return Response.status(Status.NOT_FOUND).entity(
           json.writeValueAsString(new ErrorMessage("NonExistantService", "The service "
               + service + " does not exist."))).build();
     }
-    if (!jimController.instanceExists(service, id, settings.getSite()))
+    if (!jimService.instanceExists(service, id, settings.getSite()))
     {
       return Response.status(Status.NOT_FOUND).entity(
           json.writeValueAsString(new ErrorMessage("NonExistantInstance", "The Instance "
@@ -113,7 +117,7 @@ public class DreidelView
     try
     {
       // first remove it from jim
-      jimController.deleteInstance(service, id, settings.getSite());
+      jimController.deleteInstance(service, id);
       // if there wasn't an exception remove it from the instance manager.
       instanceManager.removeInstance(id);
       return Response.status(Status.OK).build();

@@ -42,10 +42,11 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
     }
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public JimMessage decode(byte[] bytes, int responseCode)
   {
-    JimMessage rtn = null;
+    JimMessage rtn = new JimResponseCodeOnly(responseCode);
     try
     {
       if (bytes.length <= 1)
@@ -61,8 +62,8 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
         {
 
           List<Service> services = this.json.readValue(bytes, new TypeReference<List<Service>>()
-          {
-          });
+              {
+              });
           rtn = new ServiceListMessage(services);
         }
         else if (tree.getNodeType() == JsonNodeType.OBJECT && tree.has("classes"))
@@ -76,6 +77,7 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
           rtn = this.json.readValue(bytes, InstanceMessage.class);
 
         }
+
       }
       else
       {
@@ -83,6 +85,11 @@ public class JimCodec implements ByteArrayEndpointCodec<JimMessage, JimMessage>
         if (tree.getNodeType() == JsonNodeType.ARRAY && tree.get(0).toString().contains("already"))
         {
           rtn = new JimInstanceAlreadyExistsMessage();
+        }
+        else if (tree.getNodeType() == JsonNodeType.ARRAY
+            && tree.get(0).getNodeType() == JsonNodeType.STRING)
+        {
+          rtn = new JimErrorList(json.readValue(bytes, List.class));
         }
       }
     }
