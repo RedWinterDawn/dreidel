@@ -4,6 +4,7 @@ import java.beans.ConstructorProperties;
 
 import lombok.NonNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitable;
@@ -28,6 +29,7 @@ public abstract class PostgresRequestMessage extends RequestMessage implements
   }
 
   @Override
+  @JsonIgnore
   public PnkyPromise<Reply> accept(
       final MessageCategoryVisitor<Reply, VisitorContext> visitor,
       final VisitorContext context)

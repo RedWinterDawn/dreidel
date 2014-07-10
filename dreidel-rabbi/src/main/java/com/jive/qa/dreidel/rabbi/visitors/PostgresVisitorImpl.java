@@ -35,7 +35,7 @@ import com.jive.qa.dreidel.rabbi.service.PostgresConfiguration;
 
 /**
  * visitor to handle postgres messages
- * 
+ *
  * @author jdavidson
  *
  */
@@ -126,7 +126,6 @@ public class PostgresVisitorImpl implements
       File fileToRestore =
           new File(message.getDatabaseId() + RandomStringUtils.randomAlphabetic(10).toLowerCase()
               + ".sql");
-
       try
       {
         if (!fileToRestore.exists())
@@ -160,7 +159,7 @@ public class PostgresVisitorImpl implements
   }
 
   /**
-   * 
+   *
    * @param resourceId
    *          the id of the resource that should be returned
    * @param resources
