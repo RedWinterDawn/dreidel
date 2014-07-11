@@ -15,7 +15,8 @@ public class BmSettings
   public BmSettings(@Named("bm.cpu.start") int cpuStart,
       @Named("bm.cpu.stop") int cpuStop, @Named("bm.cpu.physical.last") int lastCpu,
       @Named("networksMap") Map<String, String> networksMap, @Named("bm.site") String site,
-      @Named("bm.blade") int blade, @Named("bm.networks.preferred") String preferred)
+      @Named("bm.blade") int blade, @Named("bm.networks.preferred") String preferred,
+      @Named("bm.iprange.start") int ipRangeStart, @Named("bm.iprange.stop") int ipRangeStop)
   {
     this.cpuStart = cpuStart;
     this.cpuStop = cpuStop;
@@ -24,6 +25,8 @@ public class BmSettings
     this.site = site;
     this.blade = blade;
     this.preferred = preferred;
+    this.ipRangeStart = ipRangeStart;
+    this.ipRangeStop = ipRangeStop;
   }
 
   private final int blade;
@@ -33,5 +36,7 @@ public class BmSettings
   private final int cpuStart;
   private final int cpuStop;
   private final String preferred;
+  private final int ipRangeStart;
+  private final int ipRangeStop;
 
 }

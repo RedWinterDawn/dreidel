@@ -50,7 +50,7 @@ public class JimController
     jimService.createInstance(serviceDetails.getName(), instance);
 
     // boot the instance
-    jimService.bootInstance(service, instance.getInstance(), bmSettings.getSite());
+    jimService.bootInstance(serviceDetails.getName(), instance.getInstance(), bmSettings.getSite());
 
   }
 

@@ -44,7 +44,7 @@ public class JimService
   }
 
   public void createInstance(String service, Instance instance) throws JimCreationException,
-  JimDestructionException
+      JimDestructionException
   {
     JimMessage response;
     for (int i = 0; i < 2; i++)
@@ -70,6 +70,7 @@ public class JimService
       else if (response instanceof JimInstanceAlreadyExistsMessage)
       {
         deleteInstance(service, instance.getInstance(), instance.getSite());
+        continue;
       }
       else if (response instanceof JimResponseCodeOnly
           && ((JimResponseCodeOnly) response).getResponseCode() != 200)
@@ -77,44 +78,42 @@ public class JimService
         throw new JimCreationException("Something went wrong and we don't know what");
       }
       // otherwise it worked.
+      return;
     }
+    throw new JimCreationException(
+        "Instance already exists.  Unable to delete it. Notify someone because this is a bug.");
   }
 
   public void bootInstance(String service, int instance, String site) throws JimCreationException,
       JimDestructionException
   {
     JimMessage response;
-    for (int i = 0; i < 2; i++)
+    try
     {
-      try
-      {
-        response = endpoint.url(url, "/api/services/" + service + "/instances").put(
-            new ServiceDetailMessage(null),
-            headers);
-      }
-      catch (IOException e)
-      {
-        throw new JimCreationException("There was a problem creating a jimstance", e);
-      }
-      if (response == null)
-      {
-        throw new JimCreationException("unknown message recieved from jim");
-      }
-      else if (response instanceof JimErrorMessage)
-      {
-        throw new JimCreationException(((JimErrorMessage) response).getResponseMessage());
-      }
-      else if (response instanceof JimInstanceAlreadyExistsMessage)
-      {
-        deleteInstance(service, instance, site);
-      }
-      else if (response instanceof JimResponseCodeOnly
-          && ((JimResponseCodeOnly) response).getResponseCode() != 200)
-      {
-        throw new JimCreationException("Something went wrong and we don't know what");
-      }
-      // otherwise it worked.
+      response =
+          endpoint.url(url,
+              "/api/services/" + service + "/instances/" + instance + "/?site=" + site).put(
+              new ServiceDetailMessage(null),
+              headers);
     }
+    catch (IOException e)
+    {
+      throw new JimCreationException("There was a problem creating a jimstance", e);
+    }
+    if (response == null)
+    {
+      throw new JimCreationException("unknown message recieved from jim");
+    }
+    else if (response instanceof JimErrorMessage)
+    {
+      throw new JimCreationException(((JimErrorMessage) response).getResponseMessage());
+    }
+    else if (response instanceof JimResponseCodeOnly
+        && ((JimResponseCodeOnly) response).getResponseCode() != 200)
+    {
+      throw new JimCreationException("Something went wrong and we don't know what");
+    }
+    // otherwise it worked.
   }
 
   public void deleteInstance(String service, int instanceId, String site)
@@ -244,9 +243,23 @@ public class JimService
     // everything is osm! (we created the service)
   }
 
-  public void deleteService(String string)
+  public void deleteService(String service) throws JimDestructionException
   {
-    // TODO Auto-generated method stub
-
+    JimMessage message;
+    try
+    {
+      message = endpoint.url(url, "api/services/" + service).delete();
+    }
+    catch (Exception e)
+    {
+      throw new JimDestructionException("problem deleting the service" + service, e);
+    }
+    if (message instanceof JimResponseCodeOnly
+        && ((JimResponseCodeOnly) message).getResponseCode() != 200)
+    {
+      throw new JimDestructionException("problem deleting the service" + service
+          + " error code recieved from jim " + ((JimResponseCodeOnly) message).getResponseCode());
+    }
+    // otherwise everything worked
   }
 }
