@@ -14,11 +14,11 @@ import com.jive.qa.dreidel.api.messages.Message;
 
 /**
  * DreidelTransportCodec
- * 
+ *
  * This class takes a Json, in the form of a byte[], and generates the appropriate Dreidel Message
  * or it takes a Message, converts it to Json and then into a Byte[]. Exceptions are thrown as the
  * RuntimeExceptions to disconnect the connection when an invalid message is sent
- * 
+ *
  */
 @AllArgsConstructor(onConstructor = @__(@Inject))
 @Slf4j
@@ -83,6 +83,10 @@ public class DreidelTransportCodec implements
     if (message.get("type").textValue().contains("Postgres"))
     {
       return DEFAULT_PACKAGE_NAME + ".postgres." + type;
+    }
+    else if (message.get("type").textValue().contains("Jinst"))
+    {
+      return DEFAULT_PACKAGE_NAME + ".jinst." + type;
     }
     else
     {

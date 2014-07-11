@@ -1,5 +1,7 @@
 package com.jive.qa.dreidel.api.messages.jinst;
 
+import java.beans.ConstructorProperties;
+
 import lombok.Getter;
 
 import com.jive.myco.commons.concurrent.PnkyPromise;
@@ -13,6 +15,7 @@ public class JinstCreateMessage extends JinstRequestMessage
 
   private final String jClass;
 
+  @ConstructorProperties({ "referenceId", "jClass" })
   public JinstCreateMessage(String referenceId, String jClass)
   {
     super(referenceId);

@@ -1,11 +1,7 @@
 package com.jive.qa.dreidel.rabbi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +26,7 @@ import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
 import com.jive.qa.dreidel.api.replies.ConnectionInformationReply;
 import com.jive.qa.dreidel.api.replies.Reply;
 import com.jive.qa.dreidel.rabbi.resources.BaseResource;
+import com.jive.qa.dreidel.rabbi.resources.JinstResource;
 import com.jive.qa.dreidel.rabbi.resources.PostgresResource;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.service.PostgresConfiguration;
@@ -56,6 +53,13 @@ public class PostgresVisitorImpl_Test
       return resource;
     }
 
+    @Override
+    public JinstResource getJinstResource(String jClass)
+    {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
   };
   private final String TEST_ID = "SDFSD";
 
@@ -76,7 +80,8 @@ public class PostgresVisitorImpl_Test
 
     when(resource.getId()).thenReturn(ResourceId.valueOf("asdfas234234d"));
     // make sure init was called
-    doAnswer((invocation) -> {
+    doAnswer((invocation) ->
+    {
       goodThings.incrementAndGet();
       return invocation;
 
@@ -85,7 +90,8 @@ public class PostgresVisitorImpl_Test
     try
     {
       visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID))
-          .thenCompose((result) -> {
+          .thenCompose((result) ->
+          {
             if (result instanceof ConnectionInformationReply)
             {
               goodThings.incrementAndGet();
@@ -115,7 +121,8 @@ public class PostgresVisitorImpl_Test
     try
     {
       visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext("asdfasdf"))
-          .thenCompose((result) -> {
+          .thenCompose((result) ->
+          {
             badThings.incrementAndGet();
             return Pnky.immediatelyComplete(null);
           }).get();
@@ -139,7 +146,8 @@ public class PostgresVisitorImpl_Test
     try
     {
       visitor.visit(new PostgresCreateMessage("asdfasdf"), new VisitorContext(TEST_ID))
-          .thenCompose((result) -> {
+          .thenCompose((result) ->
+          {
             badThings.incrementAndGet();
             return Pnky.immediatelyComplete(null);
           }).get();
@@ -162,7 +170,8 @@ public class PostgresVisitorImpl_Test
       visitor
           .visit(
               new PostgresExecSqlMessage("asdf", ResourceId.valueOf("asdfa"), "create table foo()"),
-              new VisitorContext(TEST_ID)).thenCompose((result) -> {
+              new VisitorContext(TEST_ID)).thenCompose((result) ->
+          {
             badThings.incrementAndGet();
             return Pnky.immediatelyComplete(null);
           }).get();
@@ -190,7 +199,8 @@ public class PostgresVisitorImpl_Test
       visitor.visit(
           new PostgresExecSqlMessage("asdf", reply.getConnections().get(0)
               .getId(), "create table foo()"),
-          new VisitorContext(TEST_ID)).thenCompose((result) -> {
+          new VisitorContext(TEST_ID)).thenCompose((result) ->
+      {
         goodThings.incrementAndGet();
         return Pnky.immediatelyComplete(null);
       }).get();

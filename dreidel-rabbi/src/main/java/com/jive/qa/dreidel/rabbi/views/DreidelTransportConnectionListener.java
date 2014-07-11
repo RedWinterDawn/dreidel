@@ -20,7 +20,7 @@ import com.jive.qa.dreidel.api.replies.Reply;
 
 /**
  * The connection listener that routes messages to the appropriate visitors
- * 
+ *
  * @author jdavidson
  *
  */
@@ -46,7 +46,8 @@ public final class DreidelTransportConnectionListener implements
 
     message
         .accept(routingVisitor, vContext)
-        .thenCompose((result) -> {
+        .thenCompose((result) ->
+        {
           // TODO change to use the visitor pattern to use a message writing visitor.
             final Pnky<Void> future = Pnky.create();
 
@@ -65,8 +66,9 @@ public final class DreidelTransportConnectionListener implements
             future.resolve(null);
             return future;
 
-          }).onFailure((cause) -> {
-
+          }).onFailure((cause) ->
+        {
+          log.error("something went wrong", cause);
           context.writeReply(
               new ExceptionMessage(cause, message.getReferenceId()),
               new LoggingReplyCallback(message.getReferenceId()));
@@ -81,7 +83,7 @@ public final class DreidelTransportConnectionListener implements
 
   /**
    * Callback that does nothing on success and logs the error on failure.
-   * 
+   *
    * @author jdavidson
    *
    */
