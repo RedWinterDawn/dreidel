@@ -46,9 +46,15 @@ public class InstanceManager
     List<Network> networks = Lists.newArrayList();
     for (Entry<String, String> entry : bmSettings.getNetworksMap().entrySet())
     {
+      // TODO throw an exception if the ip is over the rage stop point
+      // if(bmSettings.getIpRangeStart() + i > bmSettings.getIpRangeStop()) {
+      // throw Exception();
+      // }
+
       // Add 2 to prevent ip address ending in 0 or 1
       // TODO change this to use the ip upper and lower bounds
-      networks.add(new Network(entry.getKey(), entry.getValue() + (i + 2)));
+      networks.add(new Network(entry.getKey(), entry.getValue()
+          + (i + bmSettings.getIpRangeStart())));
     }
 
     Instance rtn =
@@ -68,7 +74,7 @@ public class InstanceManager
   private int getCpuFromInstanceId(int id)
   {
     // get range of cpus
-    int range = (bmSettings.getCpuStop() - bmSettings.getCpuStart()) + 1;
+    int range = bmSettings.getCpuStop() - bmSettings.getCpuStart() + 1;
     // get a number between 0 and the max number of cpus * 2
     int cpuNumber =
         id % (range * DOUBLE_TO_ALLOW_HYPERTHREADING);
@@ -86,7 +92,7 @@ public class InstanceManager
       // subtract the range so it is inside the range of cpus.
       // add the cpu start so it is no longer 0 based but start based.
       // add the last cpu so it is a hyper threaded cpu
-      rtn = (cpuNumber - range) + bmSettings.getCpuStart() + bmSettings.getLastCpu();
+      rtn = cpuNumber - range + bmSettings.getCpuStart() + bmSettings.getLastCpu();
     }
     return rtn;
   }

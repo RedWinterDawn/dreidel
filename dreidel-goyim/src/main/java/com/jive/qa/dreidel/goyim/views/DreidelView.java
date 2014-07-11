@@ -102,13 +102,13 @@ public class DreidelView
   public Response deleteServer(@PathParam("service") String service,
       @PathParam("id") int id) throws JsonProcessingException
   {
-    if (!jimService.serviceExists(service))
+    if (!jimService.serviceExists(service + "-dreidel-" + id))
     {
       return Response.status(Status.NOT_FOUND).entity(
           json.writeValueAsString(new ErrorMessage("NonExistantService", "The service "
               + service + " does not exist."))).build();
     }
-    if (!jimService.instanceExists(service, id, settings.getSite()))
+    if (!jimService.instanceExists(service + "-dreidel-" + id, id, settings.getSite()))
     {
       return Response.status(Status.NOT_FOUND).entity(
           json.writeValueAsString(new ErrorMessage("NonExistantInstance", "The Instance "

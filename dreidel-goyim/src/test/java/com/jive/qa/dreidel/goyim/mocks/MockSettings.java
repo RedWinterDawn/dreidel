@@ -15,7 +15,7 @@ public class MockSettings
     networks.put("dev", "10.20.26.");
     networks.put("vmcontrolorm", "10.31.29.");
 
-    return new BmSettings(4, 8, 19, networks, "ops-1a", 14, "dev");
+    return new BmSettings(4, 8, 19, networks, "ops-1a", 14, "dev", 200, 220);
   }
 
   public static JimSettings getJim()
