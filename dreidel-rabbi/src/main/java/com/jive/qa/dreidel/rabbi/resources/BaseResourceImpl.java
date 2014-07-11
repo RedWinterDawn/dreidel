@@ -18,7 +18,7 @@ public abstract class BaseResourceImpl implements BaseResource
 {
   private final ResourceId id;
   private final int idLength = 20;
-  private final HostAndPort hap;
+  protected HostAndPort hap;
 
   /**
    * 
@@ -26,9 +26,14 @@ public abstract class BaseResourceImpl implements BaseResource
    * 
    * @param port2 the port of the resource
    */
-  BaseResourceImpl(final @NonNull HostAndPort hap)
+  public BaseResourceImpl(final @NonNull HostAndPort hap)
   {
     id = ResourceId.valueOf(RandomStringUtils.randomAlphabetic(idLength).toLowerCase());
     this.hap = hap;
   }
+  
+  public BaseResourceImpl() {
+    id = ResourceId.valueOf(RandomStringUtils.randomAlphabetic(idLength).toLowerCase());
+  }
+  
 }

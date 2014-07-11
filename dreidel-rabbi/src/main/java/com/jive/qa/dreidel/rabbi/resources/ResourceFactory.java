@@ -4,14 +4,14 @@ import com.google.common.net.HostAndPort;
 
 /**
  * the factory that produces the individual resource types.
- * 
+ *
  * @author jdavidson
  *
  */
 public interface ResourceFactory
 {
   /**
-   * 
+   *
    * @param hap
    *          the host and port to connect to the postgres server
    * @param username
@@ -22,5 +22,7 @@ public interface ResourceFactory
    */
   PostgresResource getPostgresResource(final HostAndPort hap, final String username,
       final String password);
+
+  JinstResource getJinstResource(String jClass);
 
 }

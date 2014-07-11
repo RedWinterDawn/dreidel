@@ -1,7 +1,10 @@
 package com.jive.qa.dreidel.rabbi.service;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
@@ -17,16 +20,19 @@ import com.jive.myco.jivewire.api.highlevel.HighLevelTransportCorrelationStrateg
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportFactory;
 import com.jive.myco.jivewire.api.highlevel.HighLevelTransportListener;
 import com.jive.myco.jivewire.transport.jetty.ws.JettyWebsocketHighLevelTransportFactory;
+import com.jive.qa.dreidel.api.interfaces.JinstVisitor;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
+import com.jive.qa.dreidel.api.messages.goyim.ResponseCodeOnly;
 import com.jive.qa.dreidel.api.replies.Reply;
 import com.jive.qa.dreidel.api.transport.DreidelObjectMapper;
 import com.jive.qa.dreidel.api.transport.DreidelTransportCodec;
 import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
 import com.jive.qa.dreidel.goyim.GoyimCreationCodec;
+import com.jive.qa.dreidel.goyim.GoyimDeletionCodec;
 import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactoryImpl;
@@ -107,6 +113,14 @@ public class WebsocketServiceModule extends AbstractModule
   }
 
   @Provides
+  @Named("deletionEndpoint")
+  public Endpoint<ResponseCodeOnly, Void> getDestructionEndpoint(
+      @Named("deletionCodec") ByteArrayEndpointCodec<ResponseCodeOnly, Void> codec)
+  {
+    return new Endpoint<ResponseCodeOnly, Void>(codec);
+  }
+
+  @Provides
   @Named("creationCodec")
   ByteArrayEndpointCodec<IdResponse, Void> getCreationCodec(ObjectMapper json)
   {
@@ -114,10 +128,24 @@ public class WebsocketServiceModule extends AbstractModule
   }
 
   @Provides
-  JinstVisitorImpl getJistVisitorImpl(
-      @Named("creationEndpoint") Endpoint<IdResponse, Void> instanceCreator)
+  @Named("deletionCodec")
+  ByteArrayEndpointCodec<ResponseCodeOnly, Void> getDeletionCodec()
   {
-    return new JinstVisitorImpl(instanceCreator);
+    return new GoyimDeletionCodec();
   }
 
+  @Provides
+  @Named("creationUrl")
+  URL getCreationUrl(@Named("goyimIp") String ip, @Named("goyimPort") int port)
+      throws MalformedURLException
+  {
+    return new URL("http://" + ip + ":" + port);
+  }
+
+  @Provides
+  JinstVisitor<Reply, VisitorContext> getJistVisitorImpl(
+      Map<String, List<BaseResource>> resourceCorrelationMap, ResourceFactory factory)
+  {
+    return new JinstVisitorImpl(Executors.newFixedThreadPool(10), resourceCorrelationMap, factory);
+  }
 }
