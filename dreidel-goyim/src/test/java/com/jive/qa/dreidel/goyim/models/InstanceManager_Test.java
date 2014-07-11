@@ -1,6 +1,6 @@
 package com.jive.qa.dreidel.goyim.models;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.util.List;
 
@@ -107,11 +107,11 @@ public class InstanceManager_Test
       {
         if (instances.get(i).getNetworks().get(j).getName().equals("dev"))
         {
-          assertEquals("10.20.26." + (i + 2), instances.get(i).getNetworks().get(j).getAddress());
+          assertEquals("10.20.26." + (i + 200), instances.get(i).getNetworks().get(j).getAddress());
         }
         else
         {
-          assertEquals("10.31.29." + (i + 2), instances.get(i).getNetworks().get(j).getAddress());
+          assertEquals("10.31.29." + (i + 200), instances.get(i).getNetworks().get(j).getAddress());
         }
       }
     }
