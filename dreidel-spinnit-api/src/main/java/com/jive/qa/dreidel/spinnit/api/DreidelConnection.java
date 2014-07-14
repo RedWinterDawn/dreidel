@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.spinnit.postgres;
+package com.jive.qa.dreidel.spinnit.api;
 
 import java.util.concurrent.TimeUnit;
 

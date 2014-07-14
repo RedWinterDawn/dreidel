@@ -25,6 +25,8 @@
 		<module>dreidel-api</module>
 		<module>dreidel-goyim</module>
 		<module>restinator</module>
+		<module>dreidel-spinnit-jinst</module>
+		<module>dreidel-spinnit-api</module>
 	</modules>
 
 	<dependencies>

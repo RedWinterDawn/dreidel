@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import com.jive.qa.dreidel.api.messages.ExceptionMessage;
 import com.jive.qa.dreidel.api.messages.ReplyMessage;
 import com.jive.qa.dreidel.api.messages.RequestMessage;
-import com.jive.qa.dreidel.spinnit.postgres.DreidelConnection;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
 
 public class MockedDreidelConnection implements DreidelConnection
 {

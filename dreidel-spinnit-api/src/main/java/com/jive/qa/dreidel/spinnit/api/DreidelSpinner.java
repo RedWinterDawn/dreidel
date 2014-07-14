@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.spinnit.postgres;
+package com.jive.qa.dreidel.spinnit.api;
 
 import java.util.concurrent.TimeUnit;
 
@@ -17,12 +17,12 @@ import com.jive.qa.dreidel.api.messages.RequestMessage;
 import com.jive.qa.dreidel.api.transport.DreidelObjectMapper;
 import com.jive.qa.dreidel.api.transport.DreidelTransportCodec;
 import com.jive.qa.dreidel.api.transport.MessageCorrelationStrategy;
-import com.jive.qa.dreidel.spinnit.postgres.transport.PostgresTransportConnectionListener;
-import com.jive.qa.dreidel.spinnit.postgres.transport.PostgresTransportListener;
+import com.jive.qa.dreidel.spinnit.api.transport.PostgresTransportConnectionListener;
+import com.jive.qa.dreidel.spinnit.api.transport.PostgresTransportListener;
 
 /**
  * used to gain a connection to the dreidel service
- * 
+ *
  * @author jdavidson
  *
  */
@@ -75,7 +75,7 @@ public class DreidelSpinner
 
   /**
    * a wrapper that uses jivewires connection to send messages to dreidel
-   * 
+   *
    * @author jdavidson
    *
    */
