@@ -21,6 +21,17 @@ dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst c
   }
 ```
 
+Here's the pom you need to include
+
+```XML
+<dependency>
+  <groupId>com.jive.qa.dreidel</groupId>
+  <artifactId>dreidel-spinnit-jinst</artifactId>
+  <version>0.1.1</version>
+  <scope>test</scope>
+</dependency>
+```
+
 #NOTES
 Currently the `spin()` function returns when the server has started NOT when jinst is finished.  This feature will come later for now you must commit one of the following sins
 
