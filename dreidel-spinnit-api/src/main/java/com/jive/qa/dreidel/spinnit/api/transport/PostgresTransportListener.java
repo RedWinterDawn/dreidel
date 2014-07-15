@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.spinnit.postgres.transport;
+package com.jive.qa.dreidel.spinnit.api.transport;
 
 import lombok.extern.slf4j.Slf4j;
 

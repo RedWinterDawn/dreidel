@@ -5,7 +5,7 @@ import com.jive.jackson.ConstructorPropertiesAnnotationIntrospector;
 
 /**
  * object mapper preconfigured to meet the needs of dreidel
- * 
+ *
  * @author jdavidson
  *
  */
@@ -17,6 +17,7 @@ public class DreidelObjectMapper extends ObjectMapper
   public DreidelObjectMapper()
   {
     ConstructorPropertiesAnnotationIntrospector.install(this);
+    // setPropertyNamingStrategy(PropertyNamingStrategy.PASCAL_CASE_TO_CAMEL_CASE);
   }
 
 }

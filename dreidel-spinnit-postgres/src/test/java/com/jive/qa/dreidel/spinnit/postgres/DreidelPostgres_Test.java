@@ -11,6 +11,9 @@ import com.jive.qa.dreidel.api.messages.ConnectionInformationMessage;
 import com.jive.qa.dreidel.api.messages.ResourceId;
 import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 import com.jive.qa.dreidel.api.replies.UsernamePasswordCredential;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
+import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
 import com.jive.qa.dreidel.spinnit.postgres.mocks.MockedDreidelConnection;
 
 public class DreidelPostgres_Test

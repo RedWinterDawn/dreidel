@@ -20,9 +20,12 @@ import com.jive.qa.dreidel.api.messages.postgres.PostgresCreateMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresExecSqlMessage;
 import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 import com.jive.qa.dreidel.api.replies.UsernamePasswordCredential;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
+import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
 
 /**
- * 
+ *
  * @author jdavidson
  *
  */
@@ -108,16 +111,17 @@ public class DreidelPostgres
 
   public void executeSql(final CharSource source) throws SQLException, DreidelConnectionException
   {
-    log.debug("{} Executing sql against database {}", logprefix, this.getDatabaseName());
+    log.debug("{} Executing sql against database {}", logprefix, getDatabaseName());
 
     if (connection != null)
     {
       try
       {
-        ReplyMessage reply = connection.writeRequest(
-            new PostgresExecSqlMessage(this.id + "Exec Sql message", ResourceId.valueOf(this
-                .getDatabaseName()), source
-                .read()), 30, TimeUnit.SECONDS);
+        ReplyMessage reply =
+            connection.writeRequest(
+                new PostgresExecSqlMessage(this.id + "Exec Sql message", ResourceId
+                    .valueOf(getDatabaseName()), source
+                    .read()), 30, TimeUnit.SECONDS);
         if (reply instanceof ExceptionMessage)
         {
           throw new SQLException(((ExceptionMessage) reply).getExceptionMessage());
