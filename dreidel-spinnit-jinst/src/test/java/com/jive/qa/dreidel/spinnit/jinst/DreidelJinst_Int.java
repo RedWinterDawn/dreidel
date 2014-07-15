@@ -21,15 +21,14 @@ public class DreidelJinst_Int
       IOException
   {
     DreidelJinst jinst =
-        new DreidelJinst("testing123", HostAndPort.fromParts("10.20.26.84", 8020),
+        new DreidelJinst("testing123", HostAndPort.fromParts("10.20.27.84", 8020),
             "dreidel-test123");
 
     jinst.spin();
     log.debug("sleeping for a whole second");
-    Thread.sleep(2000);
 
     log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
-    assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(1000));
+    assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
 
   }
 }
