@@ -1,7 +1,5 @@
 package com.jive.qa.dreidel.goyim.controllers;
 
-import lombok.extern.slf4j.Slf4j;
-
 import com.google.inject.Inject;
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
@@ -11,7 +9,6 @@ import com.jive.qa.dreidel.goyim.models.Instance;
 import com.jive.qa.dreidel.goyim.models.ServiceDetail;
 import com.jive.qa.dreidel.goyim.service.BmSettings;
 
-@Slf4j
 public class JimController
 {
 

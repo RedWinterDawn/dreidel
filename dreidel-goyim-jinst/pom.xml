@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>dreidel-root</artifactId>
+    <groupId>com.jive.qa.dreidel</groupId>
+    <version>0.1.2-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>dreidel-goyim-jinst</artifactId>
+
+  <name>Dreidel :: Goyim :: Jinst</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-test</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jive.v5.commons</groupId>
+      <artifactId>rest-client</artifactId>
+      <version>0.2-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jive.qa.dreidel</groupId>
+      <artifactId>dreidel-api</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+
+
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Creates and deploys a Debian package for the service. -->
+      <plugin>
+        <groupId>com.jive.myco.tools</groupId>
+        <artifactId>jazz-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-package</id>
+            <!-- Override the configuration to add a service. -->
+            <configuration>
+              <jazzServices>
+                <jazzService>
+                  <serviceName>dreidel-goyim-jinst</serviceName>
+                  <modules>
+                    <module>com.jive.qa.dreidel.goyim.jinst.service.ExampleServiceModule</module>
+                    <module>com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule</module>
+                  </modules>
+                </jazzService>
+              </jazzServices>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

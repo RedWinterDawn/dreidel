@@ -1,133 +1,188 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.jive.qa.dreidel</groupId>
-	<artifactId>dreidel-root</artifactId>
-	<version>0.1.2-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>Dreidel</name>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.jive.qa.dreidel</groupId>
+  <artifactId>dreidel-root</artifactId>
+  <version>0.1.2-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Dreidel</name>
 
-	<scm>
-		<connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
-		<developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
-		<tag>HEAD</tag>
-	</scm>
+  <scm>
+    <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
 
-	<parent>
-		<groupId>com.jive.myco</groupId>
-		<artifactId>parent</artifactId>
-		<version>17</version>
-	</parent>
+  <parent>
+    <groupId>com.jive.myco</groupId>
+    <artifactId>parent</artifactId>
+    <version>21</version>
+  </parent>
 
-	<modules>
-		<module>dreidel-spinnit-postgres</module>
-		<module>dreidel-rabbi</module>
-		<module>dreidel-api</module>
-		<module>dreidel-goyim</module>
-		<module>restinator</module>
-		<module>dreidel-spinnit-jinst</module>
-		<module>dreidel-spinnit-api</module>
-	</modules>
+  <modules>
+    <module>dreidel-spinnit-postgres</module>
+    <module>dreidel-rabbi</module>
+    <module>dreidel-api</module>
+    <module>dreidel-goyim</module>
+    <module>restinator</module>
+    <module>dreidel-spinnit-jinst</module>
+    <module>dreidel-spinnit-api</module>
+    <module>dreidel-goyim-jinst</module>
+  </modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>com.jive.myco.jivewire</groupId>
-			<artifactId>jivewire-transport-jetty</artifactId>
-			<version>0.0.4</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jive.myco.jivewire</groupId>
-			<artifactId>jivewire-api</artifactId>
-			<version>0.0.4</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jive.jackson-extensions</groupId>
-			<artifactId>jackson-extensions</artifactId>
-			<version>1.0.2</version>
-		</dependency>
+  <properties>
+    <deps.jazz.version>0.6.1</deps.jazz.version>
+  </properties>
 
-	</dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>com.jive.myco.jivewire</groupId>
+      <artifactId>jivewire-transport-jetty</artifactId>
+      <version>0.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jive.myco.jivewire</groupId>
+      <artifactId>jivewire-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.jive.jackson-extensions</groupId>
+      <artifactId>jackson-extensions</artifactId>
+    </dependency>
 
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>commons-lang</groupId>
-				<artifactId>commons-lang</artifactId>
-				<version>2.6</version>
-			</dependency>
-			<dependency>
-				<groupId>com.jive.myco.commons</groupId>
-				<artifactId>myco-commons-callbacks</artifactId>
-				<version>0.0.5</version>
-			</dependency>
-			<dependency>
-				<groupId>com.jive.myco.commons</groupId>
-				<artifactId>myco-commons-concurrent</artifactId>
-				<version>0.0.5</version>
-			</dependency>
-			<dependency>
-				<groupId>com.jive.myco.jazz.api</groupId>
-				<artifactId>jazz-api-bom</artifactId>
-				<version>0.1.0</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>com.jive.myco.jazz</groupId>
-				<artifactId>jazz-bom</artifactId>
-				<version>0.4.1</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.postgresql</groupId>
-				<artifactId>postgresql</artifactId>
-				<version>9.2-1004-jdbc4</version>
-			</dependency>
-			
-			<!-- websocket crap -->
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>javax-websocket-server-impl</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>websocket-server</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>websocket-api</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>websocket-servlet</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty</groupId>
-				<artifactId>jetty-webapp</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>javax-websocket-client-impl</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>org.eclipse.jetty.websocket</groupId>
-				<artifactId>websocket-common</artifactId>
-				<version>9.1.5.v20140505</version>
-			</dependency>
-			<!-- end of websocket crap -->
-		</dependencies>
-	</dependencyManagement>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>2.6</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jive.myco.jazz</groupId>
+        <artifactId>jazz-bom</artifactId>
+        <version>${deps.jazz.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>9.2-1004-jdbc4</version>
+      </dependency>
+
+      <!-- jetty websocket -->
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-common</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>javax-websocket-client-impl</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-server</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-servlet</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>javax-websocket-server-impl</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-common</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-common</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-api</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.jetty.websocket</groupId>
+        <artifactId>websocket-common</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+      <!-- end of websocket crap -->
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-util</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-webapp</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-http</artifactId>
+        <version>9.2.1.v20140609</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.jersey.core</groupId>
+        <artifactId>jersey-common</artifactId>
+        <version>2.10.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>4.3.2</version>
+      </dependency>
+
+      <!-- stupid hk2 nonsense -->
+      <dependency>
+        <groupId>org.glassfish.hk2.external</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>2.3.0-b05</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.hk2</groupId>
+        <artifactId>hk2-locator</artifactId>
+        <version>2.3.0-b05</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.glassfish.hk2</groupId>
+        <artifactId>hk2-api</artifactId>
+        <version>2.3.0-b05</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpasyncclient</artifactId>
+        <version>4.0.1</version>
+        <scope>compile</scope>
+      </dependency>
+
+
+    </dependencies>
+  </dependencyManagement>
+
 </project>

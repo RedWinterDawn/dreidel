@@ -1,12 +1,11 @@
 package com.jive.qa.dreidel.goyim.views;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
 
 import javax.ws.rs.core.Response;
 
@@ -29,7 +28,7 @@ public class DreidelView_CreateServer_Tests
 
   @Test
   public void successfulCreation_UsesCorrectInstanceAndIp() throws IOException,
-      ServiceNotFoundException
+      ServiceNotFoundException, InterruptedException, ExecutionException
   {
     JimController jimController = mock(JimController.class);
     JimService jimService = mock(JimService.class);
@@ -52,7 +51,8 @@ public class DreidelView_CreateServer_Tests
   }
 
   @Test
-  public void unknownService_Returns404() throws JsonProcessingException, ServiceNotFoundException
+  public void unknownService_Returns404() throws JsonProcessingException, ServiceNotFoundException,
+      InterruptedException, ExecutionException
   {
     JimController jimController = mock(JimController.class);
 
@@ -68,7 +68,7 @@ public class DreidelView_CreateServer_Tests
 
   @Test
   public void creationException_Returns500() throws JsonProcessingException, JimCreationException,
-      JimDestructionException, ServiceNotFoundException
+      JimDestructionException, ServiceNotFoundException, InterruptedException, ExecutionException
   {
     JimController jimController = mock(JimController.class);
     JimService jimService = mock(JimService.class);
@@ -97,7 +97,7 @@ public class DreidelView_CreateServer_Tests
   @Test
   public void creationException_DoesntCreateNewInstanceInInstanceManager()
       throws JsonProcessingException, JimCreationException, JimDestructionException,
-      ServiceNotFoundException
+      ServiceNotFoundException, InterruptedException, ExecutionException
   {
     JimController jimController = mock(JimController.class);
     JimService jimService = mock(JimService.class);

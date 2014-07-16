@@ -22,6 +22,12 @@
     <dependency>
       <groupId>com.jive.myco.jazz</groupId>
       <artifactId>jazz-test</artifactId>
+      <exclusions>
+        <exclusion>
+          
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     
     <dependency>
@@ -41,6 +47,8 @@
       <artifactId>dreidel-api</artifactId>
       <version>${project.version}</version>
     </dependency>
+    
+    
 
   </dependencies>
 

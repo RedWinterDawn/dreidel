@@ -21,8 +21,8 @@ public class ServerStartup
         // Name it
         .serviceName("jazz-examples-jazz-service")
         // Add the modules you want to launch
-        .withModule(JazzServiceConfigurationModule.class)
-        .withModule(WebsocketServiceModule.class)
+        .addModule(JazzServiceConfigurationModule.class)
+        .addModule(WebsocketServiceModule.class)
         // Set some properties provided to your service via the launcher
         .build();
     // Start it up

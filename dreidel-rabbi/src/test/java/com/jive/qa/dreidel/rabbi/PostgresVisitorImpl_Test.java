@@ -8,8 +8,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import lombok.extern.slf4j.Slf4j;
-
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,7 +30,6 @@ import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
 import com.jive.qa.dreidel.rabbi.service.PostgresConfiguration;
 import com.jive.qa.dreidel.rabbi.visitors.PostgresVisitorImpl;
 
-@Slf4j
 public class PostgresVisitorImpl_Test
 {
 
