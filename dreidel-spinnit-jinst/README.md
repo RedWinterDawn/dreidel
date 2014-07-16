@@ -1,7 +1,7 @@
 #Dreidel-Spinnit-Jinst
 dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst classes (ones without any external dependencies) in the qa hardware during unit tests so you can test your stuff that depends on said service
 
-#Examples
+#Example
 
 ```JAVA
 @Before
@@ -32,6 +32,9 @@ Here's the pom you need to include
 ```
 
 #NOTES
+
+Currently the QA hardware is on a QA vlan so you will need to add this to the list of networks you check (vmcontrolorm is still valid)
+
 Currently the `spin()` function returns when the server has started NOT when jinst is finished.  This feature will come later for now you must commit one of the following sins
 
 + sleep for a lot longer than it takes for jinst to start
