@@ -13,7 +13,6 @@ dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst c
             "dreidel-test123");
 
     jinst.spin();
-    log.debug("sleeping for a whole second");
 
     log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
     assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
