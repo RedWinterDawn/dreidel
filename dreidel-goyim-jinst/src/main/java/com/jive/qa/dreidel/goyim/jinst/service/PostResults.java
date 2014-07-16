@@ -34,6 +34,7 @@ public class PostResults
       response = api.updateService().get();
       if (response.getStatus().equals("success"))
       {
+
         log.info("Successfully notified the dreidel-goyim-jim");
       }
       else

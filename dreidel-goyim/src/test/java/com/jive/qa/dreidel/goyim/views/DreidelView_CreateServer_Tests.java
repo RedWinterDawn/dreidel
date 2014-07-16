@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Maps;
 import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
@@ -37,7 +38,8 @@ public class DreidelView_CreateServer_Tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService,
+            Maps.newConcurrentMap());
 
     Response response = dreidelView.createServer("bogus");
 
@@ -58,7 +60,8 @@ public class DreidelView_CreateServer_Tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, mock(JimService.class));
+            MockSettings.getJim()), MockSettings.getBm(), jimController, mock(JimService.class),
+            Maps.newConcurrentMap());
 
     Response response = dreidelView.createServer("bogus");
 
@@ -86,7 +89,7 @@ public class DreidelView_CreateServer_Tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), instanceManager, MockSettings.getBm(),
-            jimController, jimService);
+            jimController, jimService, Maps.newConcurrentMap());
 
     Response response = dreidelView.createServer("something");
 
@@ -112,7 +115,7 @@ public class DreidelView_CreateServer_Tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), instanceManager, MockSettings.getBm(),
-            jimController, jimService);
+            jimController, jimService, Maps.newConcurrentMap());
 
     Response response = dreidelView.createServer("something");
 

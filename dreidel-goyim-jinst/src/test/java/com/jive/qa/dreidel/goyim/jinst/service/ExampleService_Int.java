@@ -11,7 +11,7 @@ import com.jive.myco.jazz.test.launcher.JazzServiceTestLauncher;
  *
  * @author David Valeri
  */
-public class ExampleServiceIT
+public class ExampleService_Int
 {
   @Test
   public void test() throws Exception
@@ -26,7 +26,6 @@ public class ExampleServiceIT
             .addModule(ExampleServiceModule.class)
             .addModule(JazzServiceConfigurationModule.class)
             // Set some properties provided to your service via the launcher
-            .addProperty("arg1", "Au revoir!")
             .build())
     {
       // Start it up
@@ -34,6 +33,10 @@ public class ExampleServiceIT
 
       // Wait a little so it spits out some logs
       Thread.sleep(2000);
+      while (true)
+      {
+
+      }
     }
   }
 }

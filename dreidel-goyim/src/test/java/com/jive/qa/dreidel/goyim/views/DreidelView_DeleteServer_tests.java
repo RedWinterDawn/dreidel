@@ -1,10 +1,8 @@
 package com.jive.qa.dreidel.goyim.views;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
 
 import java.io.IOException;
 
@@ -13,6 +11,7 @@ import javax.ws.rs.core.Response;
 import org.junit.Test;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Maps;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
@@ -34,7 +33,8 @@ public class DreidelView_DeleteServer_tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService,
+            Maps.newConcurrentMap());
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -53,7 +53,8 @@ public class DreidelView_DeleteServer_tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService,
+            Maps.newConcurrentMap());
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -69,7 +70,8 @@ public class DreidelView_DeleteServer_tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService,
+            Maps.newConcurrentMap());
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
@@ -93,7 +95,8 @@ public class DreidelView_DeleteServer_tests
 
     DreidelView dreidelView =
         new DreidelView(new DreidelObjectMapper(), new InstanceManager(MockSettings.getBm(),
-            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService);
+            MockSettings.getJim()), MockSettings.getBm(), jimController, jimService,
+            Maps.newConcurrentMap());
 
     Response response2 =
         dreidelView.deleteServer("bogus", 0);
