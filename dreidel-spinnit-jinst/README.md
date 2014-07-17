@@ -28,7 +28,7 @@ Here's the pom you need to include
 <dependency>
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-spinnit-jinst</artifactId>
-  <version>0.1.1</version>
+  <version>0.1.2</version>
   <scope>test</scope>
 </dependency>
 ```
