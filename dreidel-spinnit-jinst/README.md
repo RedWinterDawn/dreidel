@@ -1,7 +1,7 @@
 #Dreidel-Spinnit-Jinst
 dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst classes (ones without any external dependencies) in the qa hardware during unit tests so you can test your stuff that depends on said service
 
-#Examples
+#Example
 
 ```JAVA
 @Before
@@ -22,7 +22,20 @@ dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst c
   }
 ```
 
+Here's the pom you need to include
+
+```XML
+<dependency>
+  <groupId>com.jive.qa.dreidel</groupId>
+  <artifactId>dreidel-spinnit-jinst</artifactId>
+  <version>0.1.1</version>
+  <scope>test</scope>
+</dependency>
+```
+
 #NOTES
+
+Currently the QA hardware is on a QA vlan so you will need to add this to the list of networks you check (vmcontrolorm is still valid)
 
 Currently you will have to hard code this ip address.  In the future this will have a DNS entry / post to jumpy (or whatever the service registry happens to be).
 
