@@ -1,26 +1,31 @@
 package com.jive.qa.dreidel.goyim.jinst.service;
 
-import java.util.concurrent.ExecutionException;
-
 import javax.annotation.PostConstruct;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import org.apache.http.nio.client.HttpAsyncClient;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.jive.qa.dreidel.api.messages.goyim.GoyimServiceResponse;
 import com.jive.v5.commons.rest.client.RestClient;
 
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Inject))
 public class PostResults
 {
   private final HttpAsyncClient client;
   private final String baseUrl;
   private final ObjectMapper mapper;
+
+  @Inject
+  public PostResults(HttpAsyncClient client, @Named("goyimUrl") String baseUrl, ObjectMapper mapper)
+  {
+    this.client = client;
+    this.baseUrl = baseUrl;
+    this.mapper = mapper;
+  }
 
   @PostConstruct
   public void sendPost() throws Exception
@@ -42,10 +47,9 @@ public class PostResults
         log.error("Failed to notify the dreidel-goyim-jim");
       }
     }
-    catch (InterruptedException | ExecutionException e)
+    catch (Exception e)
     {
       log.error("Failed to notify the dreidel-goyim-jim", e);
-      throw e;
     }
 
   }

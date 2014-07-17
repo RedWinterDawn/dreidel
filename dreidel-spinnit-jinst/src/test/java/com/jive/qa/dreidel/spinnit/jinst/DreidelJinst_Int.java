@@ -24,7 +24,7 @@ public class DreidelJinst_Int
         new DreidelJinst("testing123", HostAndPort.fromParts("10.20.27.84", 8020),
             "dreidel-test123");
 
-    jinst.spin();
+    jinst.spin(2);
     log.debug("sleeping for a whole second");
 
     log.debug("checking to see if the ip address {} is reachable", jinst.getHost());

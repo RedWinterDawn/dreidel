@@ -46,7 +46,7 @@ public class DreidelJinst
     this.jClass = jClass;
   }
 
-  public void spin() throws DreidelConnectionException
+  public void spin(int timeoutInMinutes) throws DreidelConnectionException
   {
     log.debug("{} Spinning up a dreidel jinst server", logprefix);
     // TODO state checking because we don't want to kill a connection if we are already connected.
@@ -61,7 +61,7 @@ public class DreidelJinst
         // TODO remove hard coded timeout
         reply =
             connection.writeRequest(new JinstCreateMessage(UUID.randomUUID().toString(), jClass),
-                1, TimeUnit.MINUTES);
+                timeoutInMinutes, TimeUnit.MINUTES);
         log.debug("{} Recieved reply to creation message {}", logprefix, reply);
       }
       catch (Exception e)
