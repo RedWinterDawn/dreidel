@@ -12,20 +12,17 @@ dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst c
         new DreidelJinst("testing123", HostAndPort.fromParts("10.20.27.84", 8020),
             "dreidel-test123");
 
-    jinst.spin();
-    log.debug("sleeping for a whole second");
+	int timeoutInMinutes = 3
+    jinst.spin(timeoutInMinutes);
 
     log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
+    
     assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
 
   }
 ```
 
 #NOTES
-Currently the `spin()` function returns when the server has started NOT when jinst is finished.  This feature will come later for now you must commit one of the following sins
-
-+ sleep for a lot longer than it takes for jinst to start
-+ continuously ping your service till it is available
 
 Currently you will have to hard code this ip address.  In the future this will have a DNS entry / post to jumpy (or whatever the service registry happens to be).
 
