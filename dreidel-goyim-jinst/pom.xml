@@ -28,7 +28,7 @@
     <dependency>
       <groupId>com.jive.v5.commons</groupId>
       <artifactId>rest-client</artifactId>
-      <version>0.2-SNAPSHOT</version>
+      <version>0.4</version>
     </dependency>
 
     <dependency>
