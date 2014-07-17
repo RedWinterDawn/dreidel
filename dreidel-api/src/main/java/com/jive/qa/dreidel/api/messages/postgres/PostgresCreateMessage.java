@@ -3,7 +3,6 @@ package com.jive.qa.dreidel.api.messages.postgres;
 import java.beans.ConstructorProperties;
 
 import lombok.NonNull;
-import lombok.experimental.Builder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jive.myco.commons.concurrent.PnkyPromise;

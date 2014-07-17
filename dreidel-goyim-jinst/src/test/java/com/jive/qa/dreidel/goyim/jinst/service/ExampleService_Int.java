@@ -1,15 +1,17 @@
-package com.jive.qa.dreidel.rabbi;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+package com.jive.qa.dreidel.goyim.jinst.service;
 
 import org.junit.Test;
 
 import com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule;
 import com.jive.myco.jazz.test.launcher.JazzServiceTestLauncher;
-import com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule;
 
-public class Guice_Int
+/**
+ * Example of of a local integration test that uses the {@link JazzServiceTestLauncher test
+ * launcher}.
+ *
+ * @author David Valeri
+ */
+public class ExampleService_Int
 {
   @Test
   public void test() throws Exception
@@ -17,13 +19,12 @@ public class Guice_Int
     try (
         // Implements closeable so you can be sure it gets killed on the way out of your test
         // method.
-
         final JazzServiceTestLauncher launcher = JazzServiceTestLauncher.builder()
             // Name it
             .serviceName("jazz-examples-jazz-service")
             // Add the modules you want to launch
+            .addModule(ExampleServiceModule.class)
             .addModule(JazzServiceConfigurationModule.class)
-            .addModule(WebsocketServiceModule.class)
             // Set some properties provided to your service via the launcher
             .build())
     {
@@ -31,8 +32,7 @@ public class Guice_Int
       launcher.init();
 
       // Wait a little so it spits out some logs
-
-      new BufferedReader(new InputStreamReader(System.in)).read();
+      Thread.sleep(2000);
     }
   }
 }

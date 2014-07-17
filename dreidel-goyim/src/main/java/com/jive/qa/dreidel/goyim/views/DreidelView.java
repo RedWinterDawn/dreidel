@@ -1,15 +1,25 @@
 package com.jive.qa.dreidel.goyim.views;
 
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+
 import javax.inject.Inject;
+import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jive.myco.commons.callbacks.CallbackFuture;
+import com.jive.qa.dreidel.api.messages.goyim.GoyimServiceResponse;
 import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
@@ -30,22 +40,26 @@ public class DreidelView
   private final InstanceManager instanceManager;
   private final JimController jimController;
   private final JimService jimService;
+  private final Map<String, CallbackFuture<Void>> serverCorrelationMap;
 
   @Inject
   public DreidelView(ObjectMapper json, InstanceManager instanceManager, BmSettings settings,
-      JimController jimController, JimService jimService)
+      JimController jimController, JimService jimService,
+      @Named("serverCorrelationMap") Map<String, CallbackFuture<Void>> serverCorrelationMap)
   {
     this.json = json;
     this.instanceManager = instanceManager;
     this.settings = settings;
     this.jimController = jimController;
     this.jimService = jimService;
+    this.serverCorrelationMap = serverCorrelationMap;
   }
 
   @POST
   @Path("/{service}")
   public Response createServer(@PathParam("service") String service)
-      throws JsonProcessingException, ServiceNotFoundException
+      throws JsonProcessingException, ServiceNotFoundException, InterruptedException,
+      ExecutionException
   {
     if (!jimService.serviceExists(service))
     {
@@ -64,6 +78,11 @@ public class DreidelView
       String address = instance.getNetworks().stream()
           .filter(x -> x.getName().equals(settings.getPreferred())).findFirst().get().getAddress();
 
+      // right before this we need to wait for the server to respond to us.
+      CallbackFuture<Void> callback = new CallbackFuture<>();
+      serverCorrelationMap.put(address, callback);
+
+      callback.get();
       // send them the information they need to connect to the server
       return Response
           .status(Status.OK)
@@ -133,4 +152,17 @@ public class DreidelView
     }
   }
 
+  @POST
+  @Path("/servers")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response receiveServerNotification(@Context HttpServletRequest hsr)
+  {
+    String address = hsr.getRemoteAddr();
+
+    CallbackFuture<Void> callback = serverCorrelationMap.get(address);
+
+    callback.onSuccess(null);
+
+    return Response.status(Status.OK).entity(new GoyimServiceResponse("success")).build();
+  }
 }

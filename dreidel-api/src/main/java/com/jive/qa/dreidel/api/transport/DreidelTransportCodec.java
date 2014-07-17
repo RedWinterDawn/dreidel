@@ -1,5 +1,7 @@
 package com.jive.qa.dreidel.api.transport;
 
+import javax.inject.Inject;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +10,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
-import com.google.inject.Inject;
 import com.jive.myco.jivewire.api.codec.ByteArrayTransportCodec;
 import com.jive.qa.dreidel.api.messages.Message;
 

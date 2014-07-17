@@ -17,6 +17,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.goyim.controllers.InstanceManager;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.messages.JimMessage;
@@ -61,11 +62,11 @@ public class RestModule extends AbstractModule
   @Named("networksMap")
   public Map<String, String> getNetworkMap(@Named("bm.networks") String networks, ObjectMapper json)
       throws JsonParseException, JsonMappingException, IOException
-      {
+  {
     return json.readValue(networks, new TypeReference<HashMap<String, String>>()
-        {
-        });
-      }
+    {
+    });
+  }
 
   @Provides
   @Named("jimEndpoint")
@@ -85,6 +86,14 @@ public class RestModule extends AbstractModule
   public URL getJimUrl(JimSettings settings) throws MalformedURLException
   {
     return new URL("http://" + settings.getIp() + ":" + settings.getPort() + "/" + settings.getEp());
+  }
+
+  @Provides
+  @Named("serverCorrelationMap")
+  @Singleton
+  public Map<String, CallbackFuture<Void>> getServerCorrelationMap()
+  {
+    return Maps.newConcurrentMap();
   }
 
 }

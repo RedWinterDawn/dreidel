@@ -19,8 +19,8 @@ public class StartServer
         // Name it
         .serviceName("jazz-examples-jazz-service")
         // Add the modules you want to launch
-        .withModule(ServiceModule.class)
-        .withModule(JazzServiceConfigurationModule.class)
+        .addModule(ServiceModule.class)
+        .addModule(JazzServiceConfigurationModule.class)
         .build();
     launcher.init();
     Thread.sleep(1000);

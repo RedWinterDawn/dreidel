@@ -54,8 +54,7 @@ public class JinstResource extends BaseResourceImpl implements BaseResource
   {
     try
     {
-      ResponseCodeOnly response =
-          instanceDestroyer.url(creatorUrl, "/" + jClass + "/" + this.goyimId).delete();
+      instanceDestroyer.url(creatorUrl, "/" + jClass + "/" + this.goyimId).delete();
     }
     catch (Exception e)
     {

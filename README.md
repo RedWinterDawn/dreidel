@@ -1,11 +1,26 @@
 Dreidel
 =======
 
-##US3176 Release Notes
+##Getting Started
+
++ [dreidel-spinnit-postgres](dreidel-spinnit-postgres)
++ [dreidel-spinnit-jinst](dreidel-spinnit-jinst)
+
+
+
+###US4750/3989 Release notes
+
+###Jinst/Jim integration
+
++ Dreidel can now spin up Jinst images in QA using Jim
++ Dreidel will now notify you when the server is booted and jinsting is complete
 
 ===
 
-## Dreidel WebSockets Refactoring
+###US3176 Release Notes
+
+
+### Dreidel WebSockets Refactoring
 
 
 71 source code files were changed as a part of this refactoring:

@@ -2,8 +2,6 @@ package com.jive.qa.dreidel.api.messages.postgres;
 
 import java.beans.ConstructorProperties;
 
-import javax.annotation.Nonnull;
-
 import lombok.Getter;
 import lombok.NonNull;
 
