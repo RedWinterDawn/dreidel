@@ -6,7 +6,7 @@ A library to interface smoothly with dreidel
 #Usage
 Add this to your maven pom.xml
 
-```
+```JAVA
 <dependency>
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-spinnit-postgres</artifactId>
@@ -18,7 +18,7 @@ Add this to your maven pom.xml
 
 Run the following code
 
-```
+```JAVA
 HostAndPort server = HostAndPort.fromParts("dreidel.ftw.jiveip.net", 8020);
 DreidelPostgres db = new DreidelPostgres("test-db", server);  // Create the database
 db.spin();
@@ -32,7 +32,7 @@ There is a thread that will do a get at /postgres/<dbname> every 10 seconds to k
 This is a deamon thread so when your tests are done that daemon will go away and your database will be released.
 
 You can also use the ```DreidelPGDataSource``` to create a lazy loading data source that will spin up a database for you when you connect to the datasource.
-```
+```JAVA
     CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
     HostAndPort server = HostAndPort.fromParts("dreidel.ftw.jiveip.net", 8020);
     DataSource ds = new DreidelPGDataSource("test-db", server).addSqlSource(source);
