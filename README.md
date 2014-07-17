@@ -7,9 +7,8 @@ Dreidel
 + [dreidel-spinnit-jinst](dreidel-spinnit-jinst)
 
 
-###US3176 Release Notes
 
-===
+###US4750/3989 Release notes
 
 ###Jinst/Jim integration
 
@@ -17,6 +16,9 @@ Dreidel
 + Dreidel will now notify you when the server is booted and jinsting is complete
 
 ===
+
+###US3176 Release Notes
+
 
 ### Dreidel WebSockets Refactoring
 
