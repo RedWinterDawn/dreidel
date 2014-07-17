@@ -34,7 +34,8 @@ public class JimController
     serviceDetails.setCpus(1);
     serviceDetails.setMemory(512);
     serviceDetails.getClasses().add(0, "base");
-    serviceDetails.getClasses().add(0, "dreidel-registry");
+
+    serviceDetails.getClasses().add("dreidel-goyim-jinst");
     // TODO we need to do this more inteligently so we don't bork other networks a service may need.
     serviceDetails.getNetworks().clear();
     serviceDetails.getNetworks().add("vmcontrolorm");
