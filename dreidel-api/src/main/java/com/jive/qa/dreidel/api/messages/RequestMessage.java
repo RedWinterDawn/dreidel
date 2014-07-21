@@ -9,7 +9,7 @@ import com.jive.qa.dreidel.api.replies.Reply;
 
 /**
  * the abstract parent of all request messages. this is visitable.
- * 
+ *
  * @author jdavidson
  *
  */
@@ -21,6 +21,6 @@ public abstract class RequestMessage extends TwoWayMessage implements
   @ConstructorProperties({ "referenceId" })
   public RequestMessage(final String referenceId)
   {
-    super(referenceId);
+    super(referenceId, "request");
   }
 }

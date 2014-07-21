@@ -6,7 +6,7 @@ import lombok.Getter;
 
 /**
  * the abstract parent of all reply messages
- * 
+ *
  * @author jdavidson
  *
  */
@@ -16,6 +16,6 @@ public abstract class ReplyMessage extends TwoWayMessage
   @ConstructorProperties({ "referenceId" })
   public ReplyMessage(final String referenceId)
   {
-    super(referenceId);
+    super(referenceId, "reply");
   }
 }

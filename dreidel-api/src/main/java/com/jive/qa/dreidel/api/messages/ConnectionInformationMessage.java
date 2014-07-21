@@ -9,7 +9,7 @@ import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 
 /**
  * The message used to send generic connection information
- * 
+ *
  * @author jdavidson
  *
  */
@@ -26,5 +26,4 @@ public class ConnectionInformationMessage extends ReplyMessage
     super(referenceId);
     this.connections = connections;
   }
-
 }
