@@ -25,7 +25,6 @@ public class DreidelJinst_Int
             "dreidel-test123");
 
     jinst.spin(3);
-    log.debug("sleeping for a whole second");
 
     log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
     assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
