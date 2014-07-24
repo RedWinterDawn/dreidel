@@ -1,23 +1,51 @@
 #Dreidel-Spinnit-Jinst
-dreidel-spinnit-jinst is a client library to allow you to spin up simple jinst classes (ones without any external dependencies) in the qa hardware during unit tests so you can test your stuff that depends on said service
+dreidel-spinnit-jinst is a client library to allow you to spin up jinst classes including ones with dependencies in the qa hardware during unit tests so you can test your stuff that depends on said service.
+
+
+To wire up two services to talk to each other you should do the following
+
++ Spin up both services
++ Modify the first service so it's properties contain the host of the second service
++ Modify the second service so it's properties contain the host of the first service
++ Run your test
+
+
+
 
 #Example
+This is an example where a service and its dependency are started up and the service is pointed at it's dependency
 
 ```JAVA
 @Before
-  public void setup() throws DreidelConnectionException, InterruptedException, UnknownHostException,
-      IOException
+  public void setup() throws Exception
   {
-    DreidelJinst jinst =
-        new DreidelJinst("testing123", HostAndPort.fromParts("10.20.27.84", 8020),
-            "dreidel-test123");
+    HostAndPort dreidelServer = HostAndPort.fromParts("10.20.27.84", 8020);
 
-	int timeoutInMinutes = 3
-    jinst.spin(timeoutInMinutes);
+    DreidelJinst jinstService = new DreidelJinst("service", dreidelServer, "boneyard");
+    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "dreidel-test123");
 
-    log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
-    
-    assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
+    // (PnkyPromises are futures)
+    PnkyPromise<Void> servicePromise = jinstService.spin(3);
+    PnkyPromise<Void> dependencyPromise = jinstDependency.spin(3);
+
+    servicePromise.get();
+    dependencyPromise.get();
+
+    // This map contains all of the property key values you wish to have in the properties file
+    // it will overwrite existing properties, leave ones you don't specify alone, and add new
+    // properties to the file.
+    Map<String, String> serviceProperties = Maps.newHashMap();
+    serviceProperties.put("dependencyIp", jinstDependency.getHost());
+
+    jinstService.setPropertiesAndRestart(serviceProperties,
+        "/etc/jive/boneyard/service.properties",
+        "boneyard");
+
+    log.debug("checking to see if the ip address {} is reachable", jinstService.getHost());
+    assertTrue(InetAddress.getByName(jinstService.getHost()).isReachable(10000));
+
+    log.debug("checking to see if the ip address {} is reachable", jinstDependency.getHost());
+    assertTrue(InetAddress.getByName(jinstDependency.getHost()).isReachable(10000));
 
   }
 ```
@@ -28,7 +56,7 @@ Here's the pom you need to include
 <dependency>
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-spinnit-jinst</artifactId>
-  <version>0.1.2</version>
+  <version>0.1.4</version>
   <scope>test</scope>
 </dependency>
 ```
