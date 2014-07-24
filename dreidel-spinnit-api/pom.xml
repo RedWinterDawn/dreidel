@@ -6,6 +6,7 @@
     <version>0.1.4-SNAPSHOT</version>
   </parent>
   <artifactId>dreidel-spinnit-api</artifactId>
+  <name>Dreidel :: Spinnit :: API</name>
   
   <dependencies>
     <dependency>

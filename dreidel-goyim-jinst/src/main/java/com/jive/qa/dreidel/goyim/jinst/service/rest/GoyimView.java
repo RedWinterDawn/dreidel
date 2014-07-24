@@ -61,8 +61,7 @@ public class GoyimView
 
   @PUT
   @Path("service/{serviceName}")
-  public String restartService(@PathParam("serviceName") String serviceName) throws IOException,
-      InterruptedException
+  public String restartService(@PathParam("serviceName") String serviceName) throws Exception
   {
     Process serviceRestarter = new ProcessBuilder("service", serviceName, "restart").start();
 
