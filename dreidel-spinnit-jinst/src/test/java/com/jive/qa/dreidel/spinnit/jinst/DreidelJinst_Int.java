@@ -5,12 +5,16 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.junit.Test;
 
+import com.google.common.collect.Maps;
 import com.google.common.net.HostAndPort;
+import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 
 @Slf4j
@@ -18,16 +22,35 @@ public class DreidelJinst_Int
 {
   @Test
   public void test() throws DreidelConnectionException, InterruptedException, UnknownHostException,
-      IOException
+      IOException, ExecutionException
   {
-    DreidelJinst jinst =
-        new DreidelJinst("testing123", HostAndPort.fromParts("10.20.27.84", 8020),
-            "dreidel-test123");
+    HostAndPort dreidelServer = HostAndPort.fromParts("10.20.27.84", 8020);
 
-    jinst.spin(3);
+    DreidelJinst jinstService = new DreidelJinst("service", dreidelServer, "boneyard");
+    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "dreidel-test123");
 
-    log.debug("checking to see if the ip address {} is reachable", jinst.getHost());
-    assertTrue(InetAddress.getByName(jinst.getHost()).isReachable(10000));
+    // (PnkyPromises are futures)
+    PnkyPromise<Void> servicePromise = jinstService.spin(4);
+    PnkyPromise<Void> dependencyPromise = jinstDependency.spin(4);
+
+    servicePromise.get();
+    dependencyPromise.get();
+
+    // This map contains all of the property key values you wish to have in the properties file
+    // it will overwrite existing properties, leave ones you don't specify alone, and add new
+    // properties to the file.
+    Map<String, String> serviceProperties = Maps.newHashMap();
+    serviceProperties.put("dependencyIp", jinstDependency.getHost());
+
+    jinstService.setPropertiesAndRestart(serviceProperties,
+        "/etc/jive/boneyard/service.properties",
+        "boneyard");
+
+    log.debug("checking to see if the ip address {} is reachable", jinstService.getHost());
+    assertTrue(InetAddress.getByName(jinstService.getHost()).isReachable(10000));
+
+    log.debug("checking to see if the ip address {} is reachable", jinstDependency.getHost());
+    assertTrue(InetAddress.getByName(jinstDependency.getHost()).isReachable(10000));
 
   }
 }

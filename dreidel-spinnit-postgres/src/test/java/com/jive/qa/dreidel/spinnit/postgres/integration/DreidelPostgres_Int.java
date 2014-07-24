@@ -1,6 +1,6 @@
 package com.jive.qa.dreidel.spinnit.postgres.integration;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 import java.io.File;
 
@@ -20,7 +20,7 @@ public class DreidelPostgres_Int extends ServerStartup
   {
     CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
 
-    HostAndPort server = HostAndPort.fromParts("localhost", 8020);
+    HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
     DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());
@@ -34,7 +34,7 @@ public class DreidelPostgres_Int extends ServerStartup
   @Test
   public void TestAllTheThingsDir() throws Exception
   {
-    HostAndPort server = HostAndPort.fromParts("localhost", 8020);
+    HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
     DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());
