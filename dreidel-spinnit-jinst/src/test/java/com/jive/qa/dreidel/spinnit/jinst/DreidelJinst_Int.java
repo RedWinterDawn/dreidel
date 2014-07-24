@@ -29,8 +29,6 @@ public class DreidelJinst_Int
 
     jinst.spin(3);
 
-    Thread.sleep(5000);
-
     Map<String, String> properties = Maps.newHashMap();
 
     properties.put("foo", "bar");

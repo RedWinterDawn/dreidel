@@ -23,9 +23,9 @@ public class ExampleServiceModule extends AbstractModule
   @Override
   protected void configure()
   {
-    bind(PostResults.class).asEagerSingleton();
     bind(GoyimView.class).asEagerSingleton();
     bind(RestServerManager.class).asEagerSingleton();
+    bind(PostResults.class).asEagerSingleton();
   }
 
   @Provides
