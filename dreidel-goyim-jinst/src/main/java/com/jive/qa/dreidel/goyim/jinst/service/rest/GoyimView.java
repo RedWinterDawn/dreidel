@@ -69,7 +69,7 @@ public class GoyimView
 
     if (serviceRestarter.exitValue() == 0)
     {
-      return "SUCCESS!";
+      return "\"SUCCESS!\"";
     }
     else
     {

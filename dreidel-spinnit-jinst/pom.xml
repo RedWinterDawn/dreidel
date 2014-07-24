@@ -14,5 +14,10 @@
       <artifactId>dreidel-spinnit-postgres</artifactId>
       <version>${project.version}</version>
     </dependency>
+    <dependency>
+      <groupId>com.jive.v5.commons</groupId>
+      <artifactId>rest-client</artifactId>
+      <version>0.4</version>
+    </dependency>
   </dependencies>
 </project>

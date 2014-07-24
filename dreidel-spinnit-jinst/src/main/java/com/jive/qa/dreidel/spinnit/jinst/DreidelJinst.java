@@ -1,11 +1,17 @@
 package com.jive.qa.dreidel.spinnit.jinst;
 
+import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.api.messages.ConnectionInformationMessage;
 import com.jive.qa.dreidel.api.messages.ExceptionMessage;
@@ -15,6 +21,7 @@ import com.jive.qa.dreidel.api.replies.ConnectionInformation;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
+import com.jive.v5.commons.rest.client.RestClient;
 
 @Slf4j
 public class DreidelJinst
@@ -24,6 +31,7 @@ public class DreidelJinst
   private DreidelConnection connection;
   private final String logprefix;
   private final String jClass;
+  private GoyimJinstResource endpoint;
 
   @Getter
   private String dreidelId;
@@ -82,9 +90,20 @@ public class DreidelJinst
             ((ConnectionInformationMessage) reply).getConnections().get(0);
         this.dreidelId = information.getId().toString();
         this.host = information.getHost();
+        CloseableHttpAsyncClient client = HttpAsyncClients.createMinimal();
+        client.start();
+        this.endpoint =
+            new RestClient(client, new ObjectMapper()).bind(
+                "http://" + host + ":8018",
+                GoyimJinstResource.class);
       }
-
     }
+  }
 
+  public void setProperties(Map<String, String> properties, String filePath, String serviceName)
+      throws InterruptedException, ExecutionException
+  {
+    endpoint.setProperties(properties, filePath).get();
+    endpoint.restartService(serviceName).get();
   }
 }
