@@ -33,6 +33,10 @@ public class ExampleService_Int
 
       // Wait a little so it spits out some logs
       Thread.sleep(2000);
+      while (true)
+      {
+
+      }
     }
   }
 }

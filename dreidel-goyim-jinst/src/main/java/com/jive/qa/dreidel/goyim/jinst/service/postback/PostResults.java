@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.goyim.jinst.service;
+package com.jive.qa.dreidel.goyim.jinst.service.postback;
 
 import javax.annotation.PostConstruct;
 

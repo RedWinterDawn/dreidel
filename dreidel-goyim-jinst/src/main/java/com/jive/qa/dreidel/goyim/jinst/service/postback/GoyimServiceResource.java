@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.goyim.jinst.service;
+package com.jive.qa.dreidel.goyim.jinst.service.postback;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
