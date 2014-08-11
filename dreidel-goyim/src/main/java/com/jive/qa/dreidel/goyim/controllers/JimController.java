@@ -1,12 +1,12 @@
 package com.jive.qa.dreidel.goyim.controllers;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
 import lombok.AllArgsConstructor;
-import net.logstash.logback.encoder.org.apache.commons.lang.RandomStringUtils;
 
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
@@ -27,7 +27,7 @@ public class JimController
       throws JimCreationException,
       JimDestructionException, ServiceNotFoundException, InterruptedException, ExecutionException
   {
-    final String instanceId = RandomStringUtils.randomAlphanumeric(5);
+    final String instanceId = UUID.randomUUID().toString().replace("-", "").substring(0, 5);
     // TODO try catch finally make sure we don't have lingering dreidel services
 
     // download service
