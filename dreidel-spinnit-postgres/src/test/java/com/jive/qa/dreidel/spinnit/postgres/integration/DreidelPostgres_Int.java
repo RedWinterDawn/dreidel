@@ -12,16 +12,16 @@ import com.google.common.io.Resources;
 import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.spinnit.postgres.DreidelPostgres;
 
-public class DreidelPostgres_Int extends ServerStartup
+public class DreidelPostgres_Int
 {
 
   @Test
   public void TestAllTheThings() throws Exception
   {
-    CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
+    final CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
 
-    HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
-    DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
+    final HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
+    final DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());
 
@@ -34,8 +34,8 @@ public class DreidelPostgres_Int extends ServerStartup
   @Test
   public void TestAllTheThingsDir() throws Exception
   {
-    HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
-    DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
+    final HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
+    final DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());
 

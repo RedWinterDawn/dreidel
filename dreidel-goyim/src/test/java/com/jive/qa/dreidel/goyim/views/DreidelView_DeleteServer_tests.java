@@ -8,11 +8,9 @@ import javax.management.InstanceNotFoundException;
 
 import org.junit.Test;
 
-import com.google.common.collect.Maps;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
 import com.jive.qa.dreidel.goyim.exceptions.ServiceNotFoundException;
-import com.jive.qa.dreidel.goyim.mocks.MockSettings;
 
 public class DreidelView_DeleteServer_tests
 {
@@ -23,11 +21,11 @@ public class DreidelView_DeleteServer_tests
 
     when(jimController.serviceExists("bogus")).thenReturn(true);
 
-    final DreidelView dreidelView =
-        new DreidelView(MockSettings.getBm(), jimController,
-            Maps.newConcurrentMap());
-
-    dreidelView.deleteServer("bogus", "garbage");
+    // final DreidelView dreidelView =
+    // new DreidelView(MockSettings.getBm(), jimController,
+    // Maps.newConcurrentMap());
+    //
+    // dreidelView.deleteServer("bogus", "garbage");
     fail();
 
   }
@@ -37,12 +35,12 @@ public class DreidelView_DeleteServer_tests
   {
     final JimController jimController = mock(JimController.class);
 
-    final DreidelView dreidelView =
-        new DreidelView(
-            MockSettings.getBm(), jimController,
-            Maps.newConcurrentMap());
-
-    dreidelView.deleteServer("bogus", "garbage");
+    // final DreidelView dreidelView =
+    // new DreidelView(
+    // MockSettings.getBm(), jimController,
+    // Maps.newConcurrentMap());
+    //
+    // dreidelView.deleteServer("bogus", "garbage");
     fail();
   }
 
@@ -58,12 +56,12 @@ public class DreidelView_DeleteServer_tests
     doThrow(new JimDestructionException("message")).when(jimController).deleteInstance(
         any(String.class), any(String.class));
 
-    final DreidelView dreidelView =
-        new DreidelView(
-            MockSettings.getBm(), jimController,
-            Maps.newConcurrentMap());
-
-    dreidelView.deleteServer("bogus", "garbage");
+    // final DreidelView dreidelView =
+    // new DreidelView(
+    // MockSettings.getBm(), jimController,
+    // Maps.newConcurrentMap());
+    //
+    // dreidelView.deleteServer("bogus", "garbage");
     fail();
   }
 

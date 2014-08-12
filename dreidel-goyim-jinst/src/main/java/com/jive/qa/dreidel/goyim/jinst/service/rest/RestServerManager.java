@@ -11,17 +11,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.jaxrs.cfg.Annotations;
 import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.google.inject.name.Named;
-import com.jive.myco.jazz.api.core.JazzRuntime;
 import com.jive.myco.jazz.api.core.network.Network;
 import com.jive.myco.jazz.api.core.network.NetworkId;
 import com.jive.myco.jazz.api.rest.RestServiceBinding;
 import com.jive.myco.jazz.api.rest.RestServiceDescriptor;
 import com.jive.myco.jazz.api.rest.RestServiceManager;
+import com.jive.myco.jazz.api.runtime.JazzRuntimeEnvironment;
 
 public class RestServerManager
 {
 
-  private final JazzRuntime jazzRuntime;
+  private final JazzRuntimeEnvironment jazzRuntime;
   private final RestServiceManager restServiceManager;
   private final GoyimView view;
   private final ObjectMapper objectMapper;
@@ -30,8 +30,9 @@ public class RestServerManager
   private RestServiceBinding binding;
 
   @Inject
-  public RestServerManager(JazzRuntime jazzRuntime, RestServiceManager restServiceManager,
-      GoyimView view, ObjectMapper objectMapper, @Named("rest-server-port") int port)
+  public RestServerManager(final JazzRuntimeEnvironment jazzRuntime,
+      final RestServiceManager restServiceManager,
+      final GoyimView view, final ObjectMapper objectMapper, @Named("rest-server-port") final int port)
   {
     this.jazzRuntime = jazzRuntime;
     this.restServiceManager = restServiceManager;

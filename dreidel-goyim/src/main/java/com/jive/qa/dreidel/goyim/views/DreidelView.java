@@ -4,7 +4,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.management.InstanceNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.DELETE;
@@ -18,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.common.collect.Maps;
 import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.api.messages.goyim.GoyimServiceResponse;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
@@ -33,16 +33,14 @@ public class DreidelView
 
   private final BmSettings settings;
   private final JimController jimController;
-  private final Map<String, CallbackFuture<Void>> serverCorrelationMap;
+  private final Map<String, CallbackFuture<Void>> serverCorrelationMap = Maps.newHashMap();
 
   @Inject
   public DreidelView(final BmSettings settings,
-      final JimController jimController,
-      @Named("serverCorrelationMap") final Map<String, CallbackFuture<Void>> serverCorrelationMap)
+      final JimController jimController)
   {
     this.settings = settings;
     this.jimController = jimController;
-    this.serverCorrelationMap = serverCorrelationMap;
   }
 
   @POST

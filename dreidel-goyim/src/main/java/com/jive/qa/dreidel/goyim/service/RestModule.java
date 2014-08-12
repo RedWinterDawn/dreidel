@@ -23,15 +23,11 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
-import com.jive.qa.dreidel.goyim.messages.JimMessage;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.rest.JimResource;
-import com.jive.qa.dreidel.goyim.restinator.DreidelObjectMapper;
-import com.jive.qa.dreidel.goyim.restinator.JimCodec;
 import com.jive.qa.dreidel.goyim.views.DreidelView;
-import com.jive.qa.restinator.Endpoint;
-import com.jive.qa.restinator.codecs.ByteArrayEndpointCodec;
-import com.jive.v5.commons.rest.client.RestClient;
+import com.jive.v5.runtime.NetNamespace;
+import com.jive.v5.runtime.RestClientEnvironment;
 
 public class RestModule extends AbstractModule
 {
@@ -49,8 +45,6 @@ public class RestModule extends AbstractModule
   @Override
   protected void configure()
   {
-    bind(ByteArrayEndpointCodec.class).to(JimCodec.class).asEagerSingleton();
-    bind(ObjectMapper.class).to(DreidelObjectMapper.class).asEagerSingleton();
     bind(JimSettings.class).asEagerSingleton();
     bind(BmSettings.class).asEagerSingleton();
     bind(JimController.class).asEagerSingleton();
@@ -72,19 +66,6 @@ public class RestModule extends AbstractModule
     return json.readValue(networks, new TypeReference<HashMap<String, String>>()
     {
     });
-  }
-
-  @Provides
-  @Named("jimEndpoint")
-  @Singleton
-  public Endpoint<JimMessage, JimMessage> getEndpoint(final JimCodec codec,
-      @Named("jim.key") final String key)
-  {
-    final Map<String, String> headers = Maps.newHashMap();
-    headers.put("Authorization", "Token  token=" + key);
-    final Endpoint<JimMessage, JimMessage> rtn =
-        new Endpoint<JimMessage, JimMessage>(codec, headers);
-    return rtn;
   }
 
   @Provides
@@ -112,11 +93,10 @@ public class RestModule extends AbstractModule
   }
 
   @Provides
-  public JimResource getJimResource(final HttpAsyncClient client, final ObjectMapper mapper,
+  public JimResource getJimResource(final RestClientEnvironment env,
       @Named("jimUrl") final URL url)
   {
-    final RestClient restClient = new RestClient(client, mapper);
-    return restClient.bind(url.toString(), JimResource.class);
+    return env.bind(NetNamespace.V4Compat, url.toString(), JimResource.class);
   }
 
   @Provides

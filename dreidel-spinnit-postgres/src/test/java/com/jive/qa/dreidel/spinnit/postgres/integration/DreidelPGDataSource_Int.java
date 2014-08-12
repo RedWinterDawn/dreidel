@@ -1,6 +1,6 @@
 package com.jive.qa.dreidel.spinnit.postgres.integration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,20 +16,20 @@ import com.google.common.io.Resources;
 import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.spinnit.postgres.DreidelPGDataSource;
 
-public class DreidelPGDataSource_Int extends ServerStartup
+public class DreidelPGDataSource_Int
 {
 
   @Test
   public void TestAllTheThings() throws Exception
   {
-    CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
-    HostAndPort server = HostAndPort.fromParts("localhost", 8020);
-    DataSource ds = new DreidelPGDataSource("test-db", server).addSqlSource(source);
-    Connection c = ds.getConnection();
-    DBI jdbi = new DBI(ds);
+    final CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
+    final HostAndPort server = HostAndPort.fromParts("localhost", 8020);
+    final DataSource ds = new DreidelPGDataSource("test-db", server).addSqlSource(source);
+    final Connection c = ds.getConnection();
+    final DBI jdbi = new DBI(ds);
     jdbi.open().insert("insert into stuff values(?, ?);", 1, "Hello World!");
 
-    ResultSet r = c.createStatement().executeQuery("select * from stuff;");
+    final ResultSet r = c.createStatement().executeQuery("select * from stuff;");
     while (r.next())
     {
       assertEquals(1, r.getInt("id"));

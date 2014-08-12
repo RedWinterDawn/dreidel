@@ -6,6 +6,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.inject.Inject;
 
+import jersey.repackaged.com.google.common.collect.Maps;
 import lombok.AllArgsConstructor;
 
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
@@ -21,7 +22,7 @@ public class JimController
 {
 
   private final JimResource endpoint;
-  private final Map<String, InstanceDetails> instances;
+  private final Map<String, InstanceDetails> instances = Maps.newHashMap();
 
   public InstanceDetails createInstance(final String service, final String site)
       throws JimCreationException,
