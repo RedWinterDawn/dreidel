@@ -11,7 +11,6 @@ import com.google.inject.name.Named;
 import com.jive.jackson.ConstructorPropertiesAnnotationIntrospector;
 import com.jive.qa.dreidel.goyim.jinst.service.postback.PostResults;
 import com.jive.qa.dreidel.goyim.jinst.service.rest.GoyimView;
-import com.jive.qa.dreidel.goyim.jinst.service.rest.RestServerManager;
 
 /**
  * Example of a module that boostsraps the classes used by the Jazz Service.
@@ -24,7 +23,7 @@ public class ExampleServiceModule extends AbstractModule
   protected void configure()
   {
     bind(GoyimView.class).asEagerSingleton();
-    bind(RestServerManager.class).asEagerSingleton();
+    // bind(RestServerManager.class).asEagerSingleton();
     bind(PostResults.class).asEagerSingleton();
   }
 

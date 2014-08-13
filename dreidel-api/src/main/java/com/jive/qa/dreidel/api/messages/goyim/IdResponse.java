@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 public class IdResponse
 {
-  private final int id;
+  private final String id;
   private final String address;
 
 }

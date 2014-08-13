@@ -1,40 +1,63 @@
 package com.jive.qa.dreidel.goyim.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Key;
+import com.google.inject.name.Names;
+import com.jive.myco.jazz.api.runtime.JazzRuntimeEnvironment;
 import com.jive.qa.dreidel.goyim.views.DreidelView;
-import com.jive.v5.runtime.Bootstrap;
 import com.jive.v5.runtime.Configuration;
 import com.jive.v5.runtime.Environment;
+import com.jive.v5.runtime.RestClientEnvironment;
 import com.jive.v5.runtime.SimpleAbstractV5Runner;
-import com.jive.v5.runtime.guice.GuiceRuntimePlugin;
 
 public class GoyimLauncher extends SimpleAbstractV5Runner
 
 {
 
-  private GuiceRuntimePlugin plugin;
-
-  @Override
-  public void initialize(final Bootstrap<Configuration> bootstrap)
-  {
-    plugin = GuiceRuntimePlugin.newBuilder().addModule(new RestModule()).build();
-    bootstrap.addBundle(plugin);
-  }
-
   public GoyimLauncher()
   {
-    super("DreidelGoyim");
+    super("dreidel-goyim");
   }
 
-  @Override
-  public void run(final Configuration conf, final Environment<Configuration> env) throws Exception
-  {
-    final DreidelView dreidel = plugin.getInjector().getInstance(DreidelView.class);
-    env.jaxrs("goyim").register(dreidel);
-  }
+  Injector injector;
+  private RestServerManager dreidel;
+  private JazzRuntimeEnvironment jazzEnvironment;
 
   public static void main(final String[] args)
   {
-    new GoyimLauncher().run(args);
+    new GoyimLauncher().launch(args);
   }
 
+  @Override
+  protected void postInit(JazzRuntimeEnvironment jazzRuntimeEnvironment) throws Exception
+  {
+    super.postInit(jazzRuntimeEnvironment);
+    jazzEnvironment = jazzRuntimeEnvironment;
+
+  }
+
+  @Override
+  public void run(Configuration conf, Environment<Configuration> env) throws Exception
+  {
+
+    injector = Guice.createInjector(new RestModule(), new AbstractModule()
+    {
+      @Override
+      protected void configure()
+      {
+        Names.bindProperties(binder(), env.properties().get());
+        bind(RestClientEnvironment.class).toInstance(env.rest());
+      }
+    });
+
+    dreidel = new RestServerManager(jazzEnvironment, env.jazzCore().getRestServiceManager().get(),
+        injector.getInstance(DreidelView.class),
+        injector.getInstance(ObjectMapper.class),
+        injector.getInstance(Key.get(Integer.class,
+            Names.named("rest-server-port"))));
+    dreidel.start();
+  }
 }

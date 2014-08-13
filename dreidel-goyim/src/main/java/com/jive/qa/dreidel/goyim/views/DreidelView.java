@@ -20,6 +20,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.api.messages.goyim.GoyimServiceResponse;
+import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
@@ -45,7 +46,8 @@ public class DreidelView
 
   @POST
   @Path("/{service}")
-  public void createServer(@PathParam("service") final String service)
+  @Produces(MediaType.APPLICATION_JSON)
+  public IdResponse createServer(@PathParam("service") final String service)
       throws JsonProcessingException, ServiceNotFoundException, InterruptedException,
       ExecutionException, JimCreationException, JimDestructionException
   {
@@ -54,24 +56,25 @@ public class DreidelView
       throw new ServiceNotFoundException("Service not found");
     }
 
+    final InstanceDetails details = jimController.createInstance(service, settings.getSite());
 
-      final InstanceDetails details = jimController.createInstance(service, settings.getSite());
+    // grab the network that dev can reach
 
-      // grab the network that dev can reach
+    final String address = details.getNetworks().stream()
+        .filter(x -> x.getName().equals(settings.getPreferred())).findFirst().get().getAddress();
 
-      final String address = details.getNetworks().stream()
-          .filter(x -> x.getName().equals(settings.getPreferred())).findFirst().get().getAddress();
+    // right before this we need to wait for the server to respond to us.
+    final CallbackFuture<Void> callback = new CallbackFuture<>();
+    serverCorrelationMap.put(address, callback);
 
-      // right before this we need to wait for the server to respond to us.
-      final CallbackFuture<Void> callback = new CallbackFuture<>();
-      serverCorrelationMap.put(address, callback);
-
-      callback.get();
+    callback.get();
+    return new IdResponse(details.getRid(), address);
   }
 
   @DELETE
   @Path("/{service}/{id}")
-  public void deleteServer(@PathParam("service") final String service,
+  @Produces(MediaType.APPLICATION_JSON)
+  public String deleteServer(@PathParam("service") final String service,
       @PathParam("id") final String id) throws JsonProcessingException, InstanceNotFoundException,
       ServiceNotFoundException, JimDestructionException, InterruptedException, ExecutionException
   {
@@ -85,8 +88,9 @@ public class DreidelView
       throw new InstanceNotFoundException("Instance not found");
     }
 
-      jimController.deleteInstance(service, id);
-    }
+    jimController.deleteInstance(service, id);
+    return "\"Success\"";
+  }
 
   @POST
   @Path("/servers")

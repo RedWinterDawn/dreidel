@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.http.nio.client.HttpAsyncClient;
@@ -21,16 +22,25 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.jive.jackson.ConstructorPropertiesAnnotationIntrospector;
 import com.jive.myco.commons.callbacks.CallbackFuture;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.rest.JimResource;
+import com.jive.qa.dreidel.goyim.rest.JimService;
 import com.jive.qa.dreidel.goyim.views.DreidelView;
-import com.jive.v5.runtime.NetNamespace;
-import com.jive.v5.runtime.RestClientEnvironment;
+import com.jive.v5.commons.rest.client.RestClient;
 
 public class RestModule extends AbstractModule
 {
+
+  @Override
+  protected void configure()
+  {
+    bind(JimSettings.class).asEagerSingleton();
+    bind(BmSettings.class).asEagerSingleton();
+    bind(JimController.class).asEagerSingleton();
+  }
 
   @Provides
   @Singleton
@@ -40,14 +50,6 @@ public class RestModule extends AbstractModule
     final Set<Class<?>> resources = Sets.newHashSet();
     resources.add(DreidelView.class);
     return resources;
-  }
-
-  @Override
-  protected void configure()
-  {
-    bind(JimSettings.class).asEagerSingleton();
-    bind(BmSettings.class).asEagerSingleton();
-    bind(JimController.class).asEagerSingleton();
   }
 
   @Provides
@@ -73,7 +75,7 @@ public class RestModule extends AbstractModule
   @Singleton
   public URL getJimUrl(final JimSettings settings) throws MalformedURLException
   {
-    return new URL("http://" + settings.getIp() + ":" + settings.getPort() + "/" + settings.getEp());
+    return new URL("http://" + settings.getIp() + ":" + settings.getPort());
   }
 
   @Provides
@@ -87,16 +89,34 @@ public class RestModule extends AbstractModule
   @Provides
   public HttpAsyncClient getClient()
   {
-    final CloseableHttpAsyncClient client = HttpAsyncClients.createMinimal();
+    RequestConfig config = RequestConfig.custom()
+        .setConnectTimeout(1000)
+        .setSocketTimeout(10000)
+        .setMaxRedirects(2)
+        .setRedirectsEnabled(true)
+        .setRelativeRedirectsAllowed(true)
+        .build();
+    CloseableHttpAsyncClient client =
+        HttpAsyncClients.custom().setDefaultRequestConfig(config).build();
     client.start();
     return client;
   }
 
   @Provides
-  public JimResource getJimResource(final RestClientEnvironment env,
-      @Named("jimUrl") final URL url)
+  public ObjectMapper getMapper()
   {
-    return env.bind(NetNamespace.V4Compat, url.toString(), JimResource.class);
+    ObjectMapper mapper = new ObjectMapper();
+    ConstructorPropertiesAnnotationIntrospector.install(mapper);
+
+    return mapper;
+  }
+
+  @Provides
+  public JimResource getJimResource(@Named("jimUrl") final URL url, ObjectMapper mapper,
+      HttpAsyncClient client)
+  {
+    RestClient restClient = new RestClient(client, mapper);
+    return restClient.bind(url.toString(), JimResource.class);
   }
 
   @Provides
@@ -106,4 +126,9 @@ public class RestModule extends AbstractModule
     return Maps.newConcurrentMap();
   }
 
+  @Provides
+  public JimService getJimService(JimResource endpoint, @Named("jim.key") String token)
+  {
+    return new JimService(endpoint, token);
+  }
 }

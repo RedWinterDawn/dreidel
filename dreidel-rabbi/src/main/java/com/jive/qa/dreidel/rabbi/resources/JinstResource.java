@@ -20,7 +20,7 @@ public class JinstResource extends BaseResourceImpl implements BaseResource
   private final Endpoint<ResponseCodeOnly, Void> instanceDestroyer;
 
   @Getter
-  private int goyimId;
+  private String goyimId;
   @Getter
   private String ip;
 
