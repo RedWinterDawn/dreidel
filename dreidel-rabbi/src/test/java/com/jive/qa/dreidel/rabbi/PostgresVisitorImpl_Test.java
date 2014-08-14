@@ -51,7 +51,7 @@ public class PostgresVisitorImpl_Test
     }
 
     @Override
-    public JinstResource getJinstResource(String jClass)
+    public JinstResource getJinstResource(String jClass, String branch)
     {
       // TODO Auto-generated method stub
       return null;

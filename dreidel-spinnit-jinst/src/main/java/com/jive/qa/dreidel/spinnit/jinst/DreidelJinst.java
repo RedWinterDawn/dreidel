@@ -37,6 +37,7 @@ public class DreidelJinst
   private final String jClass;
   private GoyimJinstResource endpoint;
   private ExecutorService executor = Executors.newSingleThreadExecutor();
+  private final String branch;
 
   @Getter
   private String dreidelId;
@@ -45,18 +46,21 @@ public class DreidelJinst
 
   public DreidelJinst(String id, HostAndPort hap, String jClass)
   {
-    this.logprefix = "[" + id + "]";
-    this.spinner = new DreidelSpinner(id, hap);
-    // TODO NULL CHECK
-    this.jClass = jClass;
+    this(id, hap, jClass, new DreidelSpinner(id, hap), "master");
   }
 
-  DreidelJinst(String id, HostAndPort hap, String jClass, DreidelSpinner spinner)
+  public DreidelJinst(String id, HostAndPort hap, String jClass, String branch)
+  {
+    this(id, hap, jClass, new DreidelSpinner(id, hap), branch);
+  }
+
+  DreidelJinst(String id, HostAndPort hap, String jClass, DreidelSpinner spinner, String branch)
   {
     this.logprefix = "[" + id + "]";
     this.spinner = spinner;
     // TODO NULL CHECK
     this.jClass = jClass;
+    this.branch = branch;
   }
 
   public PnkyPromise<Void> spin(int timeoutInMinutes) throws DreidelConnectionException
@@ -77,7 +81,8 @@ public class DreidelJinst
         {
           // TODO remove hard coded timeout
           reply =
-              connection.writeRequest(new JinstCreateMessage(UUID.randomUUID().toString(), jClass),
+              connection.writeRequest(new JinstCreateMessage(UUID.randomUUID().toString(), jClass,
+                  branch),
                   timeoutInMinutes, TimeUnit.MINUTES);
           log.debug("{} Recieved reply to creation message {}", logprefix, reply);
         }

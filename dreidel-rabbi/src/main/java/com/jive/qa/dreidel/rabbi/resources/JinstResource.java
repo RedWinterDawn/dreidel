@@ -18,6 +18,7 @@ public class JinstResource extends BaseResourceImpl implements BaseResource
   private final URL creatorUrl;
   private final Endpoint<IdResponse, Void> instanceCreator;
   private final Endpoint<ResponseCodeOnly, Void> instanceDestroyer;
+  private final String branch;
 
   @Getter
   private String goyimId;
@@ -25,12 +26,13 @@ public class JinstResource extends BaseResourceImpl implements BaseResource
   private String ip;
 
   public JinstResource(String jClass, URL creatorUrl, Endpoint<IdResponse, Void> instanceCreator,
-      Endpoint<ResponseCodeOnly, Void> instanceDestroyer)
+      Endpoint<ResponseCodeOnly, Void> instanceDestroyer, String branch)
   {
     this.jClass = jClass;
     this.creatorUrl = creatorUrl;
     this.instanceCreator = instanceCreator;
     this.instanceDestroyer = instanceDestroyer;
+    this.branch = branch;
   }
 
   @Override
@@ -38,7 +40,7 @@ public class JinstResource extends BaseResourceImpl implements BaseResource
   {
     try
     {
-      IdResponse response = instanceCreator.url(creatorUrl, "/" + jClass).post();
+      IdResponse response = instanceCreator.url(creatorUrl, "/" + jClass + "/" + branch).post();
       this.goyimId = response.getId();
       this.hap = HostAndPort.fromParts(response.getAddress(), 0);
     }

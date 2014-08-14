@@ -24,9 +24,10 @@ public class DreidelJinst_Int
   public void test() throws DreidelConnectionException, InterruptedException, UnknownHostException,
       IOException, ExecutionException
   {
-    HostAndPort dreidelServer = HostAndPort.fromParts("10.20.27.84", 8020);
+    HostAndPort dreidelServer = HostAndPort.fromParts("localhost", 8020);
 
-    DreidelJinst jinstService = new DreidelJinst("service", dreidelServer, "boneyard");
+    DreidelJinst jinstService =
+        new DreidelJinst("service", dreidelServer, "dreidel-goyim", "workspace/US5057-workspaces");
     DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "boneyard");
 
     // (PnkyPromises are futures)

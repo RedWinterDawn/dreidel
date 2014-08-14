@@ -44,7 +44,7 @@ public class DreidelView_CreateServer_Tests
     when(jimController.serviceExists("something")).thenReturn(true);
 
     doThrow(new JimCreationException("something is wrong")).when(jimController).createInstance(
-        "something", "ops-1a");
+        "something", "ops-1a", "master");
 
     // final DreidelView dreidelView =
     // // new DreidelView(MockSettings.getBm(),
@@ -65,10 +65,8 @@ public class DreidelView_CreateServer_Tests
 
     when(jimController.serviceExists("something")).thenReturn(true);
 
-
-
     doThrow(new JimCreationException("something is wrong")).when(jimController).createInstance(
-        any(String.class), any(String.class));
+        any(String.class), any(String.class), anyString());
 
     // final DreidelView dreidelView =
     // new DreidelView(MockSettings.getBm(),

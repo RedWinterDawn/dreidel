@@ -27,7 +27,7 @@ public class JimController
   private final JimService endpoint;
   private final Map<String, String> instances = Maps.newHashMap();
 
-  public InstanceDetails createInstance(final String service, final String site)
+  public InstanceDetails createInstance(final String service, final String site, final String branch)
       throws JimCreationException,
       JimDestructionException, ServiceNotFoundException, InterruptedException, ExecutionException
   {
@@ -59,13 +59,13 @@ public class JimController
     }
 
     // create instance using Jim
-    final NewInstance in = new NewInstance(site, serviceDetails.getName(), "master");
+    final NewInstance in = new NewInstance(site, serviceDetails.getName(), branch);
 
     InstanceDetails details = null;
 
     try
     {
-      details = endpoint.createInstance(in).get(10, TimeUnit.SECONDS);
+      details = endpoint.createInstance(in).get(30, TimeUnit.SECONDS);
     }
     catch (Exception e)
     {
