@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executors;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Maps;
 import com.google.inject.AbstractModule;
@@ -44,6 +46,7 @@ import com.jive.qa.dreidel.rabbi.visitors.RoutingVisitor;
 import com.jive.qa.restinator.Endpoint;
 import com.jive.qa.restinator.codecs.ByteArrayEndpointCodec;
 
+@Slf4j
 public class WebsocketServiceModule extends AbstractModule
 {
 
@@ -94,6 +97,7 @@ public class WebsocketServiceModule extends AbstractModule
       @Named("serverUri") final String uri, final TransportCodec<Message, Message> codec)
       throws TransportUriFormatException
   {
+    log.info("binding to {}", uri);
     return factory.createServerTransport(id, uri, codec);
   }
 

@@ -13,7 +13,7 @@ import com.jive.qa.dreidel.api.messages.Message;
 
 /**
  * manages starting up the transport
- * 
+ *
  * @author jdavidson
  *
  */
@@ -30,6 +30,7 @@ public class WebsocketService
     final CallbackFuture<Void> callback = new CallbackFuture<Void>();
     transport.setListener(listener);
     transport.init(callback);
+    log.info("starting server");
     callback.get();
     log.info("Websocket server started");
   }
