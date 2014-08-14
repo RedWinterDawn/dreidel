@@ -3,14 +3,14 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-root</artifactId>
-  <version>0.1.6-SNAPSHOT</version>
+  <version>0.1.6</version>
   <packaging>pom</packaging>
   <name>Dreidel</name>
 
   <scm>
     <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>0.1.6</tag>
   </scm>
 
   <parent>
