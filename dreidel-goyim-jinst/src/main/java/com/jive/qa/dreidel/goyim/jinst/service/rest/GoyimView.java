@@ -97,7 +97,7 @@ public class GoyimView
 
     while ((aux = input.readLine()) != null)
     {
-      builder.append(aux + "\n");
+      builder.append(aux);
     }
 
     return "\"" + builder.toString() + "\"";
