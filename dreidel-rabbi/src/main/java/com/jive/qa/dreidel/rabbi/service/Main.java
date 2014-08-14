@@ -23,7 +23,7 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
   @Override
   public String getDefaultServiceName()
   {
-    return "rabbi-1";
+    return "dreidel-rabbi";
   }
 
   @Override
