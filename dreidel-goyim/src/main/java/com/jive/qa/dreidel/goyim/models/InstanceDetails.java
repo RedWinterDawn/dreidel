@@ -6,7 +6,7 @@ import java.util.Set;
 import lombok.Getter;
 
 @Getter
-public class InstanceDetails extends NewInstance
+public class InstanceDetails extends Instance
 {
   private final String created_at;
   private final String updated_at;

@@ -45,18 +45,19 @@ public class DreidelView
   }
 
   @POST
-  @Path("/{service}")
+  @Path("/{service}/{branch:.*}")
   @Produces(MediaType.APPLICATION_JSON)
-  public IdResponse createServer(@PathParam("service") final String service)
-      throws JsonProcessingException, ServiceNotFoundException, InterruptedException,
-      ExecutionException, JimCreationException, JimDestructionException
+  public IdResponse createServerInWorkspace(@PathParam("service") final String service,
+      @PathParam("branch") String branch) throws ServiceNotFoundException, JimCreationException,
+      JimDestructionException, InterruptedException, ExecutionException
   {
     if (!jimController.serviceExists(service))
     {
       throw new ServiceNotFoundException("Service not found");
     }
 
-    final InstanceDetails details = jimController.createInstance(service, settings.getSite());
+    final InstanceDetails details =
+        jimController.createInstance(service, settings.getSite(), branch);
 
     // grab the network that dev can reach
 

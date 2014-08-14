@@ -19,14 +19,16 @@ This is an example where a service and its dependency are started up and the ser
 @Before
   public void setup() throws Exception
   {
-    HostAndPort dreidelServer = HostAndPort.fromParts("10.20.27.84", 8020);
+    HostAndPort dreidelServer = HostAndPort.fromParts("localhost", 8020);
 
-    DreidelJinst jinstService = new DreidelJinst("service", dreidelServer, "boneyard");
-    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "dreidel-test123");
+    DreidelJinst jinstService =
+        DreidelJinstBuilder.builder().id("service").hap(dreidelServer).jinstClass("dreidel-goyim")
+            .workspace("US5057-workspaces").build();
+    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "boneyard");
 
     // (PnkyPromises are futures)
-    PnkyPromise<Void> servicePromise = jinstService.spin(3);
-    PnkyPromise<Void> dependencyPromise = jinstDependency.spin(3);
+    PnkyPromise<Void> servicePromise = jinstService.spin(4);
+    PnkyPromise<Void> dependencyPromise = jinstDependency.spin(4);
 
     servicePromise.get();
     dependencyPromise.get();
@@ -41,12 +43,13 @@ This is an example where a service and its dependency are started up and the ser
         "/etc/jive/boneyard/service.properties",
         "boneyard");
 
+    assertTrue(jinstService.getServiceStatus("boneyard"));
+
     log.debug("checking to see if the ip address {} is reachable", jinstService.getHost());
     assertTrue(InetAddress.getByName(jinstService.getHost()).isReachable(10000));
 
     log.debug("checking to see if the ip address {} is reachable", jinstDependency.getHost());
     assertTrue(InetAddress.getByName(jinstDependency.getHost()).isReachable(10000));
-
   }
 ```
 

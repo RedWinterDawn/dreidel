@@ -23,6 +23,6 @@ public interface ResourceFactory
   PostgresResource getPostgresResource(final HostAndPort hap, final String username,
       final String password);
 
-  JinstResource getJinstResource(String jClass);
+  JinstResource getJinstResource(String jClass, String branch);
 
 }

@@ -91,7 +91,7 @@ public class RestModule extends AbstractModule
   {
     RequestConfig config = RequestConfig.custom()
         .setConnectTimeout(1000)
-        .setSocketTimeout(10000)
+        .setSocketTimeout(20000)
         .setMaxRedirects(2)
         .setRedirectsEnabled(true)
         .setRelativeRedirectsAllowed(true)

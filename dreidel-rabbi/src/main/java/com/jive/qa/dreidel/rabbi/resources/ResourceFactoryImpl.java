@@ -40,8 +40,8 @@ public class ResourceFactoryImpl implements ResourceFactory
   }
 
   @Override
-  public JinstResource getJinstResource(String jClass)
+  public JinstResource getJinstResource(String jClass, String branch)
   {
-    return new JinstResource(jClass, creatorUrl, instanceCreator, instanceDeleter);
+    return new JinstResource(jClass, creatorUrl, instanceCreator, instanceDeleter, branch);
   }
 }

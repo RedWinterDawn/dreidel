@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
-import com.jive.qa.dreidel.goyim.models.NewInstance;
+import com.jive.qa.dreidel.goyim.models.Instance;
 import com.jive.qa.dreidel.goyim.models.ServiceDetail;
 
 @AllArgsConstructor
@@ -30,7 +30,7 @@ public class JimService
     return endpoint.createService(details, getTokenValue());
   }
 
-  public ListenableFuture<InstanceDetails> createInstance(NewInstance instance)
+  public ListenableFuture<InstanceDetails> createInstance(Instance instance)
   {
     return endpoint.createInstance(instance, getTokenValue());
   }

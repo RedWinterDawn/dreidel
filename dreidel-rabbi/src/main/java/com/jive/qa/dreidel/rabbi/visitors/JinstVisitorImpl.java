@@ -32,7 +32,8 @@ public class JinstVisitorImpl implements JinstVisitor<Reply, VisitorContext>
   {
     Pnky<Reply> promise = Pnky.create();
 
-    JinstResource resource = resourceFactory.getJinstResource(message.getJClass());
+    JinstResource resource =
+        resourceFactory.getJinstResource(message.getJClass(), message.getBranch());
 
     List<BaseResource> resources = resourceCorrelationMap.get(context.getId());
 
