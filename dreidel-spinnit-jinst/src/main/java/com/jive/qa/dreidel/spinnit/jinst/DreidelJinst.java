@@ -127,6 +127,6 @@ public class DreidelJinst
   public boolean getServiceStatus(String serviceName) throws InterruptedException,
       ExecutionException
   {
-    return endpoint.getServiceStatus(serviceName).get().contains("is running,");
+    return endpoint.getServiceStatus(serviceName).get().contains("is running.");
   }
 }

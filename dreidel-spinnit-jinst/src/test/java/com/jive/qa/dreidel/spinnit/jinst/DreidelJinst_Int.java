@@ -27,7 +27,7 @@ public class DreidelJinst_Int
     HostAndPort dreidelServer = HostAndPort.fromParts("10.20.27.84", 8020);
 
     DreidelJinst jinstService = new DreidelJinst("service", dreidelServer, "boneyard");
-    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "dreidel-test123");
+    DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "boneyard");
 
     // (PnkyPromises are futures)
     PnkyPromise<Void> servicePromise = jinstService.spin(4);
@@ -45,6 +45,8 @@ public class DreidelJinst_Int
     jinstService.setPropertiesAndRestart(serviceProperties,
         "/etc/jive/boneyard/service.properties",
         "boneyard");
+
+    assertTrue(jinstService.getServiceStatus("boneyard"));
 
     log.debug("checking to see if the ip address {} is reachable", jinstService.getHost());
     assertTrue(InetAddress.getByName(jinstService.getHost()).isReachable(10000));
