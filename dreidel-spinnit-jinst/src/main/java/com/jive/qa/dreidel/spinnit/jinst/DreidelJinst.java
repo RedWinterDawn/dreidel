@@ -116,10 +116,17 @@ public class DreidelJinst
     return promise;
   }
 
-  public void setPropertiesAndRestart(Map<String, String> properties, String filePath, String serviceName)
+  public void setPropertiesAndRestart(Map<String, String> properties, String filePath,
+      String serviceName)
       throws InterruptedException, ExecutionException
   {
     endpoint.setProperties(properties, filePath).get();
     endpoint.restartService(serviceName).get();
+  }
+
+  public boolean getServiceStatus(String serviceName) throws InterruptedException,
+      ExecutionException
+  {
+    return endpoint.getServiceStatus(serviceName).get().contains("is running,");
   }
 }
