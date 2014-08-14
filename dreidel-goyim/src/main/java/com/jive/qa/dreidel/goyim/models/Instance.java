@@ -9,10 +9,10 @@ import lombok.Getter;
 @Getter
 public class Instance
 {
-  private String site;
-  private int bm;
-  private List<Integer> cpuset;
-  private int instance;
-  private List<Network> networks;
+  private final String site;
+  private final int bm;
+  private final List<Integer> cpuset;
+  private final int instance;
+  private final List<Network> networks;
 
 }

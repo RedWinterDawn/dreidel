@@ -54,8 +54,12 @@
 
     <dependency>
       <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-runtime</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.jive.myco.jazz</groupId>
       <artifactId>jazz-test</artifactId>
-      <scope>test</scope>
     </dependency>
 
     <dependency>
@@ -89,15 +93,12 @@
             <id>default-package</id>
             <!-- Override the configuration to add a service. -->
             <configuration>
-              <jazzServices>
-                <jazzService>
+              <services>
+                <service>
                   <serviceName>dreidel-rabbi</serviceName>
-                  <modules>
-                    <module>com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule</module>
-                    <module>com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule</module>
-                  </modules>
-                </jazzService>
-              </jazzServices>
+                  <serviceClass>com.jive.qa.dreidel.rabbi.service.Main</serviceClass>
+                </service>
+              </services>
             </configuration>
           </execution>
         </executions>

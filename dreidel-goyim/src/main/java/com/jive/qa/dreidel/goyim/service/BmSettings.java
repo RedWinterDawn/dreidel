@@ -12,11 +12,11 @@ import com.google.inject.Inject;
 public class BmSettings
 {
   @Inject
-  public BmSettings(@Named("bm.cpu.start") int cpuStart,
-      @Named("bm.cpu.stop") int cpuStop, @Named("bm.cpu.physical.last") int lastCpu,
-      @Named("networksMap") Map<String, String> networksMap, @Named("bm.site") String site,
-      @Named("bm.blade") int blade, @Named("bm.networks.preferred") String preferred,
-      @Named("bm.iprange.start") int ipRangeStart, @Named("bm.iprange.stop") int ipRangeStop)
+  public BmSettings(@Named("bm.cpu.start") final int cpuStart,
+      @Named("bm.cpu.stop") final int cpuStop, @Named("bm.cpu.physical.last") final int lastCpu,
+      @Named("networksMap") final Map<String, String> networksMap, @Named("bm.site") final String site,
+      @Named("bm.blade") final int blade, @Named("bm.networks.preferred") final String preferred,
+      @Named("bm.iprange.start") final int ipRangeStart, @Named("bm.iprange.stop") final int ipRangeStop)
   {
     this.cpuStart = cpuStart;
     this.cpuStop = cpuStop;

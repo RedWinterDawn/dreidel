@@ -1,4 +1,4 @@
-package com.jive.qa.dreidel.goyim.jinst.service.rest;
+package com.jive.qa.dreidel.goyim.service;
 
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -17,13 +17,14 @@ import com.jive.myco.jazz.api.rest.RestServiceBinding;
 import com.jive.myco.jazz.api.rest.RestServiceDescriptor;
 import com.jive.myco.jazz.api.rest.RestServiceManager;
 import com.jive.myco.jazz.api.runtime.JazzRuntimeEnvironment;
+import com.jive.qa.dreidel.goyim.views.DreidelView;
 
 public class RestServerManager
 {
 
   private final JazzRuntimeEnvironment jazzRuntime;
   private final RestServiceManager restServiceManager;
-  private final GoyimView view;
+  private final DreidelView view;
   private final ObjectMapper objectMapper;
   private final int port;
 
@@ -32,7 +33,8 @@ public class RestServerManager
   @Inject
   public RestServerManager(final JazzRuntimeEnvironment jazzRuntime,
       final RestServiceManager restServiceManager,
-      final GoyimView view, final ObjectMapper objectMapper, @Named("rest-server-port") final int port)
+      final DreidelView view, final ObjectMapper objectMapper,
+      @Named("rest-server-port") final int port)
   {
     this.jazzRuntime = jazzRuntime;
     this.restServiceManager = restServiceManager;

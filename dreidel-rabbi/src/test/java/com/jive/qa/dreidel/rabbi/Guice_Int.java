@@ -5,30 +5,23 @@ import java.io.InputStreamReader;
 
 import org.junit.Test;
 
-import com.jive.myco.jazz.config.inject.JazzServiceConfigurationModule;
-import com.jive.myco.jazz.test.launcher.JazzServiceTestLauncher;
-import com.jive.qa.dreidel.rabbi.service.WebsocketServiceModule;
+import com.jive.myco.config.PropertiesJazzConfiguration;
+import com.jive.myco.jazz.test.launcher.JazzRuntimeTestLauncher;
+import com.jive.qa.dreidel.rabbi.service.Main;
 
 public class Guice_Int
 {
   @Test
   public void test() throws Exception
   {
-    try (
-        // Implements closeable so you can be sure it gets killed on the way out of your test
-        // method.
+    final Main main = new Main();
 
-        final JazzServiceTestLauncher launcher = JazzServiceTestLauncher.builder()
-            // Name it
-            .serviceName("jazz-examples-jazz-service")
-            // Add the modules you want to launch
-            .addModule(JazzServiceConfigurationModule.class)
-            .addModule(WebsocketServiceModule.class)
-            // Set some properties provided to your service via the launcher
-            .build())
+    try (JazzRuntimeTestLauncher<PropertiesJazzConfiguration> testLauncher =
+        JazzRuntimeTestLauncher.<PropertiesJazzConfiguration> builder()
+        .launcher(main)
+        .build())
     {
-      // Start it up
-      launcher.init();
+      testLauncher.init();
 
       // Wait a little so it spits out some logs
 
