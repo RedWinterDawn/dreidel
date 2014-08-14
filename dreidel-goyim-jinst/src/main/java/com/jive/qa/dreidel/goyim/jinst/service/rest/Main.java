@@ -11,6 +11,7 @@ import com.jive.myco.jazz.api.runtime.JazzCore;
 import com.jive.myco.jazz.api.runtime.JazzRuntimeEnvironment;
 import com.jive.myco.jazz.runtime.SimpleAbstractJazzRuntimeLauncher;
 import com.jive.qa.dreidel.goyim.jinst.service.ExampleServiceModule;
+import com.jive.qa.dreidel.goyim.jinst.service.postback.PostResults;
 
 public class Main extends SimpleAbstractJazzRuntimeLauncher
 {
@@ -21,7 +22,7 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
   @Override
   public String getDefaultServiceName()
   {
-    return "goyim-jinst-1";
+    return "dreidel-goyim-jinst";
   }
 
   public static void main(final String[] args)
@@ -54,6 +55,9 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
             injector.getInstance(ObjectMapper.class), injector.getInstance(Key.get(Integer.class,
                 Names.named("rest-server-port"))));
     manager.start();
+
+    PostResults poster = injector.getInstance(PostResults.class);
+    poster.sendPost();
   }
 
   @Override
