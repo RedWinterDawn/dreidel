@@ -43,6 +43,14 @@ public class DreidelPostgres
   private DreidelConnection connection;
   private final DreidelSpinner spinner;
 
+  /**
+   * Creates the Dreidel Postgres instance.
+   *
+   * @param id
+   *          The logging ID of the Dreidel Postgres instance.
+   * @param hap
+   *          The host and port of the database instance.
+   */
   public DreidelPostgres(String id, HostAndPort hap)
   {
     logprefix = "[" + id + "]";
@@ -59,6 +67,9 @@ public class DreidelPostgres
     this.spinner = spinner;
   }
 
+  /**
+   * Spin up a Postgres database. Blocks until the database is available.
+   */
   public void spin() throws DreidelConnectionException
   {
     log.debug("{} Spinning up a postgres database", logprefix);
@@ -109,6 +120,14 @@ public class DreidelPostgres
     }
   }
 
+  /**
+   * Executes SQL against the database.
+   *
+   * @param source
+   *          The source of the SQL schema or data. Does not work with pg_dump.
+   * @throws SQLException
+   *           A SQLException if there is a problem with the SQL.
+   */
   public void executeSql(final CharSource source) throws SQLException, DreidelConnectionException
   {
     log.debug("{} Executing sql against database {}", logprefix, getDatabaseName());
@@ -139,6 +158,14 @@ public class DreidelPostgres
     }
   }
 
+  /**
+   * Executes a directory containing *.sql files against the database.
+   *
+   * @param directory
+   *          The directory containing the SQL files (schema or data).
+   * @throws SQLException
+   *           A SQLException if there is a problem with the SQL.
+   */
   public void executeSqlDirectory(final File directory) throws SQLException,
       DreidelConnectionException
   {
@@ -149,7 +176,15 @@ public class DreidelPostgres
         if (fileEntry.getName().endsWith(".sql"))
         {
           CharSource cs = Files.asCharSource(fileEntry, Charsets.UTF_8);
-          executeSql(cs);
+          try
+          {
+            executeSql(cs);
+          }
+          catch (SQLException e)
+          {
+            throw new SQLException("There was a problem uploading the file " + fileEntry.getName()
+                + " see cause for details", e);
+          }
         }
       }
     }

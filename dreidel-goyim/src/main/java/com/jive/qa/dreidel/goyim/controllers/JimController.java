@@ -15,7 +15,7 @@ import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
 import com.jive.qa.dreidel.goyim.exceptions.ServiceNotFoundException;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
-import com.jive.qa.dreidel.goyim.models.NewInstance;
+import com.jive.qa.dreidel.goyim.models.Instance;
 import com.jive.qa.dreidel.goyim.models.ServiceDetail;
 import com.jive.qa.dreidel.goyim.rest.JimService;
 
@@ -59,7 +59,7 @@ public class JimController
     }
 
     // create instance using Jim
-    final NewInstance in = new NewInstance(site, serviceDetails.getName(), branch);
+    final Instance in = new Instance(site, serviceDetails.getName(), branch);
 
     InstanceDetails details = null;
 

@@ -9,7 +9,7 @@ import javax.ws.rs.PathParam;
 
 import com.google.common.util.concurrent.ListenableFuture;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
-import com.jive.qa.dreidel.goyim.models.NewInstance;
+import com.jive.qa.dreidel.goyim.models.Instance;
 import com.jive.qa.dreidel.goyim.models.ServiceDetail;
 
 @Path("/api")
@@ -27,7 +27,7 @@ public interface JimResource
 
   @POST
   @Path("/instances")
-  ListenableFuture<InstanceDetails> createInstance(final NewInstance instance,
+  ListenableFuture<InstanceDetails> createInstance(final Instance instance,
       @HeaderParam("Authorization") String authorization);
 
   @POST

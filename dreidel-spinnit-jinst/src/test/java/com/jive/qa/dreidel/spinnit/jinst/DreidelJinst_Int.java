@@ -16,6 +16,7 @@ import com.google.common.collect.Maps;
 import com.google.common.net.HostAndPort;
 import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
+import com.jive.qa.dreidel.spinnit.jinst.DreidelJinst.DreidelJinstBuilder;
 
 @Slf4j
 public class DreidelJinst_Int
@@ -27,7 +28,8 @@ public class DreidelJinst_Int
     HostAndPort dreidelServer = HostAndPort.fromParts("localhost", 8020);
 
     DreidelJinst jinstService =
-        new DreidelJinst("service", dreidelServer, "dreidel-goyim", "workspace/US5057-workspaces");
+        DreidelJinstBuilder.builder().id("service").hap(dreidelServer).jinstClass("dreidel-goyim")
+            .workspace("US5057-workspaces").build();
     DreidelJinst jinstDependency = new DreidelJinst("dependency", dreidelServer, "boneyard");
 
     // (PnkyPromises are futures)
