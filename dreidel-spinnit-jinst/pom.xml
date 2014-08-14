@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.jive.qa.dreidel</groupId>
     <artifactId>dreidel-root</artifactId>
-    <version>0.1.5</version>
+    <version>0.1.6-SNAPSHOT</version>
   </parent>
   <artifactId>dreidel-spinnit-jinst</artifactId>
   <name>Dreidel :: Spinnit :: Jinst</name>
