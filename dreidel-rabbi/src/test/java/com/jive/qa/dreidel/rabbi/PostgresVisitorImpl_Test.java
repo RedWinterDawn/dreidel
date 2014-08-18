@@ -27,6 +27,7 @@ import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 import com.jive.qa.dreidel.rabbi.resources.JinstResource;
 import com.jive.qa.dreidel.rabbi.resources.PostgresResource;
 import com.jive.qa.dreidel.rabbi.resources.ResourceFactory;
+import com.jive.qa.dreidel.rabbi.resources.WiremockResource;
 import com.jive.qa.dreidel.rabbi.service.PostgresConfiguration;
 import com.jive.qa.dreidel.rabbi.visitors.PostgresVisitorImpl;
 
@@ -52,6 +53,13 @@ public class PostgresVisitorImpl_Test
 
     @Override
     public JinstResource getJinstResource(String jClass, String branch)
+    {
+      // TODO Auto-generated method stub
+      return null;
+    }
+
+    @Override
+    public WiremockResource getWiremockResource(HostAndPort hap)
     {
       // TODO Auto-generated method stub
       return null;

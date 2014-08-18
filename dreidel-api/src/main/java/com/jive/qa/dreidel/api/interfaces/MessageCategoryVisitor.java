@@ -4,6 +4,7 @@ import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.jinst.JinstRequestMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresRequestMessage;
+import com.jive.qa.dreidel.api.messages.wiremock.WiremockRequestMessage;
 
 /**
  * MessageCategoryVisitor is a visitor that visits MessageCategoryVisitables.
@@ -36,4 +37,14 @@ public interface MessageCategoryVisitor<Reply, Context>
    * @return a PnkyPromise that accepts with reply and fails with a throwable
    */
   PnkyPromise<Reply> visit(JinstRequestMessage message, VisitorContext context);
+
+  /**
+   *
+   * @param message
+   *          the wiremock message that should be visited
+   * @param context
+   *          the context to be given to the visitor
+   * @return a PnkyPromise that accepts with reply and fails with a throwable
+   */
+  PnkyPromise<Reply> visit(WiremockRequestMessage message, VisitorContext context);
 }

@@ -28,6 +28,7 @@
     <module>dreidel-spinnit-jinst</module>
     <module>dreidel-spinnit-api</module>
     <module>dreidel-goyim-jinst</module>
+    <module>dreidel-spinnit-wiremock</module>
   </modules>
 
   <properties>

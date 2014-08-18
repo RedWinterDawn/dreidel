@@ -25,4 +25,6 @@ public interface ResourceFactory
 
   JinstResource getJinstResource(String jClass, String branch);
 
+  WiremockResource getWiremockResource(HostAndPort hap);
+
 }

@@ -25,6 +25,7 @@ import com.jive.myco.jivewire.transport.jetty.ws.JettyWebsocketHighLevelTranspor
 import com.jive.qa.dreidel.api.interfaces.JinstVisitor;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
+import com.jive.qa.dreidel.api.interfaces.WiremockVisitor;
 import com.jive.qa.dreidel.api.messages.Message;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
@@ -43,6 +44,7 @@ import com.jive.qa.dreidel.rabbi.views.DreidelTransportListener;
 import com.jive.qa.dreidel.rabbi.visitors.JinstVisitorImpl;
 import com.jive.qa.dreidel.rabbi.visitors.PostgresVisitorImpl;
 import com.jive.qa.dreidel.rabbi.visitors.RoutingVisitor;
+import com.jive.qa.dreidel.rabbi.visitors.WiremockVisitorImpl;
 import com.jive.qa.restinator.Endpoint;
 import com.jive.qa.restinator.codecs.ByteArrayEndpointCodec;
 
@@ -151,5 +153,14 @@ public class WebsocketServiceModule extends AbstractModule
       Map<String, List<BaseResource>> resourceCorrelationMap, ResourceFactory factory)
   {
     return new JinstVisitorImpl(Executors.newFixedThreadPool(10), resourceCorrelationMap, factory);
+  }
+
+  @Provides
+  WiremockVisitor<Reply, VisitorContext> getWireMockVisitorImpl(
+      Map<String, List<BaseResource>> resourceCorrelationMap, ResourceFactory factory,
+      WireMockConfiguration configuration)
+  {
+    return new WiremockVisitorImpl(Executors.newFixedThreadPool(10), resourceCorrelationMap,
+        factory, configuration);
   }
 }

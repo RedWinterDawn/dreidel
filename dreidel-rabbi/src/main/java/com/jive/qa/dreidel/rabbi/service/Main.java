@@ -47,6 +47,7 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
   {
     websocketService = injector.getInstance(WebsocketService.class);
     websocketService.start();
+
   }
 
   @Override
