@@ -27,10 +27,6 @@ public class DreidelWiremock
 
   @Getter
   private String dreidelId;
-  @Getter
-  private String host;
-  @Getter
-  private int port;
 
   /**
    * Creates a new Connection to Dreidel so you can build an instance of a jinst class.
@@ -62,7 +58,7 @@ public class DreidelWiremock
    * @throws DreidelConnectionException
    *           If there is a problem connecting to dreidel
    */
-  public void spin() throws DreidelConnectionException
+  public WiremockConfigurator spin() throws DreidelConnectionException
   {
     log.debug("{} Spinning up a dreidel wiremock server", logprefix);
     // TODO state checking because we don't want to kill a connection if we are already connected.
@@ -95,10 +91,12 @@ public class DreidelWiremock
         ConnectionInformation information =
             ((ConnectionInformationMessage) reply).getConnections().get(0);
         this.dreidelId = information.getId().toString();
-        this.host = hap.getHostText();
-        this.port = information.getPort();
+        return new WiremockConfigurator(HostAndPort.fromParts(hap.getHostText(), hap.getPort()));
       }
-
+    }
+    else
+    {
+      throw new DreidelConnectionException("The connection was null...uh-oh");
     }
   }
 

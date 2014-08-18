@@ -22,13 +22,11 @@ public class DreidelWiremockTest
     DreidelWiremock wiremock =
         new DreidelWiremock("fake hmac", HostAndPort.fromParts("localhost", 8020));
 
-    wiremock.spin();
+    WiremockConfigurator configurator = wiremock.spin();
 
-    configureFor(wiremock.getHost(), wiremock.getPort());
+    log.debug("connecting on port {}", configurator.getHap().getPort());
 
-    log.debug("connecting on port {}", wiremock.getPort());
-
-    stubFor(get(urlEqualTo("/my/resource")).willReturn(
+    configurator.stubFor(get(urlEqualTo("/my/resource")).willReturn(
         aResponse()
             .withStatus(404)
             .withHeader("Content-Type", "appplication/json")
