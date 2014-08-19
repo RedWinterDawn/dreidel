@@ -21,15 +21,18 @@ public class ResourceFactoryImpl implements ResourceFactory
   private final URL creatorUrl;
   private final Endpoint<IdResponse, Void> instanceCreator;
   private final Endpoint<ResponseCodeOnly, Void> instanceDeleter;
+  private final String wiremockLocation;
 
   @Inject
   public ResourceFactoryImpl(@Named("creationUrl") URL creatorUrl,
       @Named("creationEndpoint") Endpoint<IdResponse, Void> instanceCreator,
-      @Named("deletionEndpoint") Endpoint<ResponseCodeOnly, Void> instanceDeleter)
+      @Named("deletionEndpoint") Endpoint<ResponseCodeOnly, Void> instanceDeleter,
+      @Named("wiremock.jar.location") String wiremockLocation)
   {
     this.creatorUrl = creatorUrl;
     this.instanceCreator = instanceCreator;
     this.instanceDeleter = instanceDeleter;
+    this.wiremockLocation = wiremockLocation;
   }
 
   @Override
@@ -43,5 +46,11 @@ public class ResourceFactoryImpl implements ResourceFactory
   public JinstResource getJinstResource(String jClass, String branch)
   {
     return new JinstResource(jClass, creatorUrl, instanceCreator, instanceDeleter, branch);
+  }
+
+  @Override
+  public WiremockResource getWiremockResource(HostAndPort hap)
+  {
+    return new WiremockResource(hap, wiremockLocation);
   }
 }

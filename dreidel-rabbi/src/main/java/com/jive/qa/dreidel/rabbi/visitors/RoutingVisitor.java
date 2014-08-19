@@ -8,9 +8,11 @@ import com.jive.myco.commons.concurrent.PnkyPromise;
 import com.jive.qa.dreidel.api.interfaces.JinstVisitor;
 import com.jive.qa.dreidel.api.interfaces.MessageCategoryVisitor;
 import com.jive.qa.dreidel.api.interfaces.PostgresVisitor;
+import com.jive.qa.dreidel.api.interfaces.WiremockVisitor;
 import com.jive.qa.dreidel.api.messages.VisitorContext;
 import com.jive.qa.dreidel.api.messages.jinst.JinstRequestMessage;
 import com.jive.qa.dreidel.api.messages.postgres.PostgresRequestMessage;
+import com.jive.qa.dreidel.api.messages.wiremock.WiremockRequestMessage;
 import com.jive.qa.dreidel.api.replies.Reply;
 
 /**
@@ -26,6 +28,7 @@ public class RoutingVisitor implements
 
   private final PostgresVisitor<Reply, VisitorContext> postgresVisitor;
   private final JinstVisitor<Reply, VisitorContext> jinstVisitor;
+  private final WiremockVisitor<Reply, VisitorContext> wiremockVisitor;
 
   @Override
   public PnkyPromise<Reply> visit(final PostgresRequestMessage message,
@@ -39,4 +42,11 @@ public class RoutingVisitor implements
   {
     return message.accept(jinstVisitor, context);
   }
+
+  @Override
+  public PnkyPromise<Reply> visit(WiremockRequestMessage message, VisitorContext context)
+  {
+    return message.accept(wiremockVisitor, context);
+  }
+
 }

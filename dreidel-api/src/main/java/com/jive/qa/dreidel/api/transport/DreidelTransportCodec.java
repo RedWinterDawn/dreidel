@@ -51,7 +51,8 @@ public class DreidelTransportCodec implements
         String type = myJson.get("type").textValue();
         // once we have the type we can just return as we can cast the type as a class name
         rtn = (Message) getJson()
-            .readValue(input, Class.forName(getClassName(myJson, type)));
+            .readValue(input, Class.forName(getClassName(type)));
+
       }
       else
       {
@@ -79,15 +80,19 @@ public class DreidelTransportCodec implements
     }
   }
 
-  public String getClassName(final JsonNode message, final String type)
+  public String getClassName(final String type)
   {
-    if (message.get("type").textValue().contains("Postgres"))
+    if (type.contains("Postgres"))
     {
       return DEFAULT_PACKAGE_NAME + ".postgres." + type;
     }
-    else if (message.get("type").textValue().contains("Jinst"))
+    else if (type.contains("Jinst"))
     {
       return DEFAULT_PACKAGE_NAME + ".jinst." + type;
+    }
+    else if (type.contains("Wiremock"))
+    {
+      return DEFAULT_PACKAGE_NAME + ".wiremock." + type;
     }
     else
     {
