@@ -20,7 +20,7 @@ public class DreidelWiremock_Int
   {
 
     DreidelWiremock wiremock =
-        new DreidelWiremock("fake hmac", HostAndPort.fromParts("localhost", 8020));
+        new DreidelWiremock("fake hmac", HostAndPort.fromParts("10.20.26.72", 8020));
 
     WiremockConfigurator configurator = wiremock.spin();
 

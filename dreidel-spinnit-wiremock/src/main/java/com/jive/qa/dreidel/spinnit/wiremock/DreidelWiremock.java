@@ -91,7 +91,8 @@ public class DreidelWiremock
         ConnectionInformation information =
             ((ConnectionInformationMessage) reply).getConnections().get(0);
         this.dreidelId = information.getId().toString();
-        return new WiremockConfigurator(HostAndPort.fromParts(hap.getHostText(), hap.getPort()));
+        return new WiremockConfigurator(HostAndPort.fromParts(hap.getHostText(),
+            information.getPort()));
       }
     }
     else
