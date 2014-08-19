@@ -5,7 +5,19 @@ Dreidel
 
 + [dreidel-spinnit-postgres](dreidel-spinnit-postgres)
 + [dreidel-spinnit-jinst](dreidel-spinnit-jinst)
++ [dreidel-spinnit-wiremock](dreidel-spinnit-wiremock)
 
+
+###US5251 Release notes
+
+###Wiremock integration
++ dreidel can now spin up instances of wiremock servers
++ new spinnit client to create and manage them
+
+###US5056/5057
++ added service status endpoint to the goyim-jinst
++ added workspace/branch integration with jim
++ reintegrated with the new jim
 
 
 ###US4750/3989 Release notes
