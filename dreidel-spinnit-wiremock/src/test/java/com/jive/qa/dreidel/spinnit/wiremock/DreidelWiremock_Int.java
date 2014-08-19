@@ -12,7 +12,7 @@ import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 
 @Slf4j
-public class DreidelWiremockTest
+public class DreidelWiremock_Int
 {
 
   @Test
