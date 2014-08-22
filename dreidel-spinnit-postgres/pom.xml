@@ -42,7 +42,7 @@
     <dependency>
       <groupId>com.jive.myco.jazz</groupId>
       <artifactId>jazz-test</artifactId>
-    </dependency> 
+    </dependency>
     
     <dependency>
     	<groupId>com.jive.qa.dreidel</groupId>
