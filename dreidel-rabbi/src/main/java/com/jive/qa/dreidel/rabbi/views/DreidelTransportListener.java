@@ -38,7 +38,10 @@ public final class DreidelTransportListener implements HighLevelTransportListene
   @Override
   public void onDisconnected(final HighLevelTransportConnection<Message, Message> connection)
   {
-    for (BaseResource model : resourceCorrelationMap.get(connection.getId()))
+
+    List<BaseResource> resources = resourceCorrelationMap.get(connection.getId());
+    log.info("closing {} resources for {}", resources.size(), connection.getId());
+    for (BaseResource model : resources)
     {
       try
       {
