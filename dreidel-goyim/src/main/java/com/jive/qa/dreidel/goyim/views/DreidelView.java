@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.jive.myco.commons.callbacks.CallbackFuture;
@@ -29,6 +31,7 @@ import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.service.BmSettings;
 
 @Path("/")
+@Slf4j
 public class DreidelView
 {
 
@@ -42,6 +45,29 @@ public class DreidelView
   {
     this.settings = settings;
     this.jimController = jimController;
+  }
+
+  @DELETE
+  @Path("/{service}/{id:.*}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public String deleteServer(@PathParam("service") final String service,
+      @PathParam("id") final String id) throws JsonProcessingException, InstanceNotFoundException,
+      ServiceNotFoundException, JimDestructionException, InterruptedException, ExecutionException
+  {
+    log.info("Deleting instance of {} at id: {}", service, id);
+    if (!jimController.serviceExists(service))
+    {
+      throw new ServiceNotFoundException("Service not found");
+    }
+
+    if (!jimController.instanceExists(id))
+    {
+      throw new InstanceNotFoundException("Instance not found");
+    }
+
+    jimController.deleteInstance(service, id);
+    log.info("Deleted instance of {} at id: {}", service, id);
+    return "\"Success\"";
   }
 
   @POST
@@ -69,28 +95,8 @@ public class DreidelView
     serverCorrelationMap.put(address, callback);
 
     callback.get();
+    log.info("Created new instance of {} at id: {}", details.getService(), details.getId());
     return new IdResponse(details.getRid(), address);
-  }
-
-  @DELETE
-  @Path("/{service}/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public String deleteServer(@PathParam("service") final String service,
-      @PathParam("id") final String id) throws JsonProcessingException, InstanceNotFoundException,
-      ServiceNotFoundException, JimDestructionException, InterruptedException, ExecutionException
-  {
-    if (!jimController.serviceExists(service))
-    {
-      throw new ServiceNotFoundException("Service not found");
-    }
-
-    if (!jimController.instanceExists(id))
-    {
-      throw new InstanceNotFoundException("Instance not found");
-    }
-
-    jimController.deleteInstance(service, id);
-    return "\"Success\"";
   }
 
   @POST
