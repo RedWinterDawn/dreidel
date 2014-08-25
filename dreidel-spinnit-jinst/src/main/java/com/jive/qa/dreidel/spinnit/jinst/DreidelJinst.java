@@ -111,7 +111,6 @@ public class DreidelJinst
 
         try
         {
-          // TODO remove hard coded timeout
           reply =
               connection.writeRequest(new JinstCreateMessage(UUID.randomUUID().toString(), jClass,
                   branch),
@@ -135,19 +134,19 @@ public class DreidelJinst
             // TODO this is where we would allow multiple connections to be returned for a single
             // jinst
             // instantiation
-            ConnectionInformation information =
-                ((ConnectionInformationMessage) reply).getConnections().get(0);
-            this.dreidelId = information.getId().toString();
-            this.host = information.getHost();
-            CloseableHttpAsyncClient client = HttpAsyncClients.createMinimal();
-            client.start();
-            this.endpoint =
-                new RestClient(client, new ObjectMapper()).bind(
-                    "http://" + host + ":8018",
-                    GoyimJinstResource.class);
-            promise.resolve(null);
-          }
-        });
+          ConnectionInformation information =
+              ((ConnectionInformationMessage) reply).getConnections().get(0);
+          this.dreidelId = information.getId().toString();
+          this.host = information.getHost();
+          CloseableHttpAsyncClient client = HttpAsyncClients.createMinimal();
+          client.start();
+          this.endpoint =
+              new RestClient(client, new ObjectMapper()).bind(
+                  "http://" + host + ":8018",
+                  GoyimJinstResource.class);
+          promise.resolve(null);
+        }
+      });
 
     }
     return promise;

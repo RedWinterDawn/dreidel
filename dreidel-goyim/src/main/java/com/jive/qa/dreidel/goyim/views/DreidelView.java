@@ -47,6 +47,29 @@ public class DreidelView
     this.jimController = jimController;
   }
 
+  @DELETE
+  @Path("/{service}/{id:.*}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public String deleteServer(@PathParam("service") final String service,
+      @PathParam("id") final String id) throws JsonProcessingException, InstanceNotFoundException,
+      ServiceNotFoundException, JimDestructionException, InterruptedException, ExecutionException
+  {
+    log.info("Deleting instance of {} at id: {}", service, id);
+    if (!jimController.serviceExists(service))
+    {
+      throw new ServiceNotFoundException("Service not found");
+    }
+
+    if (!jimController.instanceExists(id))
+    {
+      throw new InstanceNotFoundException("Instance not found");
+    }
+
+    jimController.deleteInstance(service, id);
+    log.info("Deleted instance of {} at id: {}", service, id);
+    return "\"Success\"";
+  }
+
   @POST
   @Path("/{service}/{branch:.*}")
   @Produces(MediaType.APPLICATION_JSON)
@@ -74,28 +97,6 @@ public class DreidelView
     callback.get();
     log.info("Created new instance of {} at id: {}", details.getService(), details.getId());
     return new IdResponse(details.getRid(), address);
-  }
-
-  @DELETE
-  @Path("/{service}/{id}")
-  @Produces(MediaType.APPLICATION_JSON)
-  public String deleteServer(@PathParam("service") final String service,
-      @PathParam("id") final String id) throws JsonProcessingException, InstanceNotFoundException,
-      ServiceNotFoundException, JimDestructionException, InterruptedException, ExecutionException
-  {
-    if (!jimController.serviceExists(service))
-    {
-      throw new ServiceNotFoundException("Service not found");
-    }
-
-    if (!jimController.instanceExists(id))
-    {
-      throw new InstanceNotFoundException("Instance not found");
-    }
-
-    jimController.deleteInstance(service, id);
-    log.info("Deleted instance of {} at id: {}", service, id);
-    return "\"Success\"";
   }
 
   @POST

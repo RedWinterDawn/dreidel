@@ -8,6 +8,7 @@ wiremock is a tool used to mock rest services.  dreidel-spinnit-wiremock allows 
 	<groupId>com.jive.qa.dreidel</groupId>
 	<artifactId>dreidel-spinnit-wiremock</artifactId>
 	<version>0.1.8</version>
+	<scope>test</scope>
 </dependency>
 ```
 

@@ -14,8 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import com.jive.qa.dreidel.goyim.exceptions.JimCreationException;
 import com.jive.qa.dreidel.goyim.exceptions.JimDestructionException;
 import com.jive.qa.dreidel.goyim.exceptions.ServiceNotFoundException;
-import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.models.Instance;
+import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.models.ServiceDetail;
 import com.jive.qa.dreidel.goyim.rest.JimService;
 
@@ -38,8 +38,6 @@ public class JimController
     final ServiceDetail serviceDetails = endpoint.getService(service).get();
     // muck with service
     serviceDetails.setName(serviceDetails.getName() + "-dreidel-" + serviceId);
-    serviceDetails.setCpus(1);
-    serviceDetails.setMemory(512);
     serviceDetails.getClasses().add(0, "base");
 
     serviceDetails.getClasses().add("dreidel-goyim-jinst");

@@ -67,6 +67,12 @@ public class DreidelPostgres
     this.spinner = spinner;
   }
 
+  public String getJdbcUrl()
+  {
+    return "jdbc:postgresql://" + getHap().getHostText() + ":" + getHap().getPort() + "/"
+        + getDatabaseName();
+  }
+
   /**
    * Spin up a Postgres database. Blocks until the database is available.
    */
