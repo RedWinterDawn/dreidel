@@ -10,7 +10,7 @@ Add this to your maven pom.xml
 <dependency>
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-spinnit-postgres</artifactId>
-  <version>0.0.2</version>
+  <version>0.1.8</version>
   <scope>test</scope>
 </dependency>
 ```
