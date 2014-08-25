@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import lombok.extern.slf4j.Slf4j;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.Maps;
 import com.jive.myco.commons.callbacks.CallbackFuture;
@@ -29,6 +31,7 @@ import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.service.BmSettings;
 
 @Path("/")
+@Slf4j
 public class DreidelView
 {
 
@@ -69,6 +72,7 @@ public class DreidelView
     serverCorrelationMap.put(address, callback);
 
     callback.get();
+    log.info("Created new instance of {} at id: {}", details.getService(), details.getId());
     return new IdResponse(details.getRid(), address);
   }
 
@@ -90,6 +94,7 @@ public class DreidelView
     }
 
     jimController.deleteInstance(service, id);
+    log.info("Deleted instance of {} at id: {}", service, id);
     return "\"Success\"";
   }
 

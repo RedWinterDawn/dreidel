@@ -40,13 +40,13 @@ public final class DreidelTransportListener implements HighLevelTransportListene
   {
 
     List<BaseResource> resources = resourceCorrelationMap.get(connection.getId());
-    log.info("closing {} resources for {}", resources.size(), connection.getId());
+    log.info("destroying {} resources for {}", resources.size(), connection.getId());
     for (BaseResource model : resources)
     {
       try
       {
         model.destroy();
-        log.info("destroying resource {}", model);
+        log.info("destroyed resource {}", model);
       }
       catch (ResourceDestructionException e)
       {
