@@ -3,6 +3,7 @@ package com.jive.qa.dreidel.rabbi.resources;
 import java.net.URL;
 
 import lombok.Getter;
+import lombok.ToString;
 
 import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
@@ -11,6 +12,7 @@ import com.jive.qa.dreidel.api.messages.goyim.IdResponse;
 import com.jive.qa.dreidel.api.messages.goyim.ResponseCodeOnly;
 import com.jive.qa.restinator.Endpoint;
 
+@ToString
 public class JinstResource extends BaseResourceImpl implements BaseResource
 {
 

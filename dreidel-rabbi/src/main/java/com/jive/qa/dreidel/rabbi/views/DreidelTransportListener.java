@@ -17,7 +17,7 @@ import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 
 /**
  * TransportListener that wires up a connection listener onConnected
- * 
+ *
  * @author jdavidson
  *
  */
@@ -43,6 +43,7 @@ public final class DreidelTransportListener implements HighLevelTransportListene
       try
       {
         model.destroy();
+        log.info("destroying resource {}", model);
       }
       catch (ResourceDestructionException e)
       {
