@@ -69,7 +69,7 @@ public class DreidelPostgres
 
   public String getJdbcUrl()
   {
-    return "jdbc:postgresql://" + getHap().getHostText() + ":" + getHap().getPort() + "/"
+    return "jdbc:postgresql://" + getHap().getHostText() + ":" + getPort() + "/"
         + getDatabaseName();
   }
 
