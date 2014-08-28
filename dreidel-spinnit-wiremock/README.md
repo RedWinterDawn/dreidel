@@ -23,7 +23,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 ```JAVA
 	DreidelWiremock wiremock =
-        new DreidelWiremock("fake hmac", HostAndPort.fromParts("10.20.27.84", 8020));
+        new DreidelWiremock("fake hmac", HostAndPort.fromParts("10.20.26.251", 8020));
 
     WiremockConfigurator configurator = wiremock.spin();
 

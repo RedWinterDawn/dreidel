@@ -19,7 +19,7 @@ This is an example where a service and its dependency are started up and the ser
 @Before
   public void setup() throws Exception
   {
-    HostAndPort dreidelServer = HostAndPort.fromParts("localhost", 8020);
+    HostAndPort dreidelServer = HostAndPort.fromParts("10.20.26.251", 8020);
 
     DreidelJinst jinstService =
         DreidelJinstBuilder.builder().id("service").hap(dreidelServer).jinstClass("dreidel-goyim")

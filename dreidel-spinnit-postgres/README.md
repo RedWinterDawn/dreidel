@@ -19,7 +19,7 @@ Add this to your maven pom.xml
 Run the following code
 
 ```JAVA
-HostAndPort server = HostAndPort.fromParts("dreidel.ftw.jiveip.net", 8020);
+HostAndPort server = HostAndPort.fromParts("10.20.26.251", 8020);
 DreidelPostgres db = new DreidelPostgres("test-db", server);  // Create the database
 db.spin();
 
