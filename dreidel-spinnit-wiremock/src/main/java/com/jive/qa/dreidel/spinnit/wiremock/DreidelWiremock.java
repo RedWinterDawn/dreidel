@@ -1,9 +1,12 @@
 package com.jive.qa.dreidel.spinnit.wiremock;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
+
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import com.google.common.net.HostAndPort;
@@ -73,7 +76,7 @@ public class DreidelWiremock
         reply =
             connection.writeRequest(new WiremockCreateMessage(UUID.randomUUID().toString()),
                 10, TimeUnit.SECONDS);
-        log.debug("{} Recieved reply to creation message {}", logprefix, reply);
+        log.info("{} Recieved reply to creation message {}", logprefix, reply);
       }
       catch (Exception e)
       {
@@ -91,14 +94,41 @@ public class DreidelWiremock
         ConnectionInformation information =
             ((ConnectionInformationMessage) reply).getConnections().get(0);
         this.dreidelId = information.getId().toString();
-        return new WiremockConfigurator(HostAndPort.fromParts(hap.getHostText(),
-            information.getPort()));
+
+        WiremockConfigurator configurator =
+            new WiremockConfigurator(HostAndPort.fromParts(hap.getHostText(),
+                information.getPort()));
+
+        if (!wiremockIsUp(configurator))
+        {
+          throw new DreidelConnectionException("the wiremock server seemed to never start up");
+        }
+        return configurator;
       }
     }
     else
     {
       throw new DreidelConnectionException("The connection was null...uh-oh");
     }
+  }
+
+  @SneakyThrows(InterruptedException.class)
+  public boolean wiremockIsUp(WiremockConfigurator configurator)
+  {
+    for (int i = 0; i < 10; i++)
+    {
+      try
+      {
+        configurator.stubFor(get(urlMatching(".*")).willReturn(aResponse().withStatus(200)));
+        configurator.resetToDefaultMappings();
+        return true;
+      }
+      catch (Exception ex)
+      {
+        Thread.sleep(1500);
+      }
+    }
+    return false;
   }
 
 }

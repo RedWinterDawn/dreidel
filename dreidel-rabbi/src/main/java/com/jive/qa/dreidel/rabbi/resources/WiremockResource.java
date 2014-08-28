@@ -35,10 +35,11 @@ public class WiremockResource extends BaseResourceImpl implements BaseResource
 
       if (!proc.isAlive() && proc.exitValue() != 0)
       {
-        log.error("something went wrong trying to start up the wiremock jar {}",
-            CharStreams.toString(new InputStreamReader(proc.getErrorStream(), Charsets.UTF_8)));
+        String message = "something went wrong trying to start up the wiremock jar " +
+            CharStreams.toString(new InputStreamReader(proc.getErrorStream(), Charsets.UTF_8));
+        log.error(message);
+        throw new Exception(message);
       }
-
     }
     catch (Exception e)
     {
