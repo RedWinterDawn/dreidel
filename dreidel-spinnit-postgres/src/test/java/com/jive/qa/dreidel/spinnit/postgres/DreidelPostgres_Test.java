@@ -1,7 +1,6 @@
 package com.jive.qa.dreidel.spinnit.postgres;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 

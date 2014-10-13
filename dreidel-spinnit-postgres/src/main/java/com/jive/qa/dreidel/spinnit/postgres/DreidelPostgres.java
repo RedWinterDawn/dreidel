@@ -3,6 +3,8 @@ package com.jive.qa.dreidel.spinnit.postgres;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.concurrent.TimeUnit;
 
 import lombok.Getter;
@@ -175,7 +177,14 @@ public class DreidelPostgres
   public void executeSqlDirectory(final File directory) throws SQLException,
       DreidelConnectionException
   {
-    for (File fileEntry : directory.listFiles())
+    executeSqlFiles(directory.listFiles());
+  }
+
+  public void executeSqlFiles(final File... files) throws SQLException,
+      DreidelConnectionException
+  {
+
+    for (File fileEntry : files)
     {
       if (!fileEntry.isDirectory())
       {
@@ -195,4 +204,52 @@ public class DreidelPostgres
       }
     }
   }
+
+  public void executeFlyWayDirectory(final File directory) throws SQLException,
+      DreidelConnectionException
+  {
+    File[] listOfFiles = directory.listFiles();
+
+    Arrays.sort(listOfFiles, new Comparator<File>()
+    {
+      @Override
+      public int compare(File o1, File o2)
+      {
+        String va = o1.getName().split("V|(__.*)")[1];
+        String vb = o2.getName().split("V|(__.*)")[1];
+
+        va = normalize(va);
+        vb = normalize(vb);
+
+        String[] vera = va.split("\\.");
+        String[] verb = vb.split("\\.");
+
+        int i = 0;
+
+        while (i < vera.length && i < verb.length && vera[i].equals(verb[i]))
+        {
+          i++;
+        }
+
+        if (i < vera.length && i < verb.length)
+        {
+          int diff = Integer.valueOf(vera[i]).compareTo(Integer.valueOf(verb[i]));
+          return Integer.signum(diff);
+        }
+        else
+        {
+          return Integer.signum(vera.length - verb.length);
+        }
+
+      }
+
+      private String normalize(String s)
+      {
+        return s.replace("_", ".");
+      }
+    });
+
+    executeSqlFiles(listOfFiles);
+  }
+
 }

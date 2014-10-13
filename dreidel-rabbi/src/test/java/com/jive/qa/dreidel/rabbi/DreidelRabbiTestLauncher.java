@@ -9,7 +9,7 @@ import com.jive.myco.config.PropertiesJazzConfiguration;
 import com.jive.myco.jazz.test.launcher.JazzRuntimeTestLauncher;
 import com.jive.qa.dreidel.rabbi.service.Main;
 
-public class Guice_Int
+public class DreidelRabbiTestLauncher
 {
   @Test
   public void test() throws Exception

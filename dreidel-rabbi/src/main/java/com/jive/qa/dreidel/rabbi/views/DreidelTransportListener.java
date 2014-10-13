@@ -25,8 +25,9 @@ import com.jive.qa.dreidel.rabbi.resources.BaseResource;
 @Slf4j
 public final class DreidelTransportListener implements HighLevelTransportListener<Message, Message>
 {
-  HighLevelTransportConnectionListener<Message, Message> listener;
-  Map<String, List<BaseResource>> resourceCorrelationMap;
+  private final HighLevelTransportConnectionListener<Message, Message> listener;
+  private final Map<String, List<BaseResource>> resourceCorrelationMap;
+  private final List<BaseResource> resourcesToDestroy = Lists.newCopyOnWriteArrayList();
 
   @Override
   public void onConnected(final HighLevelTransportConnection<Message, Message> connection)
@@ -39,20 +40,27 @@ public final class DreidelTransportListener implements HighLevelTransportListene
   public void onDisconnected(final HighLevelTransportConnection<Message, Message> connection)
   {
 
-    List<BaseResource> resources = resourceCorrelationMap.get(connection.getId());
-    log.info("destroying {} resources for {}", resources.size(), connection.getId());
-    for (BaseResource model : resources)
+    for (BaseResource model : resourcesToDestroy)
     {
       try
       {
         model.destroy();
+        resourcesToDestroy.remove(model);
         log.info("destroyed resource {}", model);
       }
       catch (ResourceDestructionException e)
       {
+        if (e.getCause().getMessage().contains("does not exist"))
+        {
+          resourcesToDestroy.remove(model);
+        }
         log.error("There was a problem destroying the resource {} {}", model.getId(), model
             .getClass().getSimpleName(), e);
       }
     }
+
+    List<BaseResource> resources = resourceCorrelationMap.get(connection.getId());
+
+    resourcesToDestroy.addAll(resources);
   }
 }
