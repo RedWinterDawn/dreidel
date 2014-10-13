@@ -61,6 +61,7 @@ public class JdbcPostgresResource extends BaseResourceImpl implements PostgresRe
     log.info("{} Creating Database {}", logPrefix, getId());
     try
     {
+
       executeQuery("CREATE DATABASE " + getId() + ";", "postgres");
     }
     catch (SQLException e)
