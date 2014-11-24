@@ -37,7 +37,7 @@
   <properties>
     <deps.commons-lang.version>2.6</deps.commons-lang.version>
     <deps.jazz.version>0.7.47</deps.jazz.version>
-    <deps.jivewire.version>0.1.6-SNAPSHOT</deps.jivewire.version>
+    <deps.jivewire.version>0.1.6</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
     <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
     <deps.v5-runtime.version>0.68</deps.v5-runtime.version>
