@@ -47,20 +47,6 @@
     
   </dependencies>
 
-  <dependencyManagement>
-    <dependencies>
-
-      <dependency>
-        <groupId>com.jive.v5.runtime</groupId>
-        <artifactId>service-bom</artifactId>
-        <version>0.30</version>
-        <scope>import</scope>
-        <type>pom</type>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
-
   <build>
     <plugins>
       <!-- Creates and deploys a Debian package for the service. -->
