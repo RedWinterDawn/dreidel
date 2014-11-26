@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
-
   <parent>
     <groupId>com.jive.myco</groupId>
     <artifactId>parent</artifactId>
-    <version>31</version>
+    <version>32</version>
   </parent>
-
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-root</artifactId>
   <version>0.1.14-SNAPSHOT</version>
-
   <packaging>pom</packaging>
   <name>Dreidel</name>
-
   <modules>
     <module>dreidel-spinnit-postgres</module>
     <module>dreidel-rabbi</module>
@@ -26,23 +23,19 @@
     <module>dreidel-goyim-jinst</module>
     <module>dreidel-spinnit-wiremock</module>
   </modules>
-
   <scm>
     <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
-    <tag>HEAD</tag>
   </scm>
-
   <properties>
-    <deps.commons-lang.version>2.6</deps.commons-lang.version>
     <deps.jazz.version>0.7.47</deps.jazz.version>
+    <deps.commons-lang.version>2.6</deps.commons-lang.version>
+    <deps.wiremock.version>1.47</deps.wiremock.version>
     <deps.jivewire.version>0.1.6</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
-    <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
     <deps.v5-runtime.version>0.68</deps.v5-runtime.version>
-    <deps.wiremock.version>1.47</deps.wiremock.version>
+    <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
   </properties>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -56,10 +49,9 @@
         <groupId>com.jive.v5.runtime</groupId>
         <artifactId>service-bom</artifactId>
         <version>${deps.v5-runtime.version}</version>
-        <scope>import</scope>
         <type>pom</type>
+        <scope>import</scope>
       </dependency>
-
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock</artifactId>
@@ -75,13 +67,11 @@
           </exclusion>
         </exclusions>
       </dependency>
-
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
         <version>${deps.commons-lang.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-common</artifactId>
@@ -127,7 +117,6 @@
         <artifactId>jetty-http</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
@@ -135,25 +124,21 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <dependencies>
     <dependency>
       <groupId>com.jive.myco.jivewire</groupId>
       <artifactId>jivewire-api</artifactId>
       <version>${deps.jivewire.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.jive.myco.jivewire</groupId>
       <artifactId>jivewire-transport-jetty</artifactId>
       <version>${deps.jivewire.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.jive.jackson-extensions</groupId>
       <artifactId>jackson-extensions</artifactId>
     </dependency>
-
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
