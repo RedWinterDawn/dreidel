@@ -3,7 +3,7 @@
   <parent>
     <groupId>com.jive.qa.dreidel</groupId>
     <artifactId>dreidel-root</artifactId>
-    <version>0.1.14</version>
+    <version>0.1.15-SNAPSHOT</version>
   </parent>
   <artifactId>dreidel-spinnit-postgres</artifactId>
   <name>Dreidel :: Spinnit :: Postgres</name>
