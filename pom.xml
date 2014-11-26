@@ -28,7 +28,7 @@
     <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
   </scm>
   <properties>
-    <deps.jazz.version>0.7.47</deps.jazz.version>
+    <deps.jazz.version>0.7.50</deps.jazz.version>
     <deps.commons-lang.version>2.6</deps.commons-lang.version>
     <deps.wiremock.version>1.47</deps.wiremock.version>
     <deps.jivewire.version>0.1.6</deps.jivewire.version>
