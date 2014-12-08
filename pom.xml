@@ -1,24 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.jive.qa.dreidel</groupId>
-  <artifactId>dreidel-root</artifactId>
-  <version>0.1.12-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Dreidel</name>
-
-  <scm>
-    <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
-    <tag>HEAD</tag>
-  </scm>
-
   <parent>
     <groupId>com.jive.myco</groupId>
     <artifactId>parent</artifactId>
-    <version>27</version>
+    <version>33</version>
   </parent>
-
+  <groupId>com.jive.qa.dreidel</groupId>
+  <artifactId>dreidel-root</artifactId>
+  <version>0.1.17-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Dreidel</name>
   <modules>
     <module>dreidel-spinnit-postgres</module>
     <module>dreidel-rabbi</module>
@@ -30,43 +22,22 @@
     <module>dreidel-goyim-jinst</module>
     <module>dreidel-spinnit-wiremock</module>
   </modules>
-
+  <scm>
+    <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
+    <tag>HEAD</tag>
+  </scm>
   <properties>
-    <deps.jazz.version>0.7.5</deps.jazz.version>
+    <deps.jazz.version>0.7.52</deps.jazz.version>
+    <deps.commons-lang.version>2.6</deps.commons-lang.version>
+    <deps.wiremock.version>1.47</deps.wiremock.version>
+    <deps.jivewire.version>0.1.9</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
+    <deps.v5-runtime.version>0.75</deps.v5-runtime.version>
+    <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
   </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>com.jive.myco.jivewire</groupId>
-      <artifactId>jivewire-transport-jetty</artifactId>
-      <version>0.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jive.myco.jivewire</groupId>
-      <artifactId>jivewire-api</artifactId>
-      <version>0.1.5</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jive.jackson-extensions</groupId>
-      <artifactId>jackson-extensions</artifactId>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-    </dependency>
-
-  </dependencies>
-
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>commons-lang</groupId>
-        <artifactId>commons-lang</artifactId>
-        <version>2.6</version>
-      </dependency>
-      
       <dependency>
         <groupId>com.jive.myco.jazz</groupId>
         <artifactId>jazz-bom</artifactId>
@@ -74,14 +45,33 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      
       <dependency>
-        <groupId>org.postgresql</groupId>
-        <artifactId>postgresql</artifactId>
-        <version>9.2-1004-jdbc4</version>
+        <groupId>com.jive.v5.runtime</groupId>
+        <artifactId>service-bom</artifactId>
+        <version>${deps.v5-runtime.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
       </dependency>
-
-      <!-- jetty websocket -->
+      <dependency>
+        <groupId>com.github.tomakehurst</groupId>
+        <artifactId>wiremock</artifactId>
+        <version>${deps.wiremock.version}</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>log4j</artifactId>
+            <groupId>log4j</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>commons-logging</artifactId>
+            <groupId>commons-logging</groupId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>commons-lang</groupId>
+        <artifactId>commons-lang</artifactId>
+        <version>${deps.commons-lang.version}</version>
+      </dependency>
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-common</artifactId>
@@ -112,27 +102,46 @@
         <artifactId>websocket-api</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
-      <!-- end of websocket crap -->
-
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-util</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-webapp</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-http</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <version>${deps.postgres.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-
+  <dependencies>
+    <dependency>
+      <groupId>com.jive.myco.jivewire</groupId>
+      <artifactId>jivewire-api</artifactId>
+      <version>${deps.jivewire.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jive.myco.jivewire</groupId>
+      <artifactId>jivewire-transport-jetty</artifactId>
+      <version>${deps.jivewire.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.jive.jackson-extensions</groupId>
+      <artifactId>jackson-extensions</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.inject</groupId>
+      <artifactId>javax.inject</artifactId>
+    </dependency>
+  </dependencies>
 </project>

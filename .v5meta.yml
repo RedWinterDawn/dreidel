@@ -1,0 +1,4 @@
+properties:
+  com.jive.myco.jivewire : deps.jivewire.version
+  com.jive.myco.jazz : deps.jazz.version
+  com.jive.v5.runtime : deps.v5-runtime.version
