@@ -2,6 +2,9 @@ package com.jive.qa.dreidel.spinnit.postgres;
 
 import static org.mockito.Mockito.*;
 
+import java.io.File;
+import java.sql.SQLException;
+
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -65,6 +68,17 @@ public class DreidelPostgres_Test
         new DreidelPostgres("foo", HostAndPort.fromParts("localhost", 8020), spinner);
 
     postgres.spin();
+  }
+
+  @Test
+  public void executeOrderedFiles() throws SQLException, DreidelConnectionException
+  {
+    DreidelPostgres db = new DreidelPostgres("test", HostAndPort.fromParts("10.20.26.39", 8020));
+
+    db.spin();
+
+    db.executeFlyWayDirectory(new File("/Users/jdavidson/test/sqlfiles"));
+
   }
 
 }
