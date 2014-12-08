@@ -76,8 +76,8 @@ public class DreidelPostgres_Test
     DreidelPostgres db = new DreidelPostgres("test", HostAndPort.fromParts("10.20.26.39", 8020));
 
     db.spin();
-
-    db.executeFlyWayDirectory(new File("/Users/jdavidson/test/sqlfiles"));
+    ClassLoader classLoader = getClass().getClassLoader();
+    db.executeFlyWayDirectory(new File(classLoader.getResource("flywayfiles").getPath()));
 
   }
 
