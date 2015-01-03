@@ -28,7 +28,7 @@
     <tag>HEAD</tag>
   </scm>
   <properties>
-    <deps.jazz.version>0.7.53</deps.jazz.version>
+    <deps.jazz.version>0.7.56</deps.jazz.version>
     <deps.commons-lang.version>2.6</deps.commons-lang.version>
     <deps.wiremock.version>1.47</deps.wiremock.version>
     <deps.jivewire.version>0.1.10</deps.jivewire.version>
