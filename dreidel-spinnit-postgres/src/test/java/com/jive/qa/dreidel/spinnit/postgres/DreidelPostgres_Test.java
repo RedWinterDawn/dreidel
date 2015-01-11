@@ -5,7 +5,6 @@ import static org.mockito.Mockito.*;
 import java.io.File;
 import java.sql.SQLException;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Lists;
@@ -72,7 +71,6 @@ public class DreidelPostgres_Test
   }
 
   @Test
-  @Ignore
   public void executeOrderedFiles() throws SQLException, DreidelConnectionException
   {
     DreidelPostgres db = new DreidelPostgres("test", HostAndPort.fromParts("10.20.26.39", 8020));
