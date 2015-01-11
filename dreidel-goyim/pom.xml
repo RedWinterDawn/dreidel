@@ -12,10 +12,6 @@
   <artifactId>dreidel-goyim</artifactId>
 
   <name>Dreidel :: Goyim</name>
-  
-  <properties>
-    <hk2.version>2.3.0-b05</hk2.version>
-  </properties>
 
   <dependencies>
     <dependency>
@@ -30,21 +26,20 @@
     </dependency>
 
     <dependency>
-      <groupId>com.jive.v5.runtime</groupId>
-      <artifactId>runtime-core</artifactId>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-test</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.jive.v5.runtime</groupId>
-      <artifactId>runtime-test</artifactId>
-      <scope>test</scope>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-runtime</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.jive.v5.runtime</groupId>
-      <artifactId>runtime-guice</artifactId>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-rest-client</artifactId>
     </dependency>
-    
+
   </dependencies>
 
   <build>

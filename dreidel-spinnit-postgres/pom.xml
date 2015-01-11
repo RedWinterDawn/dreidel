@@ -9,51 +9,44 @@
   <name>Dreidel :: Spinnit :: Postgres</name>
 
   <dependencies>
-    
+
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.jdbi</groupId>
-      <artifactId>jdbi</artifactId>
-      <version>2.49</version>
-      <scope>test</scope>
-    </dependency>
+
     <dependency>
       <groupId>com.jive.qa.dreidel</groupId>
       <artifactId>dreidel-api</artifactId>
       <version>${project.version}</version>
     </dependency>
-    
+
     <dependency>
       <groupId>com.jive.myco.jazz</groupId>
       <artifactId>jazz-test</artifactId>
     </dependency>
-    
+
     <dependency>
     	<groupId>com.jive.qa.dreidel</groupId>
     	<artifactId>dreidel-rabbi</artifactId>
     	<version>${project.version}</version>
     	<scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>com.jive.qa.dreidel</groupId>
       <artifactId>dreidel-spinnit-api</artifactId>
       <version>${project.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdbi</groupId>
+      <artifactId>jdbi</artifactId>
     </dependency>
   </dependencies>
 </project>

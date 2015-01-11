@@ -24,12 +24,13 @@ import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import com.jive.jackson.ConstructorPropertiesAnnotationIntrospector;
 import com.jive.myco.commons.callbacks.CallbackFuture;
+import com.jive.myco.jazz.rest.client.DefaultRestClientFactory;
+import com.jive.myco.jazz.rest.client.JacksonJsonRestClientSerializer;
 import com.jive.qa.dreidel.goyim.controllers.JimController;
 import com.jive.qa.dreidel.goyim.models.InstanceDetails;
 import com.jive.qa.dreidel.goyim.rest.JimResource;
 import com.jive.qa.dreidel.goyim.rest.JimService;
 import com.jive.qa.dreidel.goyim.views.DreidelView;
-import com.jive.v5.commons.rest.client.RestClient;
 
 public class RestModule extends AbstractModule
 {
@@ -115,8 +116,13 @@ public class RestModule extends AbstractModule
   public JimResource getJimResource(@Named("jimUrl") final URL url, ObjectMapper mapper,
       HttpAsyncClient client)
   {
-    RestClient restClient = new RestClient(client, mapper);
-    return restClient.bind(url.toString(), JimResource.class);
+    final DefaultRestClientFactory restClientFactory = new DefaultRestClientFactory(client);
+
+    return restClientFactory
+        .bind(JimResource.class)
+        .addRestClientSerializer(new JacksonJsonRestClientSerializer(mapper))
+        .url(url.toString())
+        .build();
   }
 
   @Provides

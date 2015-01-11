@@ -17,6 +17,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.net.HostAndPort;
 import com.jive.myco.commons.concurrent.Pnky;
 import com.jive.myco.commons.concurrent.PnkyPromise;
+import com.jive.myco.jazz.rest.client.DefaultRestClientFactory;
+import com.jive.myco.jazz.rest.client.JacksonJsonRestClientSerializer;
 import com.jive.qa.dreidel.api.messages.ConnectionInformationMessage;
 import com.jive.qa.dreidel.api.messages.ExceptionMessage;
 import com.jive.qa.dreidel.api.messages.ReplyMessage;
@@ -26,7 +28,6 @@ import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
 import com.jive.qa.dreidel.spinnit.jinst.exceptions.DreidelBuilderException;
-import com.jive.v5.commons.rest.client.RestClient;
 
 @Slf4j
 public class DreidelJinst
@@ -140,10 +141,11 @@ public class DreidelJinst
           this.host = information.getHost();
           CloseableHttpAsyncClient client = HttpAsyncClients.createMinimal();
           client.start();
-          this.endpoint =
-              new RestClient(client, new ObjectMapper()).bind(
-                  "http://" + host + ":8018",
-                  GoyimJinstResource.class);
+          this.endpoint = new DefaultRestClientFactory(client)
+              .bind(GoyimJinstResource.class)
+              .addRestClientSerializer(new JacksonJsonRestClientSerializer(new ObjectMapper()))
+              .url("http://" + host + ":8018")
+              .build();
           promise.resolve(null);
         }
       });

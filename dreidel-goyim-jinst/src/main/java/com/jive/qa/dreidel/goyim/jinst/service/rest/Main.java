@@ -32,7 +32,8 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
   }
 
   @Override
-  protected void postInit(final JazzRuntimeEnvironment jazzRuntimeEnvironment) throws Exception
+  protected void postInit(final JazzRuntimeEnvironment jazzRuntimeEnvironment,
+      final JazzCore<PropertiesJazzConfiguration> jazzCore) throws Exception
   {
     injector = Guice.createInjector(new ExampleServiceModule(), new AbstractModule()
     {
@@ -56,7 +57,7 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
                 Names.named("rest-server-port"))));
     manager.start();
 
-    PostResults poster = injector.getInstance(PostResults.class);
+    final PostResults poster = injector.getInstance(PostResults.class);
     poster.sendPost();
   }
 

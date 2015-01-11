@@ -16,8 +16,9 @@
   <dependencies>
 
     <dependency>
-      <groupId>com.google.inject</groupId>
-      <artifactId>guice</artifactId>
+      <groupId>com.jive.qa.dreidel</groupId>
+      <artifactId>dreidel-api</artifactId>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
@@ -26,62 +27,16 @@
     </dependency>
 
     <dependency>
-      <groupId>com.jive.v5.commons</groupId>
-      <artifactId>rest-client</artifactId>
-      <version>0.24</version>
+      <groupId>com.jive.myco.jazz</groupId>
+      <artifactId>jazz-rest-client</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>com.jive.qa.dreidel</groupId>
-      <artifactId>dreidel-api</artifactId>
-      <version>${project.version}</version>
+      <groupId>com.google.inject</groupId>
+      <artifactId>guice</artifactId>
     </dependency>
 
   </dependencies>
-
-  <dependencyManagement>
-    <dependencies>
-
-
-      <!-- <dependency>
-        <groupId>org.glassfish.hk2</groupId>
-        <artifactId>hk2-api</artifactId>
-        <version>2.3.0-b05</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.glassfish.hk2</groupId>
-        <artifactId>hk2-locator</artifactId>
-        <version>2.3.0-b05</version>
-      </dependency>
-      
-      <dependency>
-        <groupId>org.glassfish.hk2.external</groupId>
-        <artifactId>javax.inject</artifactId>
-        <version>2.3.0-b05</version>
-      </dependency> -->
-
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpasyncclient</artifactId>
-        <version>4.0.1</version>
-        <scope>compile</scope>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>4.3.2</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpcore</artifactId>
-        <version>4.3.2</version>
-        <scope>compile</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
 
   <build>
     <plugins>

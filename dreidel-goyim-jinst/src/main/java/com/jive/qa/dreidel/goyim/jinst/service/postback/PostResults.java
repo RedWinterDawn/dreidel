@@ -9,8 +9,9 @@ import org.apache.http.nio.client.HttpAsyncClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.jive.myco.jazz.rest.client.DefaultRestClientFactory;
+import com.jive.myco.jazz.rest.client.JacksonJsonRestClientSerializer;
 import com.jive.qa.dreidel.api.messages.goyim.GoyimServiceResponse;
-import com.jive.v5.commons.rest.client.RestClient;
 
 @Slf4j
 public class PostResults
@@ -30,8 +31,11 @@ public class PostResults
   @PostConstruct
   public void sendPost() throws Exception
   {
-    RestClient restClient = new RestClient(client, mapper);
-    GoyimServiceResource api = restClient.bind(baseUrl, GoyimServiceResource.class);
+    final GoyimServiceResource api = new DefaultRestClientFactory(client)
+        .bind(GoyimServiceResource.class)
+        .addRestClientSerializer(new JacksonJsonRestClientSerializer(mapper))
+        .url(baseUrl)
+        .build();
 
     GoyimServiceResponse response;
     try

@@ -33,8 +33,9 @@
     <deps.wiremock.version>1.47</deps.wiremock.version>
     <deps.jivewire.version>0.1.10</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
-    <deps.v5-runtime.version>0.81</deps.v5-runtime.version>
     <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
+    <deps.jackson-extensions.version>1.7</deps.jackson-extensions.version>
+    <deps.jdbi.version>2.55</deps.jdbi.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -42,13 +43,6 @@
         <groupId>com.jive.myco.jazz</groupId>
         <artifactId>jazz-bom</artifactId>
         <version>${deps.jazz.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.jive.v5.runtime</groupId>
-        <artifactId>service-bom</artifactId>
-        <version>${deps.v5-runtime.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -64,6 +58,14 @@
           <exclusion>
             <artifactId>commons-logging</artifactId>
             <groupId>commons-logging</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>jetty-util</artifactId>
+            <groupId>org.mortbay.jetty</groupId>
+          </exclusion>
+          <exclusion>
+            <artifactId>jetty</artifactId>
+            <groupId>org.mortbay.jetty</groupId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -122,26 +124,32 @@
         <artifactId>postgresql</artifactId>
         <version>${deps.postgres.version}</version>
       </dependency>
+      <dependency>
+        <groupId>com.jive.myco.jivewire</groupId>
+        <artifactId>jivewire-api</artifactId>
+        <version>${deps.jivewire.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jive.myco.jivewire</groupId>
+        <artifactId>jivewire-transport-jetty</artifactId>
+        <version>${deps.jivewire.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.inject</groupId>
+        <artifactId>javax.inject</artifactId>
+        <version>1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.jive.jackson-extensions</groupId>
+        <artifactId>jackson-extensions</artifactId>
+        <version>${deps.jackson-extensions.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jdbi</groupId>
+        <artifactId>jdbi</artifactId>
+        <version>${deps.jdbi.version}</version>
+        <scope>test</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>com.jive.myco.jivewire</groupId>
-      <artifactId>jivewire-api</artifactId>
-      <version>${deps.jivewire.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jive.myco.jivewire</groupId>
-      <artifactId>jivewire-transport-jetty</artifactId>
-      <version>${deps.jivewire.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.jive.jackson-extensions</groupId>
-      <artifactId>jackson-extensions</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.inject</groupId>
-      <artifactId>javax.inject</artifactId>
-    </dependency>
-  </dependencies>
 </project>

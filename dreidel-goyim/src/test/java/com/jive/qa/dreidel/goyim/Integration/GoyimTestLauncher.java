@@ -1,17 +1,15 @@
 package com.jive.qa.dreidel.goyim.Integration;
 
-import org.junit.Test;
-
+import com.jive.myco.config.PropertiesJazzConfiguration;
+import com.jive.myco.jazz.test.launcher.JazzRuntimeTestLauncher;
 import com.jive.qa.dreidel.goyim.service.GoyimLauncher;
-import com.jive.v5.runtime.test.V5RunnerTestLauncher;
 
-public class GoyimTestLauncher
+public final class GoyimTestLauncher
 {
 
-  @Test
-  public void main() throws Exception
+  public static void main(String[] args) throws Exception
   {
-    V5RunnerTestLauncher.builder()
+    JazzRuntimeTestLauncher.<PropertiesJazzConfiguration> builder()
         .launcher(new GoyimLauncher())
         .serviceName("local-dreidel")
         .build()

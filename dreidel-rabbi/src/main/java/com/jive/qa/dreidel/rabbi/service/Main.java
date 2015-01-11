@@ -27,7 +27,8 @@ public class Main extends SimpleAbstractJazzRuntimeLauncher
   }
 
   @Override
-  protected void postInit(final JazzRuntimeEnvironment jazzRuntimeEnvironment) throws Exception
+  protected void postInit(final JazzRuntimeEnvironment jazzRuntimeEnvironment,
+      final JazzCore jazzCore) throws Exception
   {
     injector = Guice.createInjector(
         new WebsocketServiceModule(),
