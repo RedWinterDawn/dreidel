@@ -1,3 +1,5 @@
+vkey: VERSION
+versionsFile: classes/dreidel/vars
 properties:
   com.jive.myco.jivewire : deps.jivewire.version
   com.jive.myco.jazz : deps.jazz.version
