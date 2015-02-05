@@ -64,7 +64,7 @@ public class DreidelSpinner
       transport.init(callback2);
       callback2.get();
 
-      return new TransportDreidelConnection(callback.get());
+      return new TransportDreidelConnection(transport, callback.get());
     }
     catch (Exception e)
     {
@@ -82,6 +82,7 @@ public class DreidelSpinner
   @AllArgsConstructor
   public static class TransportDreidelConnection implements DreidelConnection
   {
+    private final HighLevelTransport<Message, Message> transport;
     private final HighLevelTransportConnection<Message, Message> connection;
 
     @Override
@@ -102,15 +103,28 @@ public class DreidelSpinner
     @Override
     public void close() throws DreidelConnectionException
     {
-      final CallbackFuture<Void> callback = new CallbackFuture<>();
-      connection.close(callback);
+      final CallbackFuture<Void> connectionCloseCb = new CallbackFuture<>();
+      connection.close(connectionCloseCb);
+
       try
       {
-        callback.get();
+        connectionCloseCb.get();
       }
       catch (final Exception e)
       {
         throw new DreidelConnectionException("Failed to close connection to dreidel", e);
+      }
+
+      final CallbackFuture<Void> transportDestroyCb = new CallbackFuture<>();
+      transport.destroy(transportDestroyCb);
+
+      try
+      {
+        transportDestroyCb.get();
+      }
+      catch (final Exception e)
+      {
+        throw new DreidelConnectionException("Failed to close transport to dreidel", e);
       }
     }
   }
