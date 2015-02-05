@@ -98,6 +98,21 @@ public class DreidelSpinner
         return new ExceptionMessage(ex, message.getReferenceId());
       }
     }
+
+    @Override
+    public void close() throws DreidelConnectionException
+    {
+      final CallbackFuture<Void> callback = new CallbackFuture<>();
+      connection.close(callback);
+      try
+      {
+        callback.get();
+      }
+      catch (final Exception e)
+      {
+        throw new DreidelConnectionException("Failed to close connection to dreidel", e);
+      }
+    }
   }
 
 }

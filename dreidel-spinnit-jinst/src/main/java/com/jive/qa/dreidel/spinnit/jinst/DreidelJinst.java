@@ -1,5 +1,6 @@
 package com.jive.qa.dreidel.spinnit.jinst;
 
+import java.io.Closeable;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
@@ -30,7 +31,7 @@ import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
 import com.jive.qa.dreidel.spinnit.jinst.exceptions.DreidelBuilderException;
 
 @Slf4j
-public class DreidelJinst
+public class DreidelJinst implements Closeable
 {
 
   private final DreidelSpinner spinner;
@@ -149,9 +150,32 @@ public class DreidelJinst
           promise.resolve(null);
         }
       });
-
+    }
+    else
+    {
+      promise
+          .reject(new DreidelConnectionException("Failed to get connection from dreidel spinner"));
     }
     return promise;
+  }
+
+  /**
+   * Close the connection to dreidel to force cleanup of any resources
+   */
+  @Override
+  public void close()
+  {
+    if (connection != null)
+    {
+      try
+      {
+        connection.close();
+      }
+      catch (final DreidelConnectionException e)
+      {
+        log.error("Failed to close dreidel connection", e);
+      }
+    }
   }
 
   /**

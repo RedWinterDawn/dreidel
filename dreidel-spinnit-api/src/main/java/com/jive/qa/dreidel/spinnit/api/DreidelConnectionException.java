@@ -1,6 +1,8 @@
 package com.jive.qa.dreidel.spinnit.api;
 
-public class DreidelConnectionException extends Exception
+import java.io.IOException;
+
+public class DreidelConnectionException extends IOException
 {
   private static final long serialVersionUID = 1L;
 

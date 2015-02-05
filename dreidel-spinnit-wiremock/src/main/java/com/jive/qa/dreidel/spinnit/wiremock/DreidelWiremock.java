@@ -2,6 +2,7 @@ package com.jive.qa.dreidel.spinnit.wiremock;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
+import java.io.Closeable;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +21,7 @@ import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
 
 @Slf4j
-public class DreidelWiremock
+public class DreidelWiremock implements Closeable
 {
 
   private final DreidelSpinner spinner;
@@ -109,6 +110,25 @@ public class DreidelWiremock
     else
     {
       throw new DreidelConnectionException("The connection was null...uh-oh");
+    }
+  }
+
+  /**
+   * Close the connection to dreidel to force cleanup of any resources
+   */
+  @Override
+  public void close()
+  {
+    if (connection != null)
+    {
+      try
+      {
+        connection.close();
+      }
+      catch (final DreidelConnectionException e)
+      {
+        log.error("Failed to close dreidel connection", e);
+      }
     }
   }
 
