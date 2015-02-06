@@ -6,11 +6,15 @@
     <artifactId>parent</artifactId>
     <version>33</version>
   </parent>
+
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-root</artifactId>
   <version>0.1.30-SNAPSHOT</version>
+
   <packaging>pom</packaging>
+
   <name>Dreidel</name>
+
   <modules>
     <module>dreidel-spinnit-postgres</module>
     <module>dreidel-rabbi</module>
@@ -22,21 +26,24 @@
     <module>dreidel-goyim-jinst</module>
     <module>dreidel-spinnit-wiremock</module>
   </modules>
+
   <scm>
     <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
     <tag>HEAD</tag>
   </scm>
+
   <properties>
     <deps.jazz.version>0.7.64</deps.jazz.version>
     <deps.commons-lang.version>2.6</deps.commons-lang.version>
-    <deps.wiremock.version>1.47</deps.wiremock.version>
-    <deps.jivewire.version>0.1.11</deps.jivewire.version>
+    <deps.wiremock.version>1.53</deps.wiremock.version>
+    <deps.jivewire.version>0.1.12-SNAPSHOT</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
-    <deps.postgres.version>9.3-1100-jdbc4</deps.postgres.version>
+    <deps.postgres.version>9.4-1200-jdbc4</deps.postgres.version>
     <deps.jackson-extensions.version>1.7</deps.jackson-extensions.version>
-    <deps.jdbi.version>2.55</deps.jdbi.version>
+    <deps.jdbi.version>2.59</deps.jdbi.version>
   </properties>
+
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -46,6 +53,7 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+
       <dependency>
         <groupId>com.github.tomakehurst</groupId>
         <artifactId>wiremock</artifactId>
@@ -69,81 +77,103 @@
           </exclusion>
         </exclusions>
       </dependency>
+
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
         <version>${deps.commons-lang.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-common</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>javax-websocket-client-impl</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-server</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-servlet</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>javax-websocket-server-impl</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty.websocket</groupId>
         <artifactId>websocket-api</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-util</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-webapp</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-http</artifactId>
         <version>${deps.jetty.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
         <version>${deps.postgres.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
+
       <dependency>
         <groupId>com.jive.myco.jivewire</groupId>
         <artifactId>jivewire-api</artifactId>
         <version>${deps.jivewire.version}</version>
       </dependency>
+
       <dependency>
         <groupId>com.jive.myco.jivewire</groupId>
         <artifactId>jivewire-transport-jetty</artifactId>
         <version>${deps.jivewire.version}</version>
       </dependency>
+
       <dependency>
         <groupId>javax.inject</groupId>
         <artifactId>javax.inject</artifactId>
         <version>1</version>
       </dependency>
+
       <dependency>
         <groupId>com.jive.jackson-extensions</groupId>
         <artifactId>jackson-extensions</artifactId>
         <version>${deps.jackson-extensions.version}</version>
       </dependency>
+
       <dependency>
         <groupId>org.jdbi</groupId>
         <artifactId>jdbi</artifactId>

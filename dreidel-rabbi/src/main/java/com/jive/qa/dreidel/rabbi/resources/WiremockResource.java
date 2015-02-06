@@ -1,14 +1,15 @@
 package com.jive.qa.dreidel.rabbi.resources;
 
+import java.io.File;
+import java.io.InputStreamReader;
+
+import lombok.extern.slf4j.Slf4j;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.google.common.net.HostAndPort;
 import com.jive.qa.dreidel.api.exceptions.ResourceDestructionException;
 import com.jive.qa.dreidel.api.exceptions.ResourceInitializationException;
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.File;
-import java.io.InputStreamReader;
 
 @Slf4j
 public class WiremockResource extends BaseResourceImpl implements BaseResource
@@ -30,7 +31,7 @@ public class WiremockResource extends BaseResourceImpl implements BaseResource
     {
       proc =
           new ProcessBuilder("java", "-jar",
-              new File(jarLocation, "/wiremock-1.47-standalone.jar").toString(),
+              new File(jarLocation, "/wiremock-1.53-standalone.jar").toString(),
               "--port", Integer.toString(getHap().getPort())).start();
       Thread.sleep(1000);
 

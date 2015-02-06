@@ -1,5 +1,6 @@
 package com.jive.qa.dreidel.spinnit.postgres;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -33,7 +34,7 @@ import com.jive.qa.dreidel.spinnit.api.DreidelSpinner;
  */
 @Getter
 @Slf4j
-public class DreidelPostgres
+public class DreidelPostgres implements Closeable
 {
   private final String id;
   private final HostAndPort hap;
@@ -125,6 +126,25 @@ public class DreidelPostgres
     else
     {
       throw new DreidelConnectionException("Unable to get a connection to the dreidel server");
+    }
+  }
+
+  /**
+   * Close the connection to dreidel to force cleanup of any resources
+   */
+  @Override
+  public void close()
+  {
+    if (connection != null)
+    {
+      try
+      {
+        connection.close();
+      }
+      catch (final DreidelConnectionException e)
+      {
+        log.error("Failed to close dreidel connection", e);
+      }
     }
   }
 

@@ -6,6 +6,7 @@ import com.jive.qa.dreidel.api.messages.ExceptionMessage;
 import com.jive.qa.dreidel.api.messages.ReplyMessage;
 import com.jive.qa.dreidel.api.messages.RequestMessage;
 import com.jive.qa.dreidel.spinnit.api.DreidelConnection;
+import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 
 public class MockedDreidelConnection implements DreidelConnection
 {
@@ -36,6 +37,12 @@ public class MockedDreidelConnection implements DreidelConnection
     {
       return exception;
     }
+  }
+
+  @Override
+  public void close() throws DreidelConnectionException
+  {
+    // no-op
   }
 
 }

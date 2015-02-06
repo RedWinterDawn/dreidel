@@ -101,12 +101,12 @@ public class PostgresVisitorImpl_Test
             {
               goodThings.incrementAndGet();
             }
-              else
-              {
-                badThings.incrementAndGet();
-              }
-              return Pnky.immediatelyComplete(null);
-            }).get();
+            else
+            {
+              badThings.incrementAndGet();
+            }
+            return Pnky.immediatelyComplete(null);
+          }).get();
     }
     catch (Exception ex)
     {
@@ -118,7 +118,7 @@ public class PostgresVisitorImpl_Test
 
   }
 
-  @Test(timeout = 100)
+  @Test(timeout = 500)
   public void PostgresCreateMessage_UnregisteredTest_FailsCallback() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
@@ -140,7 +140,7 @@ public class PostgresVisitorImpl_Test
     assertEquals(badThings.get(), 0);
   }
 
-  @Test(timeout = 100)
+  @Test(timeout = 500)
   public void PostgresCreateMessage_FailToCreateDatabase_FailsCallback() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
@@ -165,7 +165,7 @@ public class PostgresVisitorImpl_Test
     assertEquals(badThings.get(), 0);
   }
 
-  @Test(timeout = 100)
+  @Test(timeout = 500)
   public void PostgresExecuteSql_NoDatabaseRegistered_Fails() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
@@ -189,7 +189,7 @@ public class PostgresVisitorImpl_Test
     assertEquals(badThings.get(), 0);
   }
 
-  @Test(timeout = 100)
+  @Test(timeout = 500)
   public void PostgresExecuteSql_DatabaseRegistered_works() throws Exception
   {
     AtomicInteger badThings = new AtomicInteger();
