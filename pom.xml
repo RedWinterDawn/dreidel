@@ -37,7 +37,7 @@
     <deps.jazz.version>0.7.65</deps.jazz.version>
     <deps.commons-lang.version>2.6</deps.commons-lang.version>
     <deps.wiremock.version>1.53</deps.wiremock.version>
-    <deps.jivewire.version>0.1.12-SNAPSHOT</deps.jivewire.version>
+    <deps.jivewire.version>0.1.12</deps.jivewire.version>
     <deps.jetty.version>9.2.1.v20140609</deps.jetty.version>
     <deps.postgres.version>9.4-1200-jdbc4</deps.postgres.version>
     <deps.jackson-extensions.version>1.7</deps.jackson-extensions.version>
