@@ -89,8 +89,9 @@ public class DreidelPostgres implements Closeable
       ReplyMessage reply;
       try
       {
-        reply = connection.writeRequest(new PostgresCreateMessage(id + "creationMessage"), 5,
-            TimeUnit.SECONDS);
+        reply = connection.writeRequest(
+            new PostgresCreateMessage(id + "creationMessage"),
+            15, TimeUnit.SECONDS);
 
         log.trace("{} Recieved reply to postrges create message {}", logprefix, reply);
       }
