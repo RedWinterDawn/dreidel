@@ -6,7 +6,7 @@
   <parent>
     <artifactId>dreidel-root</artifactId>
     <groupId>com.jive.qa.dreidel</groupId>
-    <version>0.1.42</version>
+    <version>0.1.43-SNAPSHOT</version>
   </parent>
 
   <artifactId>dreidel-goyim-jinst</artifactId>
