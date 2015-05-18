@@ -40,7 +40,7 @@
     <deps.jivewire.version>0.1.14</deps.jivewire.version>
     <deps.jetty.version>9.2.10.v20150310</deps.jetty.version>
     <deps.postgres.version>9.4-1200-jdbc4</deps.postgres.version>
-    <deps.jackson-extensions.version>1.8</deps.jackson-extensions.version>
+    <deps.jackson-extensions.version>1.9</deps.jackson-extensions.version>
     <deps.jdbi.version>2.59</deps.jdbi.version>
   </properties>
 
