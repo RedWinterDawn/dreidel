@@ -20,7 +20,7 @@ public class DreidelPostgres_Int
   {
     final CharSource source = Resources.asCharSource(Resources.getResource("test.sql"), Charsets.UTF_8);
 
-    final HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
+    final HostAndPort server = HostAndPort.fromParts("10.20.26.251", 8020);
     final DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());
@@ -34,7 +34,7 @@ public class DreidelPostgres_Int
   @Test
   public void TestAllTheThingsDir() throws Exception
   {
-    final HostAndPort server = HostAndPort.fromParts("10.20.27.84", 8020);
+    final HostAndPort server = HostAndPort.fromParts("10.20.26.251", 8020);
     final DreidelPostgres db = new DreidelPostgres("test-db", server); // Create the database
     db.spin();
     assertNotNull(db.getDatabaseName());

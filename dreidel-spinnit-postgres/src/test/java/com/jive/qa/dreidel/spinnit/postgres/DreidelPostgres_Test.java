@@ -73,7 +73,7 @@ public class DreidelPostgres_Test
   @Test
   public void executeOrderedFiles() throws SQLException, DreidelConnectionException
   {
-    DreidelPostgres db = new DreidelPostgres("test", HostAndPort.fromParts("10.20.26.39", 8020));
+    DreidelPostgres db = new DreidelPostgres("test", HostAndPort.fromParts("10.20.26.251", 8020));
 
     db.spin();
     ClassLoader classLoader = getClass().getClassLoader();

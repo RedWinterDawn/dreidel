@@ -10,6 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 import lombok.extern.slf4j.Slf4j;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.google.common.collect.Maps;
@@ -19,6 +20,7 @@ import com.jive.qa.dreidel.spinnit.api.DreidelConnectionException;
 import com.jive.qa.dreidel.spinnit.jinst.DreidelJinst.DreidelJinstBuilder;
 
 @Slf4j
+@Ignore
 public class DreidelJinst_Int
 {
   @Test
