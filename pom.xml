@@ -9,7 +9,7 @@
 
   <groupId>com.jive.qa.dreidel</groupId>
   <artifactId>dreidel-root</artifactId>
-  <version>0.1.48</version>
+  <version>0.1.49-SNAPSHOT</version>
 
   <packaging>pom</packaging>
 
@@ -30,7 +30,7 @@
   <scm>
     <connection>scm:git:ssh://git@github.com/jive/dreidel.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jive/dreidel.git</developerConnection>
-    <tag>0.1.48</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <properties>
